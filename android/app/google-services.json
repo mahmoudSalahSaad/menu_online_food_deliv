@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "71052481155",
+    "project_id": "menuegypt-772d5",
+    "storage_bucket": "menuegypt-772d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71052481155:android:69150a21bbf404449b01b6",
+        "android_client_info": {
+          "package_name": "com.menuegypt.app.menuegyptapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71052481155-8es8nrmgges6b28gelat83shothhrj4u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcB12eU5nrlolo_U5wJ3isgyfcWgV-gJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71052481155-8es8nrmgges6b28gelat83shothhrj4u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
