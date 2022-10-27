@@ -31,6 +31,7 @@ class CityProvider extends ChangeNotifier {
     final List<CityModel> cities = [];
     try {
       Response response = await httpService.getRequest(url, null);
+      print(response);
       var parsedCities = response.data['data']['cities'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         parsedCities.forEach((cityObject) {

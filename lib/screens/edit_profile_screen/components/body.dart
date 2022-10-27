@@ -41,11 +41,7 @@ class _BodyState extends State<Body> {
     if (result['success']) {
       Get.offNamed(ProfileScreen.routeName);
     } else {
-      if (result['error'].toString().contains('email')) {
-        dialog('هذا البريد الالكترونى موجود مسبقاً.');
-      } else {
-        dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.');
-      }
+      dialog(result['error']);
     }
   }
 

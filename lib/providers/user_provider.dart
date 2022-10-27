@@ -62,17 +62,18 @@ class UserProvider extends ChangeNotifier {
       'phone_number': formData['phoneNumber'],
       'city_id': formData['cityId'],
       'region_id': formData['regionId'],
-      'gender': 'male',
-      'birth_date': '1997-11-21',
+      'gender': formData['gender'],
+      'birth_date': formData['birth_date'],
       'fcm_token': 'dummyfcmtoken',
     };
+    print(formData['gender']);
     _isLoading = true;
     notifyListeners();
     String url = '/register';
     httpService.init();
 
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
@@ -121,13 +122,17 @@ class UserProvider extends ChangeNotifier {
     };
     _isLoading = true;
     notifyListeners();
-    String url = '/edituser';
+    String url = '/update-profile';
     httpService.init();
-
     try {
-      Response response = await httpService.postRequest(url, userData);
-      if (response.statusCode == 200 && response.data['status_code'] == 201) {
-        var parsedUser = response.data['data']['user'];
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.postRequest(url, userData, token);
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        var parsedUser = response.data['user'];
         _user.email = _user.email == null ? parsedUser['email'] : _user.email;
         _user.phoneNumber = parsedUser['phone_number'];
         _user.cityId = parsedUser['city_id'];
@@ -135,7 +140,7 @@ class UserProvider extends ChangeNotifier {
         storeAuthUser(_user, '', true);
         result['success'] = true;
       } else {
-        result['error'] = response.data['errors'];
+        result['error'] = response.data['message'];
       }
     } catch (error) {
       result['error'] = error;
@@ -157,11 +162,11 @@ class UserProvider extends ChangeNotifier {
     String url = '/login';
     httpService.init();
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
-        var parsedFavorites = response.data['favorites'] as List;
+        //var parsedFavorites = response.data['favorites'] as List;
         UserModel user = UserModel(
           id: parsedUser['id'],
           regionId: parsedUser['region_id'],
@@ -171,25 +176,52 @@ class UserProvider extends ChangeNotifier {
           phoneNumber: parsedUser['phone_number'],
           //avatarUrl: '',
           //authType: 'email',
-          favorites: [],
+          //favorites: [],
           apiToken: parsedUser['api_token'],
           birthDate: parsedUser['birth_date'],
           gender: parsedUser['gender'],
         );
+        /*
         parsedFavorites.forEach((fav) {
           user.favorites.add(fav['restaurant_id']);
         });
+        */
         _user = user;
-        storeAuthUser(_user, response.data['api_token'], true);
+        storeAuthUser(_user, response.data['user']['api_token'], true);
         result['success'] = true;
         print('Login Success');
       } else {
         result['error'] = response.data['message'];
+        if (result['error'].toString().contains('رمز')) {
+          var parsedUser = response.data['user'];
+          //var parsedFavorites = response.data['favorites'] as List;
+          UserModel user = UserModel(
+            id: parsedUser['id'],
+            regionId: parsedUser['region_id'],
+            cityId: parsedUser['city_id'],
+            email: parsedUser['email'],
+            fullName: parsedUser['full_name'],
+            phoneNumber: parsedUser['phone_number'],
+            //avatarUrl: '',
+            //authType: 'email',
+            //favorites: [],
+            apiToken: parsedUser['api_token'],
+            birthDate: parsedUser['birth_date'],
+            gender: parsedUser['gender'],
+          );
+          /*
+        parsedFavorites.forEach((fav) {
+          user.favorites.add(fav['restaurant_id']);
+        });
+        */
+          _user = user;
+          storeAuthUser(_user, response.data['user']['api_token'], false);
+        }
         print('Login Failed');
       }
     } catch (error) {
       print('catch error');
-      result['error'] = error;
+      throw result['error'] = error;
     }
     _isLoading = false;
     notifyListeners();
@@ -216,6 +248,25 @@ class UserProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> signOut() async {
     final Map<String, dynamic> result = {'success': false, 'error': null};
+    String url = '/logout';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.postRequest(url, null, token);
+      print(response);
+      if (response.statusCode == 200 &&
+          response.data['message']
+              .toString()
+              .contains('تم تسجيل الخروج بنجاح')) {
+        result['success'] = true;
+      }
+    } catch (error) {
+      result['error'] = error;
+    }
+
     await _auth.signOut().then((value) {
       result['success'] = true;
     }).catchError((error) {
@@ -259,7 +310,7 @@ class UserProvider extends ChangeNotifier {
               ? user.providerData[0].photoURL
               : "",
         };
-        Response response = await httpService.postRequest(url, postUser);
+        Response response = await httpService.postRequest(url, postUser, '');
         if (response.statusCode == 200 && response.data['status_code'] == 201) {
           var parsedUser = response.data['data']['user'];
           var parsedFavorites = response.data['data']['favorites'] as List;
@@ -332,7 +383,7 @@ class UserProvider extends ChangeNotifier {
     httpService.init();
     try {
       Response response = await httpService.postRequest(
-          url, {'restaurant_id': restaurantId, 'user_id': _user.id});
+          url, {'restaurant_id': restaurantId, 'user_id': _user.id}, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
       }
@@ -352,7 +403,7 @@ class UserProvider extends ChangeNotifier {
     httpService.init();
     try {
       Response response = await httpService.postRequest(
-          url, {'restaurant_id': restaurantId, 'user_id': _user.id});
+          url, {'restaurant_id': restaurantId, 'user_id': _user.id}, '');
 
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
@@ -376,7 +427,7 @@ class UserProvider extends ChangeNotifier {
 
     httpService.init();
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedUser = response.data['data']['user'];
         var parsedFavorites = response.data['data']['favorites'] as List;
@@ -481,7 +532,7 @@ class UserProvider extends ChangeNotifier {
     String url = '/forget_password';
     httpService.init();
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedUser = response.data['data']['user'];
         forgetPasswordUserId = parsedUser['id'];
@@ -517,7 +568,7 @@ class UserProvider extends ChangeNotifier {
     String url = '/verify_password';
     httpService.init();
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
         result['msg'] = response.data['data']['msg'];
@@ -551,7 +602,7 @@ class UserProvider extends ChangeNotifier {
     String url = '/reset_password';
     httpService.init();
     try {
-      Response response = await httpService.postRequest(url, userData);
+      Response response = await httpService.postRequest(url, userData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedUser = response.data['data']['user'];
         var parsedFavorites = response.data['data']['favorites'] as List;
@@ -598,5 +649,35 @@ class UserProvider extends ChangeNotifier {
       preferences.remove('userExistence');
       preferences.remove('apiToken');
     }
+  }
+
+  Future<Map<String, dynamic>> verifyWithOtp(String otp) async {
+    Map<String, dynamic> result = {'success': false, 'error': null};
+    Map<String, dynamic> code = {'code': otp};
+    _isLoading = true;
+    notifyListeners();
+    String url = '/verify-user';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.postRequest(url, code, token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print('Success');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
   }
 }

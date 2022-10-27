@@ -26,38 +26,43 @@ class HttpServiceImpl implements HttpService {
   }
 
   @override
-  Future<Response> postRequest(
-      String url, Map<String, dynamic> postData) async {
+  Future<Response> postRequest(String url, postData, token) async {
     Response response;
     try {
-      response = await _dio.post(url, data: postData);
+      response = await _dio.post(url,
+          data: postData,
+          options: Options(headers: {
+            "Authorization": "Bearer $token",
+          }));
     } on DioError catch (e) {
       response = e.response;
     }
-
     return response;
   }
 
-  initializeInterceptors() {
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onError: (error, handler) {
-          handler.next(error);
-        },
-        onRequest: (requestOption, handler) {
-          requestOption.headers = {
-            'appToken': APP_TOKEN,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          };
-          return handler.next(requestOption);
-        },
-        onResponse: (response, handler) {
-          return handler.next(response);
-        },
-      ),
-    );
-  }
+  // initializeInterceptors() {
+  //   _dio.interceptors.add(
+  //     InterceptorsWrapper(
+  //       onError: (error, handler) {
+  //         handler.next(error);
+  //       },
+  //       onRequest: (requestOption, handler) {
+  //         requestOption.headers = {
+  //           'Accept': '/',
+  //           'accept': 'application/json',
+  //           'Content-Type': 'application/json',
+  //           'Charset': 'utf-8',
+  //           'Password': "123456",
+  //           "Language": 'ar',
+  //         };
+  //         return handler.next(requestOption);
+  //       },
+  //       onResponse: (response, handler) {
+  //         return handler.next(response);
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   void init() {
@@ -65,10 +70,13 @@ class HttpServiceImpl implements HttpService {
       baseUrl: BASE_URL,
       headers: {
         'appToken': APP_TOKEN,
+        'Accept': '/',
+        'accept': 'application/json',
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Charset': 'utf-8',
+        'Password': "123456",
+        "Language": 'ar',
       },
     ));
-    //initializeInterceptors();
   }
 }

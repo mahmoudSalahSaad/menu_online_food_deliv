@@ -84,7 +84,7 @@ class RestaurantsProvider extends ChangeNotifier {
     try {
       //SharedPreferences preferences = await SharedPreferences.getInstance();
       //String accessToken = preferences.getString('accessToken');
-      Response response = await httpService.postRequest(url, {'id': id});
+      Response response = await httpService.postRequest(url, {'id': id}, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedRestaurants = response.data['data']['restaurant'];
         var parsedRegoins = response.data['data']['regoins'] as List;
@@ -292,7 +292,7 @@ class RestaurantsProvider extends ChangeNotifier {
       postData = {'region_id': regionId};
     }
     try {
-      Response response = await httpService.postRequest(url, postData);
+      Response response = await httpService.postRequest(url, postData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedRestaurants = response.data['data']['restaurants'] as List;
 
@@ -335,8 +335,8 @@ class RestaurantsProvider extends ChangeNotifier {
     final List<String> restaurantBranches = [];
 
     try {
-      Response response = await httpService
-          .postRequest(url, {'restaurant_id': restaurantModel.id});
+      Response response = await httpService.postRequest(
+          url, {'restaurant_id': restaurantModel.id}, '');
       var parsedRestaurantBranches =
           response.data['data']['restaurantBranches'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
@@ -365,8 +365,8 @@ class RestaurantsProvider extends ChangeNotifier {
     final List<String> restaurantImages = [];
     String latestDate;
     try {
-      Response response = await httpService
-          .postRequest(url, {'restaurant_id': restaurantModel.id});
+      Response response = await httpService.postRequest(
+          url, {'restaurant_id': restaurantModel.id}, '');
       var parsedRestaurantImages =
           response.data['data']['restaurantImages'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
@@ -398,8 +398,8 @@ class RestaurantsProvider extends ChangeNotifier {
     httpService.init();
     final List<int> regionsResult = [];
     try {
-      Response response = await httpService
-          .postRequest(url, {'restaurant_id': restaurantModel.id});
+      Response response = await httpService.postRequest(
+          url, {'restaurant_id': restaurantModel.id}, '');
       var parsedRestaurantRegions =
           response.data['data']['restaurantRegions'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
@@ -426,7 +426,7 @@ class RestaurantsProvider extends ChangeNotifier {
     httpService.init();
 
     try {
-      Response response = await httpService.postRequest(url, {'id': id});
+      Response response = await httpService.postRequest(url, {'id': id}, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
       }
@@ -483,7 +483,7 @@ class RestaurantsProvider extends ChangeNotifier {
     };
 
     try {
-      Response response = await httpService.postRequest(url, postData);
+      Response response = await httpService.postRequest(url, postData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
       }

@@ -7,6 +7,7 @@ import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/forget_password_screen/forget_password_screen.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
+import 'package:menu_egypt/screens/otp_screen/otp_screen.dart';
 import 'package:menu_egypt/screens/sign_in_screen/components/sign_in_form.dart';
 import 'package:menu_egypt/screens/sign_up_screen/sign_up_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
@@ -26,14 +27,6 @@ class _BodyState extends State<Body> {
   };
   void onSubmit(bool guest) async {
     if (guest) {
-      // var resturantResult =
-      //     await Provider.of<RestaurantsProvider>(context, listen: false)
-      //         .fetchMostViewsRestaurants('guest');
-      // if (resturantResult['success']) {
-      //   Get.toNamed(HomeScreen.routeName);
-      // } else {
-      //   dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.');
-      // }
       Get.toNamed(HomeScreen.routeName);
     } else {
       if (!_formKey.currentState.validate()) {
@@ -44,6 +37,8 @@ class _BodyState extends State<Body> {
           .signIn(_formData);
       if (result['success']) {
         Get.offAllNamed(HomeScreen.routeName);
+      } else if (result['error'].toString().contains('رمز')) {
+        Get.offAllNamed(OtpScreen.routeName);
       } else {
         dialog(result['error'].toString());
       }
