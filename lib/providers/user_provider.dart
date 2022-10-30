@@ -114,11 +114,13 @@ class UserProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> editUserData(formData) async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     final Map<String, dynamic> userData = {
-      'user_id': _user.id,
-      'email': _user.email != null ? false : formData['email'],
+      'full_name': formData['fullName'],
+      'email': formData['email'],
       'phone_number': formData['phoneNumber'],
       'city_id': formData['cityId'],
       'region_id': formData['regionId'],
+      'birth_date': formData['birth_date'],
+      'gender': formData['gender'],
     };
     _isLoading = true;
     notifyListeners();
@@ -133,11 +135,22 @@ class UserProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
-        _user.email = _user.email == null ? parsedUser['email'] : _user.email;
-        _user.phoneNumber = parsedUser['phone_number'];
-        _user.cityId = parsedUser['city_id'];
-        _user.regionId = parsedUser['region_id'];
-        storeAuthUser(_user, '', true);
+        UserModel user = UserModel(
+          id: parsedUser['id'],
+          regionId: parsedUser['region_id'],
+          cityId: parsedUser['city_id'],
+          email: parsedUser['email'],
+          fullName: parsedUser['full_name'],
+          phoneNumber: parsedUser['phone_number'],
+          //avatarUrl: '',
+          //authType: 'email',
+          //favorites: [],
+          apiToken: token,
+          birthDate: parsedUser['birth_date'],
+          gender: parsedUser['gender'],
+        );
+        _user = user;
+        storeAuthUser(_user, token, true);
         result['success'] = true;
       } else {
         result['error'] = response.data['message'];
@@ -664,6 +677,35 @@ class UserProvider extends ChangeNotifier {
       String token = preferences.getString('apiToken');
       print(token);
       Response response = await httpService.postRequest(url, code, token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print('Success');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
+
+  Future<Map<String, dynamic>> resendOtp() async {
+    Map<String, dynamic> result = {'success': false, 'error': null};
+    _isLoading = true;
+    notifyListeners();
+    String url = '/resent-verify-code';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.getRequest(url, token ?? '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');

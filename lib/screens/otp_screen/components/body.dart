@@ -108,7 +108,16 @@ class _BodyState extends State<Body> {
               message,
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              var result =
+                  await Provider.of<UserProvider>(context, listen: false)
+                      .resendOtp();
+              if (result['success']) {
+                dialog('تم ارسال كود التحقق');
+              } else {
+                dialog(result['error'].toString());
+              }
+            },
           ),
         ],
       ),

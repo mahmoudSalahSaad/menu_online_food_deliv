@@ -198,6 +198,7 @@ class RestaurantsProvider extends ChangeNotifier {
       Response response = await httpService.getRequest(url, accessToken);
       var parsedRestaurants = response.data['data']['restaurants'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
+        print(response);
         parsedRestaurants.forEach((restaurantObject) {
           final RestaurantModel restaurant = RestaurantModel(
               id: restaurantObject['id'],

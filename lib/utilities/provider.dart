@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/home_provider.dart';
+import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -36,6 +38,12 @@ List<SingleChildWidget> providers() {
     ),
     ChangeNotifierProvider<ResturantItemsProvider>(
       create: (BuildContext context) => ResturantItemsProvider(),
+    ),
+    ChangeNotifierProvider<AddressProvider>(
+      create: (BuildContext context) => AddressProvider(),
+    ),
+    ChangeNotifierProvider<OrderProvider>(
+      create: (BuildContext context) => OrderProvider(),
     ),
   ];
 }

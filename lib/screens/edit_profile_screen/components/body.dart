@@ -13,6 +13,9 @@ import 'package:menu_egypt/screens/profile_screen/profile_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
+enum Gender { male, female }
 
 class Body extends StatefulWidget {
   @override
@@ -20,12 +23,17 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  Gender _gender = Gender.male;
+  String birthDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
+    'fullName': null,
     'email': null,
     'phoneNumber': null,
     'cityId': null,
-    'regionId': null
+    'regionId': null,
+    'gender': null,
+    'birthDate': null
   };
   CityModel city;
   RegionModel region;
@@ -36,6 +44,8 @@ class _BodyState extends State<Body> {
       return;
     }
     _formKey.currentState.save();
+    _formData['birth_date'] = birthDate;
+    _formData['gender'] = _gender.toString().split('Gender.')[1];
     var result = await Provider.of<UserProvider>(context, listen: false)
         .editUserData(_formData);
     if (result['success']) {
@@ -53,8 +63,14 @@ class _BodyState extends State<Body> {
         Provider.of<UserProvider>(context, listen: false).user.cityId;
     _formData['email'] =
         Provider.of<UserProvider>(context, listen: false).user.email;
+    _formData['fullname'] =
+        Provider.of<UserProvider>(context, listen: false).user.fullName;
     _formData['phoneNumber'] =
         Provider.of<UserProvider>(context, listen: false).user.phoneNumber;
+    _formData['gender'] =
+        Provider.of<UserProvider>(context, listen: false).user.gender;
+    _formData['birthDate'] =
+        Provider.of<UserProvider>(context, listen: false).user.birthDate;
     if (_formData['cityId'] != null) {
       city = Provider.of<CityProvider>(context, listen: false)
           .getCityById(_formData['cityId']);
@@ -81,6 +97,7 @@ class _BodyState extends State<Body> {
           ),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -100,6 +117,52 @@ class _BodyState extends State<Body> {
                       ? region
                       : regionProvider
                           .regionsOfCity(cityProvider.cities[0].cityId)[0],
+                ),
+                RadioListTile(
+                  title: Text('ذكر'),
+                  groupValue: _gender,
+                  value: Gender.male,
+                  activeColor: Colors.red,
+                  onChanged: (Gender value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text('انثى'),
+                  groupValue: _gender,
+                  value: Gender.female,
+                  activeColor: Colors.red,
+                  onChanged: (Gender value) {
+                    setState(() {
+                      _gender = value;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: SizeConfig.screenHeight * 0.02,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    DateTime selected = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                    );
+                    if (selected == null) return;
+                    setState(() {
+                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
+                    });
+                  },
+                  child: Text(
+                    'اختر تاريخ الميلاد ' + birthDate,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,

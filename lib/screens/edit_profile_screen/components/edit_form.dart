@@ -65,6 +65,33 @@ class _EditFormState extends State<EditForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InputTextField(
+                intialValue: user.fullName != null ? user.fullName : '',
+                textInputType: TextInputType.name,
+                labelText: "الأسم",
+                border: false,
+                onSaved: (String newValue) =>
+                    widget.formData['fullName'] = newValue,
+                onChanged: (String value) {
+                  if (value.isNotEmpty) {
+                    removeError(error: kNameNullError);
+                    if (value.length >= 2) {
+                      removeError(error: kNameLengthError);
+                    }
+                  }
+                  return null;
+                },
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    addError(error: kNameNullError);
+                    return "";
+                  } else if (value.length <= 1) {
+                    addError(error: kNameLengthError);
+                    return "";
+                  }
+                  return null;
+                },
+              ),
+              InputTextField(
                 intialValue: user.email != null ? user.email : '',
                 textInputType: TextInputType.emailAddress,
                 labelText: "البريد إلالكترونى",

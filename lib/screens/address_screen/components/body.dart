@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/models/address.dart';
+import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
+import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({Key key}) : super(key: key);
@@ -13,6 +16,13 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  List<AddressModel> addresses = [];
+  @override
+  void initState() {
+    addresses = Provider.of<AddressProvider>(context, listen: false).addresses;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,236 +34,86 @@ class _BodyState extends State<Body> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: AppBarWidget(title: 'العناوين المحفوظه'),
+              child: AppBarWidget(title: 'العناوين'),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 10.0,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.70,
+              child: addresses.isEmpty
+                  ? Center(
+                      child: Text('لا يوجد لديك عناوين'),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
                                 ),
-                                SizedBox(width: 5.0),
-                                Text('القاهرة , المعادى')
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              editAddressBottomSheet(context);
-                            },
-                            child: Text(
-                              'تعديل العنوان',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.house,
+                                              size: 10.0,
+                                            ),
+                                            SizedBox(width: 5.0),
+                                            Text(addresses[index].cityName +
+                                                ',' +
+                                                addresses[index].regionName)
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          editAddressBottomSheet(
+                                              context, addresses[index]);
+                                        },
+                                        child: Text(
+                                          'تعديل العنوان',
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.locationPin,
+                                        size: 10.0,
+                                      ),
+                                      SizedBox(width: 5.0),
+                                      Text(
+                                          'شارع ${addresses[index].street} عمارة رقم ${addresses[index].building} شقة رقم ${addresses[index].apartment}')
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.locationPin,
-                            size: 10.0,
                           ),
-                          SizedBox(width: 5.0),
-                          Text('شارع 9 عمارة رقم 12 شقة رقم 8')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
+                        );
+                      },
+                      itemCount: addresses.length,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 10.0,
-                                ),
-                                SizedBox(width: 5.0),
-                                Text('القاهرة , المعادى')
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              editAddressBottomSheet(context);
-                            },
-                            child: Text(
-                              'تعديل العنوان',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.locationPin,
-                            size: 10.0,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text('شارع 9 عمارة رقم 12 شقة رقم 8')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 10.0,
-                                ),
-                                SizedBox(width: 5.0),
-                                Text('القاهرة , المعادى')
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              editAddressBottomSheet(context);
-                            },
-                            child: Text(
-                              'تعديل العنوان',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.locationPin,
-                            size: 10.0,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text('شارع 9 عمارة رقم 12 شقة رقم 8')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.house,
-                                  size: 10.0,
-                                ),
-                                SizedBox(width: 5.0),
-                                Text('القاهرة , المعادى')
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              editAddressBottomSheet(context);
-                            },
-                            child: Text(
-                              'تعديل العنوان',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.locationPin,
-                            size: 10.0,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text('شارع 9 عمارة رقم 12 شقة رقم 8')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            //add address
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MaterialButton(
