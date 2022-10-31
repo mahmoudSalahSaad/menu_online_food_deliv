@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/*
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
-
+*/
 class UpperSignInButtons extends StatelessWidget {
   const UpperSignInButtons({
     Key key,
   }) : super(key: key);
 
+  /*
   void _onSubmitSocailButton(String social, BuildContext context) async {
     Map<String, dynamic> result =
         await Provider.of<UserProvider>(context, listen: false)
@@ -39,13 +41,14 @@ class UpperSignInButtons extends StatelessWidget {
       }
     }
   }
+  */
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
+        /*GestureDetector(
             onTap: () => _onSubmitSocailButton('Fb', context),
             child: Image.asset(
               'assets/icons/facebook.png',
@@ -59,7 +62,7 @@ class UpperSignInButtons extends StatelessWidget {
             child: Image.asset(
               'assets/icons/google_icon.png',
               width: getProportionateScreenWidth(60.0),
-            )),
+            )),*/
       ],
     );
   }

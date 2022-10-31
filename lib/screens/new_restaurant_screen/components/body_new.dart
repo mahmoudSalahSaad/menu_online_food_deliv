@@ -77,6 +77,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
     tabsWidget = [
       MenuTabWidget(
         date: restaurant.date,
+        isOnline: restaurant.isOnline,
+        isOutOfTime: restaurant.isOutOfTime,
         images: images,
       ),
       CommentsTabWidget(

@@ -14,6 +14,7 @@ import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
+import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/screens/otp_screen/otp_screen.dart';
 import 'package:menu_egypt/screens/placement_order_screen/placement_order.dart';
 import 'package:menu_egypt/screens/profile_screen/profile_screen.dart';
@@ -52,4 +53,5 @@ final Map<String, WidgetBuilder> routes = {
   PlacementOrder.routeName: (BuildContext context) => PlacementOrder(),
   AddressScreen.routeName: (BuildContext context) => AddressScreen(),
   OtpScreen.routeName: (BuildContext context) => OtpScreen(),
+  OrderDetails.routeName: (BuildContext context) => OrderDetails(),
 };

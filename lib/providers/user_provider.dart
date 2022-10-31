@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
@@ -21,7 +21,7 @@ class UserProvider extends ChangeNotifier {
   int forgetPasswordUserId;
   List<String> _sliders = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _facebookLogin = FacebookAuth.instance;
+  //final _facebookLogin = FacebookAuth.instance;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
   bool get isLoading {
@@ -291,6 +291,7 @@ class UserProvider extends ChangeNotifier {
     return result;
   }
 
+  /*
   Future<Map<String, dynamic>> signInWithSocialMedia(String social) async {
     final Map<String, dynamic> result = {'success': false, 'error': null};
     User user;
@@ -361,7 +362,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
     return result;
   }
-
+  */
+  /*
   Future<UserCredential> facebookConfigurations() async {
     UserCredential userCredential;
 
@@ -374,7 +376,7 @@ class UserProvider extends ChangeNotifier {
     print(userCredential);
     return userCredential;
   }
-
+  */
   Future<UserCredential> googleConfigurations() async {
     UserCredential userCredential;
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);

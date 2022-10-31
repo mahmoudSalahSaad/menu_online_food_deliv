@@ -12,21 +12,25 @@ class RestaurantModel {
   List<Map<String, dynamic>> branches;
   List<int> regions;
   List<String> areas;
+  String isOnline, isOutOfTime;
 
-  RestaurantModel(
-      {this.id,
-      this.nameAr,
-      this.nameEn,
-      this.logoSmall,
-      this.phoneNumber1,
-      this.phoneNumber2,
-      this.phoneNumber3,
-      this.categoryId,
-      this.review,
-      this.viewTimes,
-      this.branches,
-      this.regions,
-      this.areas,
-      this.images,
-      this.date});
+  RestaurantModel({
+    this.id,
+    this.nameAr,
+    this.nameEn,
+    this.logoSmall,
+    this.phoneNumber1,
+    this.phoneNumber2,
+    this.phoneNumber3,
+    this.categoryId,
+    this.review,
+    this.viewTimes,
+    this.branches,
+    this.regions,
+    this.areas,
+    this.images,
+    this.date,
+    this.isOnline,
+    this.isOutOfTime,
+  });
 }

@@ -7,10 +7,15 @@ import 'package:menu_egypt/utilities/size_config.dart';
 import 'menu_tap/menu_widget.dart';
 
 class MenuTabWidget extends StatelessWidget {
-  const MenuTabWidget({Key key, @required this.images, @required this.date})
-      : super(key: key);
+  const MenuTabWidget({
+    Key key,
+    @required this.images,
+    @required this.date,
+    @required this.isOnline,
+    @required this.isOutOfTime,
+  }) : super(key: key);
   final List<String> images;
-  final String date;
+  final String date, isOnline, isOutOfTime;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,21 +37,41 @@ class MenuTabWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('المنيو بتاريخ : ' + date),
-                MaterialButton(
-                  onPressed: () {
-                    Get.offNamed(ResturantScreenNew.routeName);
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  color: Colors.black,
-                  child: Text('اطلب اونلاين'),
-                )
+                isOnline == 'yes' && isOutOfTime == 'no'
+                    ? MaterialButton(
+                        onPressed: () {
+                          Get.offNamed(ResturantScreenNew.routeName);
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: Colors.white,
+                            width: 1,
+                            style: BorderStyle.solid,
+                          ),
+                        ),
+                        color: Colors.black,
+                        child: Text('اطلب اونلاين'),
+                      )
+                    : isOnline == 'yes' && isOutOfTime == 'yes'
+                        ? IgnorePointer(
+                            child: MaterialButton(
+                              onPressed: () {
+                                Get.offNamed(ResturantScreenNew.routeName);
+                              },
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(
+                                  color: Colors.white,
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              color: Colors.black87,
+                              child: Text('اطلب اونلاين'),
+                            ),
+                          )
+                        : SizedBox(),
               ],
             ),
             Divider(

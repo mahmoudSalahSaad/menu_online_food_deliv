@@ -86,6 +86,7 @@ class RestaurantsProvider extends ChangeNotifier {
       //String accessToken = preferences.getString('accessToken');
       Response response = await httpService.postRequest(url, {'id': id}, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
+        print(response);
         var parsedRestaurants = response.data['data']['restaurant'];
         var parsedRegoins = response.data['data']['regoins'] as List;
         var parsedrbanches = response.data['data']['branches'] as List;
@@ -147,33 +148,38 @@ class RestaurantsProvider extends ChangeNotifier {
           viewsdata = viewsCount.toString() + 'M';
         }
         final RestaurantModel restaurant = RestaurantModel(
-            id: parsedRestaurants['id'],
-            nameAr: parsedRestaurants['name_ar'],
-            nameEn: parsedRestaurants['name_en'],
-            logoSmall: parsedRestaurants['logo_small'] == null
-                ? ""
-                : "https://menuegypt.com/${parsedRestaurants['logo_small']}",
-            phoneNumber1: parsedRestaurants['phone'] == null
-                ? ""
-                : parsedRestaurants['phone'],
-            phoneNumber2: parsedRestaurants['phones_html1'] == null
-                ? ""
-                : parsedRestaurants['phones_html1'],
-            phoneNumber3: parsedRestaurants['phones_html2'] == null
-                ? ""
-                : parsedRestaurants['phones_html2'],
-            categoryId: parsedRestaurants['category_id'] == null
-                ? null
-                : parsedRestaurants['category_id'],
-            branches: restaurantBranches,
-            areas: [],
-            regions: regionsResult,
-            images: restaurantImages,
-            viewTimes: viewsdata,
-            review: response.data['data']['review'] > 0
-                ? response.data['data']['review']
-                : 5,
-            date: DateFormat('dd/MM/yyyy').format(DateTime.parse(latestDate)));
+          id: parsedRestaurants['id'],
+          nameAr: parsedRestaurants['name_ar'],
+          nameEn: parsedRestaurants['name_en'],
+          logoSmall: parsedRestaurants['logo_small'] == null
+              ? ""
+              : "https://menuegypt.com/${parsedRestaurants['logo_small']}",
+          phoneNumber1: parsedRestaurants['phone'] == null
+              ? ""
+              : parsedRestaurants['phone'],
+          phoneNumber2: parsedRestaurants['phones_html1'] == null
+              ? ""
+              : parsedRestaurants['phones_html1'],
+          phoneNumber3: parsedRestaurants['phones_html2'] == null
+              ? ""
+              : parsedRestaurants['phones_html2'],
+          categoryId: parsedRestaurants['category_id'] == null
+              ? null
+              : parsedRestaurants['category_id'],
+          branches: restaurantBranches,
+          areas: [],
+          regions: regionsResult,
+          images: restaurantImages,
+          viewTimes: viewsdata,
+          review: response.data['data']['review'] > 0
+              ? response.data['data']['review']
+              : 5,
+          date: DateFormat('dd/MM/yyyy').format(
+            DateTime.parse(latestDate),
+          ),
+          isOnline: response.data['data']['is_online'],
+          isOutOfTime: response.data['data']['is_out_of_time'],
+        );
         _restaurant = restaurant;
 
         result['success'] = true;
