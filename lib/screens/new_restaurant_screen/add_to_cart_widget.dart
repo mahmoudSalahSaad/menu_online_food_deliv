@@ -34,16 +34,24 @@ void addToCartBottomSheet(BuildContext context, CartItemModel cartItem) {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.10,
                       child: ListTile(
-                        leading: SizedBox(
-                          width: 50,
+                        //img
+                        leading: Container(
                           height: 50,
-                          child: FittedBox(
-                            fit: BoxFit.fill,
-                            child: Image.asset(
-                                'assets/images/menuegypt_sandwitches.png'),
+                          width: 50,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(
+                                  'https://menuegypt.com/order_online/product_images/' +
+                                      cartItem.photoUrl),
+                            ),
                           ),
                         ),
+                        //name , price
                         title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               cartItem.name + "    ",
@@ -55,44 +63,48 @@ void addToCartBottomSheet(BuildContext context, CartItemModel cartItem) {
                             )
                           ],
                         ),
-                        subtitle: Text(
-                          cartItem.description,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        //incr , decr quantity
-                        trailing: SizedBox(
-                          width: 110.0,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  setBottomSheetState(() {
-                                    cartItem.quantity++;
-                                  });
-                                },
-                                icon: Icon(Icons.add_circle_outline),
-                                color: Colors.red,
-                              ),
-                              Text(
-                                cartItem.quantity.toString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  if (cartItem.quantity != 1) {
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //description
+                            Text(
+                              cartItem.description,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            // incr , decr quantity
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
                                     setBottomSheetState(() {
-                                      cartItem.quantity--;
+                                      cartItem.quantity++;
                                     });
-                                  }
-                                },
-                                icon: Icon(Icons.remove_circle_outline),
-                                color: Colors.red,
-                              ),
-                            ],
-                          ),
+                                  },
+                                  icon: Icon(Icons.add_circle_outline),
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  cartItem.quantity.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    if (cartItem.quantity != 1) {
+                                      setBottomSheetState(() {
+                                        cartItem.quantity--;
+                                      });
+                                    }
+                                  },
+                                  icon: Icon(Icons.remove_circle_outline),
+                                  color: Colors.red,
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ),

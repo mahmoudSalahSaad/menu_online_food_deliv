@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_egypt/components/bottom_nav_bar_widget_new.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
-import 'package:menu_egypt/providers/restaurants_provider.dart';
+import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/body_new.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
@@ -13,7 +13,7 @@ class ResturantScreenNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final restaurantProvider =
-        Provider.of<RestaurantsProvider>(context, listen: true);
+        Provider.of<ResturantItemsProvider>(context, listen: true);
     return Container(
       decoration: BoxDecoration(gradient: kBackgroundColor),
       child: BaseConnectivity(

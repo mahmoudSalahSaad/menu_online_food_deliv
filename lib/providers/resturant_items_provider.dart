@@ -1,203 +1,53 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:menu_egypt/models/cart_item.dart';
-import 'package:menu_egypt/models/resturant_item.dart';
+import 'package:menu_egypt/models/resturant_categories.dart';
+import 'package:menu_egypt/services/http_service_impl.dart';
 
 class ResturantItemsProvider extends ChangeNotifier {
-  bool isLoading = false;
-  List<ResturantItemModel> _resturantItems;
+  bool _isLoading = false;
+  ResturantCategoriesModel _resturantCategoriesModel;
+  final HttpServiceImpl httpService = HttpServiceImpl();
 
-  List<ResturantItemModel> get resturantItems {
-    return _resturantItems;
+  bool get isLoading {
+    return _isLoading;
   }
 
-  initResturantItems() {
-    List<ResturantItemModel> resturantItems = [
-      ResturantItemModel(
-        categoryId: 1,
-        categoryName: 'الأطباق',
-        items: [
-          CartItemModel(
-            id: 1,
-            price: 50.0,
-            name: 'ريزو باربكيو',
-            description: "ارز بسمتى + صدور دجاج",
-          ),
-          CartItemModel(
-            id: 2,
-            price: 100.0,
-            name: 'فتة شاورما',
-            description: "ارز بسمتى + شاورما ",
-          ),
-          CartItemModel(
-            id: 3,
-            price: 50.0,
-            name: 'ريزو باربكيو',
-            description: "ارز بسمتى + صدور دجاج",
-          ),
-          CartItemModel(
-            id: 4,
-            price: 100.0,
-            name: 'فتة شاورما',
-            description: "ارز بسمتى + شاورما ",
-          ),
-        ],
-      ),
-      ResturantItemModel(
-        categoryId: 2,
-        categoryName: 'الوجبات',
-        items: [
-          CartItemModel(
-            id: 5,
-            price: 50.0,
-            name: 'وجبة دجاج',
-            description: "ارز بسمتى + دجاج مقلى",
-          ),
-          CartItemModel(
-            id: 6,
-            price: 100.0,
-            name: 'وجبة كفتة',
-            description: "ارز بسمتى + كفتة",
-          ),
-          CartItemModel(
-            id: 7,
-            price: 50.0,
-            name: 'وجبة دجاج',
-            description: "ارز بسمتى + دجاج مقلى",
-          ),
-          CartItemModel(
-            id: 8,
-            price: 100.0,
-            name: 'وجبة كفتة',
-            description: "ارز بسمتى + كفتة",
-          ),
-        ],
-      ),
-      ResturantItemModel(
-        categoryId: 3,
-        categoryName: 'سندوتشات',
-        items: [
-          CartItemModel(
-            id: 9,
-            price: 50.0,
-            name: 'شاورما فراخ',
-            description: "سندوتش + صدور دجاج",
-          ),
-          CartItemModel(
-            id: 10,
-            price: 100.0,
-            name: 'شاورما لحمة',
-            description: "سندوتش  + لحم مشوى",
-          ),
-          CartItemModel(
-            id: 11,
-            price: 50.0,
-            name: 'شاورما فراخ',
-            description: "سندوتش + صدور دجاج",
-          ),
-          CartItemModel(
-            id: 12,
-            price: 100.0,
-            name: 'شاورما لحمة',
-            description: "سندوتش  + لحم مشوى",
-          ),
-        ],
-      ),
-      ResturantItemModel(
-        categoryId: 4,
-        categoryName: 'بيتزا',
-        items: [
-          CartItemModel(
-            id: 13,
-            price: 50.0,
-            name: 'بيتزا جبن',
-            description: "موتزريلا + رانش صوص",
-          ),
-          CartItemModel(
-            id: 14,
-            price: 100.0,
-            name: 'بيتزا سيفود',
-            description: "جمبرى + تونة",
-          ),
-          CartItemModel(
-            id: 15,
-            price: 50.0,
-            name: 'بيتزا جبن',
-            description: "موتزريلا + رانش صوص",
-          ),
-          CartItemModel(
-            id: 16,
-            price: 100.0,
-            name: 'بيتزا سيفود',
-            description: "جمبرى + تونة",
-          ),
-        ],
-      ),
-      ResturantItemModel(
-        categoryId: 5,
-        categoryName: 'فطائر',
-        items: [
-          CartItemModel(
-            id: 17,
-            price: 50.0,
-            name: 'فطيرة جبن',
-            description: "شيدر + رومى",
-          ),
-          CartItemModel(
-            id: 18,
-            price: 100.0,
-            name: 'فطيرة سدق',
-            description: "سدق + كاتشب",
-          ),
-          CartItemModel(
-            id: 19,
-            price: 50.0,
-            name: 'فطيرة جبن',
-            description: "شيدر + رومى",
-          ),
-          CartItemModel(
-            id: 20,
-            price: 100.0,
-            name: 'فطيرة سدق',
-            description: "سدق + كاتشب",
-          ),
-          CartItemModel(
-            id: 21,
-            price: 50.0,
-            name: 'فطيرة جبن',
-            description: "شيدر + رومى",
-          ),
-          CartItemModel(
-            id: 22,
-            price: 100.0,
-            name: 'فطيرة سدق',
-            description: "سدق + كاتشب",
-          ),
-          CartItemModel(
-            id: 23,
-            price: 50.0,
-            name: 'فطيرة جبن',
-            description: "شيدر + رومى",
-          ),
-          CartItemModel(
-            id: 24,
-            price: 100.0,
-            name: 'فطيرة سدق',
-            description: "سدق + كاتشب",
-          ),
-        ],
-      ),
-    ];
-
-    _resturantItems = resturantItems;
+  ResturantCategoriesModel get resturantCategoriesModel {
+    return _resturantCategoriesModel;
   }
 
-  startLoading() {
-    isLoading = true;
+  Future<Map<String, dynamic>> getResturantCategories(int resturantId) async {
+    Map<String, dynamic> result = {'success': false, 'error': null};
+    _isLoading = true;
     notifyListeners();
-  }
+    String url = '/view-resturant/$resturantId';
+    httpService.init();
+    try {
+      Response response = await httpService.getRequest(url, null);
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print(response);
 
-  endLoading() {
-    isLoading = false;
+        var parsedCategories = response.data['data'];
+
+        ResturantCategoriesModel resturantCategories =
+            ResturantCategoriesModel.fromJson(parsedCategories);
+        _resturantCategoriesModel = resturantCategories;
+
+        print('Success');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        _resturantCategoriesModel = null;
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      print(error);
+      throw result['error'] = error;
+    }
+    _isLoading = false;
     notifyListeners();
+    return result;
   }
 }

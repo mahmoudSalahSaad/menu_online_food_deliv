@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tap/menu_widget_slider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
+import 'package:provider/provider.dart';
 
 import 'menu_tap/menu_widget.dart';
 
 class MenuTabWidget extends StatelessWidget {
-  const MenuTabWidget({
-    Key key,
-    @required this.images,
-    @required this.date,
-    @required this.isOnline,
-    @required this.isOutOfTime,
-  }) : super(key: key);
+  const MenuTabWidget(
+      {Key key,
+      @required this.images,
+      @required this.date,
+      @required this.isOnline,
+      @required this.isOutOfTime,
+      @required this.restId})
+      : super(key: key);
+  final int restId;
   final List<String> images;
   final String date, isOnline, isOutOfTime;
   @override
@@ -40,6 +44,10 @@ class MenuTabWidget extends StatelessWidget {
                 isOnline == 'yes' && isOutOfTime == 'no'
                     ? MaterialButton(
                         onPressed: () {
+                          print('RESTURANT ID ' + restId.toString());
+                          Provider.of<ResturantItemsProvider>(context,
+                                  listen: false)
+                              .getResturantCategories(restId);
                           Get.offNamed(ResturantScreenNew.routeName);
                         },
                         shape: RoundedRectangleBorder(

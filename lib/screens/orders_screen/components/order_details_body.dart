@@ -21,24 +21,18 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
   void initState() {
     orderDetailsModel =
         Provider.of<OrderProvider>(context, listen: false).orderDetailsModel;
+    if (orderDetailsModel.orderDetails.orderStatus == 'in-progress') {
+      currentStep = 0;
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'shipping') {
+      currentStep = 1;
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
+      currentStep = 2;
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (orderDetailsModel.orderDetails.orderStatus == 'in-progress') {
-      setState(() {
-        currentStep = 0;
-      });
-    } else if (orderDetailsModel.orderDetails.orderStatus == 'shipping') {
-      setState(() {
-        currentStep = 1;
-      });
-    } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
-      setState(() {
-        currentStep = 2;
-      });
-    }
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -55,26 +49,32 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
               height: 110,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Stepper(
-                  type: StepperType.horizontal,
-                  currentStep: currentStep,
-                  steps: [
-                    Step(
-                      title: Text('المراجعة'),
-                      content: Container(),
-                      isActive: currentStep == 0,
-                    ),
-                    Step(
-                      title: Text('التحضير'),
-                      content: Container(),
-                      isActive: currentStep == 1,
-                    ),
-                    Step(
-                      title: Text('التوصيل'),
-                      content: Container(),
-                      isActive: currentStep == 2,
-                    ),
-                  ],
+                child: Theme(
+                  data: ThemeData(
+                    primarySwatch: Colors.red,
+                    fontFamily: 'DroidArabic',
+                  ),
+                  child: Stepper(
+                    type: StepperType.horizontal,
+                    currentStep: currentStep,
+                    steps: [
+                      Step(
+                        title: Text('جار المراجعة'),
+                        content: Container(),
+                        isActive: currentStep == 0,
+                      ),
+                      Step(
+                        title: Text('جار التحضير'),
+                        content: Container(),
+                        isActive: currentStep == 1,
+                      ),
+                      Step(
+                        title: Text('جار التوصيل'),
+                        content: Container(),
+                        isActive: currentStep == 2,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

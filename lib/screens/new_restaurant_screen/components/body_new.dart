@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:menu_egypt/models/resturant_item.dart';
+import 'package:menu_egypt/models/cart_item.dart';
+import 'package:menu_egypt/models/resturant_categories.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/add_to_cart_widget.dart';
@@ -32,11 +33,14 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
   List<Widget> tabsWidget;
   RestaurantModel restaurant;
   List<String> areas = [];
+  ResturantCategoriesModel resturantCategoriesModel;
 
   @override
   void initState() {
-    Provider.of<ResturantItemsProvider>(context, listen: false)
-        .initResturantItems();
+    resturantCategoriesModel =
+        Provider.of<ResturantItemsProvider>(context, listen: false)
+            .resturantCategoriesModel;
+
     Provider.of<CartProvider>(context, listen: false);
     final restaurantProvider =
         Provider.of<RestaurantsProvider>(context, listen: false);
@@ -71,14 +75,13 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final resturantItems =
-        Provider.of<ResturantItemsProvider>(context, listen: false)
-            .resturantItems;
+
     tabsWidget = [
       MenuTabWidget(
         date: restaurant.date,
         isOnline: restaurant.isOnline,
         isOutOfTime: restaurant.isOutOfTime,
+        restId: restaurant.id,
         images: images,
       ),
       CommentsTabWidget(
@@ -87,48 +90,53 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
       BranchesTabWidget(resturant: restaurant, areas: areas)
     ];
     return SafeArea(
-      child: Column(
-        children: [
-          SizedBox(
-            height: getProportionateScreenHeight(2),
-          ),
-          TopHeaderWidget(
-            isFav: isFav,
-            onTap: () => favFunction(userProvider),
-            image: restaurant.logoSmall,
-            name: restaurant.nameAr,
-            viewTime: restaurant.viewTimes,
-            review: restaurant.review.toString(),
-            phone1: restaurant.phoneNumber1,
-            phone2: restaurant.phoneNumber2,
-            phone3: restaurant.phoneNumber3,
-            userProvider: userProvider,
-          ),
-          Expanded(
-            child: ScrollableListTabView(
-              tabHeight: 50,
-              bodyAnimationDuration: const Duration(milliseconds: 500),
-              tabAnimationCurve: Curves.easeOut,
-              tabAnimationDuration: const Duration(milliseconds: 500),
-              tabs: restruantItemsTaps(resturantItems),
+      child: resturantCategoriesModel != null
+          ? Column(
+              children: [
+                SizedBox(
+                  height: getProportionateScreenHeight(2),
+                ),
+                TopHeaderWidget(
+                  isFav: isFav,
+                  onTap: () => favFunction(userProvider),
+                  image: restaurant.logoSmall,
+                  name: restaurant.nameAr,
+                  viewTime: restaurant.viewTimes,
+                  review: restaurant.review.toString(),
+                  phone1: restaurant.phoneNumber1,
+                  phone2: restaurant.phoneNumber2,
+                  phone3: restaurant.phoneNumber3,
+                  userProvider: userProvider,
+                ),
+                Expanded(
+                  child: ScrollableListTabView(
+                    tabHeight: 50,
+                    bodyAnimationDuration: const Duration(milliseconds: 500),
+                    tabAnimationCurve: Curves.easeOut,
+                    tabAnimationDuration: const Duration(milliseconds: 500),
+                    tabs: restruantItemsTaps(resturantCategoriesModel),
+                  ),
+                ),
+              ],
+            )
+          : Center(
+              child: Text(
+                  'عفوا هذا المطعم غير متوفر الآن لتلقي الطلب عبر الإنترنت'),
             ),
-          ),
-        ],
-      ),
     );
   }
 
   //resturant items ScrollableListTab
   List<ScrollableListTab> restruantItemsTaps(
-      List<ResturantItemModel> resturantItems) {
+      ResturantCategoriesModel resturantCategories) {
     List<ScrollableListTab> taps = [];
 
-    for (int i = 0; i < resturantItems.length; i++) {
+    for (int i = 0; i < resturantCategoriesModel.catgeoriesList.length; i++) {
       taps.add(
         ScrollableListTab(
           tab: ListTab(
             label: Text(
-              resturantItems[i].categoryName,
+              resturantCategoriesModel.catgeoriesList[i].catgeoryTitle,
               locale: const Locale("ar"),
               style: TextStyle(color: Colors.white),
             ),
@@ -140,37 +148,64 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                leading: SizedBox(
-                  width: 50,
+                leading: Container(
                   height: 50,
-                  child: FittedBox(
-                    fit: BoxFit.fill,
-                    child:
-                        Image.asset('assets/images/menuegypt_sandwitches.png'),
+                  width: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(
+                          'https://menuegypt.com/order_online/product_images/' +
+                              resturantCategoriesModel.catgeoriesList[i]
+                                  .catgeoryProducts[index].image),
+                    ),
                   ),
                 ),
                 title: Text(
-                  resturantItems[i].items[index].name,
+                  resturantCategoriesModel
+                      .catgeoriesList[i].catgeoryProducts[index].title,
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  resturantItems[i].items[index].description,
+                  resturantCategoriesModel.catgeoriesList[i]
+                      .catgeoryProducts[index].shortDescription,
                   style: TextStyle(color: Colors.grey[300]),
                 ),
                 trailing: Column(
                   children: [
                     Expanded(
                       child: Text(
-                        resturantItems[i].items[index].price.toString() + ' جم',
+                        resturantCategoriesModel
+                                .catgeoriesList[i].catgeoryProducts[index].price
+                                .toString() +
+                            ' جم',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
+                    //add to cart
                     Expanded(
                       child: IconButton(
                         onPressed: () {
-                          addToCartBottomSheet(
-                              context, resturantItems[i].items[index]);
+                          CartItemModel cartItemModel = CartItemModel(
+                              id: resturantCategoriesModel
+                                  .catgeoriesList[i].catgeoryProducts[index].id,
+                              name: resturantCategoriesModel.catgeoriesList[i]
+                                  .catgeoryProducts[index].title,
+                              description: resturantCategoriesModel
+                                  .catgeoriesList[i]
+                                  .catgeoryProducts[index]
+                                  .shortDescription,
+                              price: resturantCategoriesModel.catgeoriesList[i]
+                                  .catgeoryProducts[index].price
+                                  .toDouble(),
+                              photoUrl: resturantCategoriesModel
+                                  .catgeoriesList[i]
+                                  .catgeoryProducts[index]
+                                  .image);
+                          addToCartBottomSheet(context, cartItemModel);
                         },
                         icon: Icon(Icons.add_circle_outline),
                         color: Colors.red,
@@ -184,7 +219,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
               height: 1,
               color: Colors.white,
             ),
-            itemCount: resturantItems[i].items.length,
+            itemCount: resturantCategoriesModel
+                .catgeoriesList[i].catgeoryProducts.length,
           ),
         ),
       );

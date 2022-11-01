@@ -68,6 +68,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         date: restaurant.date,
         isOnline: restaurant.isOnline,
         isOutOfTime: restaurant.isOutOfTime,
+        restId: restaurant.id,
         images: images,
       ),
       CommentsTabWidget(
