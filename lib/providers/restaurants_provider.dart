@@ -185,7 +185,7 @@ class RestaurantsProvider extends ChangeNotifier {
         result['success'] = true;
       }
     } catch (error) {
-      result['error'] = error;
+      throw result['error'] = error;
     }
     _isLoading = false;
     notifyListeners();

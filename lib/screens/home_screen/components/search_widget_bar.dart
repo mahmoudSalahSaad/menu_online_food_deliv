@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
@@ -87,9 +88,10 @@ class SearchWidgetBar extends StatelessWidget {
           // } else {
           //   Get.toNamed(RestaurantScreen.routeName + '/$index/0/0');
           // }
+
           Provider.of<RestaurantsProvider>(context, listen: false)
               .fetchRestaurant(restaurantProvider.restaurants[index].id);
-          Get.toNamed(NewRestaurantScreen.routeName);
+          Get.toNamed(ResturantScreenNew.routeName);
         },
       ),
     );

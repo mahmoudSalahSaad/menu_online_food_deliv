@@ -142,8 +142,8 @@ class Address {
       this.description});
 
   Address.fromJson(Map<String, dynamic> json) {
-    regionName = json['region_name'];
-    cityIName = json['city_name'];
+    regionName = json['region_id'];
+    cityIName = json['city_id'];
     neighborhood = json['neighborhood'];
     street = json['street'];
     building = json['building'];

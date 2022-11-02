@@ -90,6 +90,21 @@ class _BodyState extends State<Body> {
                                                 TextDecoration.underline,
                                           ),
                                         ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Provider.of<AddressProvider>(context,
+                                                  listen: false)
+                                              .deleteAdress(
+                                                  addresses[index].id);
+                                        },
+                                        child: Text(
+                                          'حذف العنوان',
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),

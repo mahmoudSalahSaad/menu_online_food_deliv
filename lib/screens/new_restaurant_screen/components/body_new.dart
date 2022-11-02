@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/resturant_categories.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
@@ -189,23 +188,13 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                     Expanded(
                       child: IconButton(
                         onPressed: () {
-                          CartItemModel cartItemModel = CartItemModel(
-                              id: resturantCategoriesModel
-                                  .catgeoriesList[i].catgeoryProducts[index].id,
-                              name: resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].title,
-                              description: resturantCategoriesModel
+                          Provider.of<ResturantItemsProvider>(context,
+                                  listen: false)
+                              .getResturantProduct(resturantCategoriesModel
                                   .catgeoriesList[i]
                                   .catgeoryProducts[index]
-                                  .shortDescription,
-                              price: resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].price
-                                  .toDouble(),
-                              photoUrl: resturantCategoriesModel
-                                  .catgeoriesList[i]
-                                  .catgeoryProducts[index]
-                                  .image);
-                          addToCartBottomSheet(context, cartItemModel);
+                                  .id);
+                          addToCartBottomSheet(context);
                         },
                         icon: Icon(Icons.add_circle_outline),
                         color: Colors.red,

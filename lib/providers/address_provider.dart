@@ -99,6 +99,35 @@ class AddressProvider extends ChangeNotifier {
     return result;
   }
 
+  Future<Map<String, dynamic>> deleteAdress(int addressId) async {
+    Map<String, dynamic> result = {'success': false, 'error': null};
+    _isLoading = true;
+    notifyListeners();
+    String url = '/delete-address/$addressId';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.getRequest(url, token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print('Success');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
+
   Future<Map<String, dynamic>> addAdress(AddressModel addressModel) async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
