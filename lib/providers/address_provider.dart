@@ -35,7 +35,6 @@ class AddressProvider extends ChangeNotifier {
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
-        print(response);
         var parsedAddresses = response.data['data'] as List;
         for (int i = 0; i < parsedAddresses.length; i++) {
           AddressModel addressModel = AddressModel(
@@ -114,6 +113,7 @@ class AddressProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
+        _addresses.removeWhere((address) => address.id == addressId);
         result['success'] = true;
       } else {
         print('Failed');
@@ -145,7 +145,9 @@ class AddressProvider extends ChangeNotifier {
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
         result['success'] = true;
-        _addresses.add(addressModel);
+        //_addresses.add(addressModel);
+        _addresses.clear();
+        getAddresses();
       } else {
         print('Failed');
         result['error'] = response.data['message'];

@@ -12,9 +12,10 @@ void addToCartBottomSheet(BuildContext context) {
   CartItemModel cartItem;
 
   int quantity = 1;
-  String weight = 'نصف كيلو';
-  String firstAddonName = 'اضافة 1';
-  String secondAddonName = 'اضافة 2';
+  double price = 0;
+  String weight = '';
+  String firstAddonName = '';
+  String secondAddonName = '';
   //selections
   List<bool> isSelectedWeight = List.generate(2, (_) => false);
   List<Sizes> buttonsListWeight = [];
@@ -34,6 +35,12 @@ void addToCartBottomSheet(BuildContext context) {
                 Provider.of<ResturantItemsProvider>(context, listen: true);
 
             if (!restaurantItemsProvider.isLoading) {
+              //main product price
+              if (price == 0) {
+                price = restaurantItemsProvider
+                    .resturantProductModel.product.price
+                    .toDouble();
+              }
               //weight selections
               buttonsListWeight =
                   restaurantItemsProvider.resturantProductModel.sizes != null
@@ -65,9 +72,7 @@ void addToCartBottomSheet(BuildContext context) {
                 photoUrl:
                     restaurantItemsProvider.resturantProductModel.product.image,
                 //selected params
-                price: restaurantItemsProvider
-                    .resturantProductModel.product.price
-                    .toDouble(),
+                price: price,
                 quantity: quantity,
                 weight: weight,
                 firstAddonName: firstAddonName,
@@ -130,10 +135,7 @@ void addToCartBottomSheet(BuildContext context) {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   Text(
-                                    restaurantItemsProvider
-                                            .resturantProductModel.product.price
-                                            .toString() +
-                                        ' جم',
+                                    price.toString() + ' جم',
                                     style: TextStyle(color: kAppBarColor),
                                   )
                                 ],
@@ -196,7 +198,16 @@ void addToCartBottomSheet(BuildContext context) {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'لا يوجد مقاسات',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
                           buttonsListWeight.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -217,6 +228,13 @@ void addToCartBottomSheet(BuildContext context) {
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  weight =
+                                                      buttonsListWeight[index]
+                                                          .title;
+                                                  price =
+                                                      buttonsListWeight[index]
+                                                          .price
+                                                          .toDouble();
                                                   for (int indexBtn = 0;
                                                       indexBtn <
                                                           isSelectedWeight
@@ -262,7 +280,9 @@ void addToCartBottomSheet(BuildContext context) {
                                     ),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                ),
                           //first addon
                           buttonsListFirstAddon.isNotEmpty
                               ? Padding(
@@ -274,7 +294,16 @@ void addToCartBottomSheet(BuildContext context) {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'لا يوجد إضافة اولى',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
                           buttonsListFirstAddon.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -295,6 +324,10 @@ void addToCartBottomSheet(BuildContext context) {
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  firstAddonName =
+                                                      buttonsListFirstAddon[
+                                                              index]
+                                                          .title;
                                                   for (int indexBtn = 0;
                                                       indexBtn <
                                                           isSelectedFirstAddon
@@ -353,7 +386,16 @@ void addToCartBottomSheet(BuildContext context) {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'لا يوجد إضافة ثانية',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20.0),
+                                    ),
+                                  ),
+                                ),
                           buttonsListSeccondAddon.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -374,6 +416,10 @@ void addToCartBottomSheet(BuildContext context) {
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  secondAddonName =
+                                                      buttonsListSeccondAddon[
+                                                              index]
+                                                          .title;
                                                   for (int indexBtn = 0;
                                                       indexBtn <
                                                           isSelectedSecondAddon
@@ -434,8 +480,7 @@ void addToCartBottomSheet(BuildContext context) {
                                       color: Colors.black, fontSize: 20.0),
                                 ),
                                 Text(
-                                  (cartItem.price * quantity).toString() +
-                                      ' جم',
+                                  (price * quantity).toString() + ' جم',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 20.0),
                                 ),

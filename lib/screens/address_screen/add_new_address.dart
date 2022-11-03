@@ -214,9 +214,19 @@ void addNewAddressBottomSheet(BuildContext context) {
                           regionId: 42,
                           type: 'work',
                         );
-                        Provider.of<AddressProvider>(context, listen: false)
-                            .addAdress(addressModel);
-                        Get.back();
+                        if (cityController.text.isEmpty ||
+                            regionController.text.isEmpty ||
+                            streetController.text.isEmpty ||
+                            buildingController.text.isEmpty ||
+                            apartmentController.text.isEmpty ||
+                            descriptionController.text.isEmpty ||
+                            roundController.text.isEmpty) {
+                          dialog('من فضلك أدخل العنوان كاملا');
+                        } else {
+                          Provider.of<AddressProvider>(context, listen: false)
+                              .addAdress(addressModel);
+                          Get.back();
+                        }
                       },
                       minWidth: MediaQuery.of(context).size.width,
                       color: kAppBarColor,
@@ -443,9 +453,19 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                     addressModel.apartment = apartmentController.text;
                     addressModel.description = descriptionController.text;
                     addressModel.round = roundController.text;
-                    Provider.of<AddressProvider>(context, listen: false)
-                        .updateAdress(addressModel);
-                    Get.back();
+                    if (cityController.text.isEmpty ||
+                        regionController.text.isEmpty ||
+                        streetController.text.isEmpty ||
+                        buildingController.text.isEmpty ||
+                        apartmentController.text.isEmpty ||
+                        descriptionController.text.isEmpty ||
+                        roundController.text.isEmpty) {
+                      dialog('من فضلك أدخل العنوان كاملا');
+                    } else {
+                      Provider.of<AddressProvider>(context, listen: false)
+                          .updateAdress(addressModel);
+                      Get.back();
+                    }
                   },
                   minWidth: MediaQuery.of(context).size.width,
                   color: kAppBarColor,
@@ -461,4 +481,13 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
       );
     },
   );
+}
+
+void dialog(String message) {
+  Get.defaultDialog(
+      content: Text(message),
+      textCancel: 'إغلاق',
+      title: 'تحذير',
+      buttonColor: kPrimaryColor,
+      cancelTextColor: kTextColor);
 }
