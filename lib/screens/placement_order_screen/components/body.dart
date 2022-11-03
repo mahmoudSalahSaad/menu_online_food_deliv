@@ -154,7 +154,7 @@ class _BodyState extends State<Body> {
                                       color: Colors.grey,
                                     );
                                   },
-                                  itemCount: 2,
+                                  itemCount: 1,
                                 ),
                               ],
                             ),
