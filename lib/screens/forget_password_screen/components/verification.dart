@@ -25,7 +25,7 @@ class _VerificationPasswordScreenState
     extends State<VerificationPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String code;
-
+  String email = Get.arguments as String;
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -43,26 +43,19 @@ class _VerificationPasswordScreenState
   }
 
   void _onSubmit() async {
+    print(email);
+    print(code);
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
-        .verifyPassword(code);
+        .verifyPassword(email, code);
     if (result['success']) {
-      Get.offNamed(ChangePasswordScreen.routeName);
+      Get.offNamed(ChangePasswordScreen.routeName,
+          arguments: [result['userId'], result['userToken']]);
     } else {
-      if (result['error'].toString().contains('هذا الكود غير صحيح')) {
-        dialog(false, 'هذا الكود غير صحيح');
-      } else if (result['error'].toString().contains('برجاء أختيار مستخدم')) {
-        dialog(true, 'برجاء أختيار مستخدم');
-      } else if (result['error']
-          .toString()
-          .contains('برجاء أختيار كود التحقيق')) {
-        dialog(true, 'برجاء أختيار كود التحقيق');
-      } else {
-        dialog(true, 'حدث خطا ما ');
-      }
+      dialog(true, result['error']);
     }
   }
 
@@ -86,7 +79,7 @@ class _VerificationPasswordScreenState
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
-                    Text('من فضلك قم بإدخال كور التحقيق.',
+                    Text('من فضلك قم بإدخال كود التحقيق.',
                         style: Theme.of(context).textTheme.headline5.copyWith(
                             fontWeight: FontWeight.w400,
                             fontSize: getProportionateScreenHeight(14.0))),
@@ -104,18 +97,12 @@ class _VerificationPasswordScreenState
                             onChanged: (String value) {
                               if (value.isNotEmpty) {
                                 removeError(error: kCodeNullError);
-                                if (value.length == 4) {
-                                  removeError(error: kCodePassError);
-                                }
                               }
                               return null;
                             },
                             validator: (String value) {
                               if (value.isEmpty) {
                                 addError(error: kCodeNullError);
-                                return "";
-                              } else if (value.length != 4) {
-                                addError(error: kCodePassError);
                                 return "";
                               }
                               return null;

@@ -23,6 +23,8 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String password;
+  int userId = Get.arguments[0];
+  String userToken = Get.arguments[1];
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final List<String> errors = [];
@@ -42,15 +44,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void _onSubmit() async {
+    print(userId);
+    print(userToken);
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
-        .changePassword(password);
+        .changePassword(userId, userToken, password);
     if (result['success']) {
       await dialog(false, 'تم تغيير كلمة المرور بنجاح');
-
       Get.offAllNamed(HomeScreen.routeName);
     } else {
       if (result['error'].toString().contains('برجاء أختيار مستخدم')) {
@@ -89,7 +92,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
-                    Text('من فضلك قم بإدخال كور التحقيق.',
+                    Text('من فضلك قم بإدخال كود التحقيق.',
                         style: Theme.of(context).textTheme.headline5.copyWith(
                             fontWeight: FontWeight.w400,
                             fontSize: getProportionateScreenHeight(14.0))),

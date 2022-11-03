@@ -31,19 +31,10 @@ class _BodyState extends State<Body> {
         .forgetPassword(_formData['email']);
     if (result['success']) {
       await dialog(false, "قم بفحص البريد الخاص بك.");
-      Get.toNamed(VerificationPasswordScreen.routeName);
+      Get.toNamed(VerificationPasswordScreen.routeName,
+          arguments: _formData['email']);
     } else {
-      if (result['error']
-          .toString()
-          .contains('برجاء أختيار البريد الإلكتروني')) {
-        dialog(true, 'برجاء ادخال بريد الكترونى او رقم هاتف صحيح');
-      } else if (result['error']
-          .toString()
-          .contains('هذا المستخدم غير موجود')) {
-        dialog(true, 'هذا المستخدم غير موجود');
-      } else {
-        dialog(true, 'حدث خطا ما ');
-      }
+      dialog(true, result['error']);
     }
   }
 

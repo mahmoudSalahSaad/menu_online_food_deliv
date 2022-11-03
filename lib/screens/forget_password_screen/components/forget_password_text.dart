@@ -13,7 +13,7 @@ class ForgetPasswordText extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'أدخل بريدك الإلكتروني وسوف نرسل لك تعليمات حول كيفية إعادة تعيينه',
+            'أدخل بريدك الإلكتروني وسوف نرسل لك رمز التأكيد',
             style: Theme.of(context).textTheme.headline5.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: getProportionateScreenHeight(14.0)),

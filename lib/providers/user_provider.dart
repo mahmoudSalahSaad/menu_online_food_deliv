@@ -537,28 +537,24 @@ class UserProvider extends ChangeNotifier {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
-      'msg': null
+      'msg': null,
+      'email': emailPhone
     };
     final Map<String, dynamic> userData = {
       'email': emailPhone,
     };
     _isLoading = true;
     notifyListeners();
-    String url = '/forget_password';
+    String url = '/forget-password';
     httpService.init();
     try {
       Response response = await httpService.postRequest(url, userData, '');
-      if (response.statusCode == 200 && response.data['status_code'] == 201) {
-        var parsedUser = response.data['data']['user'];
-        forgetPasswordUserId = parsedUser['id'];
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
         result['success'] = true;
-        result['msg'] = response.data['data']['msg'];
+        result['msg'] = response.data['message'];
       } else {
-        if (response.data['errors'] != null) {
-          result['error'] = response.data['errors'];
-        } else {
-          result['error'] = response.data['data']['error'];
-        }
+        result['error'] = response.data['message'];
       }
     } catch (error) {
       result['error'] = error;
@@ -568,41 +564,43 @@ class UserProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> verifyPassword(String code) async {
+  Future<Map<String, dynamic>> verifyPassword(String email, String code) async {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
-      'msg': null
+      'msg': null,
+      'userToken': null,
+      'userId': null
     };
-    final Map<String, dynamic> userData = {
-      'code': code,
-      'user_id': forgetPasswordUserId
-    };
+    final Map<String, dynamic> userData = {'code': code, 'email': email};
     _isLoading = true;
     notifyListeners();
-    String url = '/verify_password';
+    String url = '/verify-code-reset-password';
     httpService.init();
     try {
       Response response = await httpService.postRequest(url, userData, '');
-      if (response.statusCode == 200 && response.data['status_code'] == 201) {
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
         result['success'] = true;
-        result['msg'] = response.data['data']['msg'];
+        result['msg'] = response.data['message'];
+        result['userToken'] = response.data['data']['token'];
+        result['userId'] = response.data['data']['user_id'];
+        print('success');
       } else {
-        if (response.data['errors'] != null) {
-          result['error'] = response.data['errors'];
-        } else {
-          result['error'] = response.data['data']['error'];
-        }
+        print('failed');
+        result['error'] = response.data['message'];
       }
     } catch (error) {
-      result['error'] = error;
+      print('catch');
+      throw result['error'] = error;
     }
     _isLoading = false;
     notifyListeners();
     return result;
   }
 
-  Future<Map<String, dynamic>> changePassword(String password) async {
+  Future<Map<String, dynamic>> changePassword(
+      int userId, String userToken, String password) async {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
@@ -610,41 +608,47 @@ class UserProvider extends ChangeNotifier {
     };
     final Map<String, dynamic> userData = {
       'password': password,
-      'user_id': forgetPasswordUserId
+      'user_id': userId,
+      'token': userToken
     };
     _isLoading = true;
     notifyListeners();
-    String url = '/reset_password';
+    String url = '/reset-password';
     httpService.init();
     try {
       Response response = await httpService.postRequest(url, userData, '');
-      if (response.statusCode == 200 && response.data['status_code'] == 201) {
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['data']['user'];
-        var parsedFavorites = response.data['data']['favorites'] as List;
+        //var parsedFavorites = response.data['favorites'] as List;
         UserModel user = UserModel(
-            id: parsedUser['id'],
-            cityId: parsedUser['city_id'],
-            regionId: parsedUser['region_id'],
-            email: parsedUser['email'],
-            fullName: parsedUser['full_name'],
-            phoneNumber: parsedUser['phone_number'],
-            avatarUrl: '',
-            authType: 'email',
-            favorites: []);
+          id: parsedUser['id'],
+          regionId: parsedUser['region_id'],
+          cityId: parsedUser['city_id'],
+          email: parsedUser['email'],
+          fullName: parsedUser['full_name'],
+          phoneNumber: parsedUser['phone_number'],
+          //avatarUrl: '',
+          //authType: 'email',
+          //favorites: [],
+          birthDate: parsedUser['birth_date'],
+          gender: parsedUser['gender'],
+        );
+        /*
         parsedFavorites.forEach((fav) {
           user.favorites.add(fav['restaurant_id']);
         });
+        */
         _user = user;
-        storeAuthUser(_user, response.data['data']['access_token'], true);
+        storeAuthUser(_user, response.data['data']['token'], true);
         result['success'] = true;
+        print('sucsess');
       } else {
-        if (response.data['errors'] != null) {
-          result['error'] = response.data['errors'];
-        } else {
-          result['error'] = response.data['data']['error'];
-        }
+        result['error'] = response.data['message'];
+        print('failed');
       }
     } catch (error) {
+      print('catch');
       result['error'] = error;
     }
     _isLoading = false;
