@@ -204,9 +204,12 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
               );
             },
-            separatorBuilder: (context, index) => Divider(
-              height: 1,
-              color: Colors.white,
+            separatorBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(
+                height: 1,
+                color: Colors.white,
+              ),
             ),
             itemCount: resturantCategoriesModel
                 .catgeoriesList[i].catgeoryProducts.length,
