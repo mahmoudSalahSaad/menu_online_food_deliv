@@ -1,10 +1,13 @@
 class CartItemModel {
-  int id, quantity;
+  int id, quantity, weightId, firstAddId, secondAddId;
   double price, firstAddonPrice, secondAddonPrice;
   String name, description, weight, firstAddonName, secondAddonName, photoUrl;
 
   CartItemModel({
     this.id,
+    this.weightId,
+    this.firstAddId,
+    this.secondAddId,
     this.quantity,
     this.price,
     this.firstAddonPrice = 0.0,
@@ -20,6 +23,9 @@ class CartItemModel {
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
       id: json['id'],
+      weightId: json['weightId'],
+      firstAddId: json['firstAddId'],
+      secondAddId: json['secondAddId'],
       quantity: json['quantity'],
       price: json['price'],
       firstAddonPrice: json['firstAddonPrice'],
@@ -36,6 +42,9 @@ class CartItemModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['weightId'] = this.weightId;
+    data['firstAddId'] = this.firstAddId;
+    data['secondAddId'] = this.secondAddId;
     data['quantity'] = this.quantity;
     data['price'] = this.price;
     data['firstAddonPrice'] = this.firstAddonPrice;

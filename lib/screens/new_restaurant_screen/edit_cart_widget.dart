@@ -8,15 +8,18 @@ import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
-void addToCartBottomSheet(BuildContext context) {
+void editCartBottomSheet(
+    BuildContext context, CartItemModel itemToEdit, int itemIndex) {
   CartItemModel cartItem;
 
-  int quantity = 1;
-  double price = 0;
-  String weight = '';
-  String firstAddonName = '';
-  String secondAddonName = '';
-  int weightId = 0, firstAddId = 0, secondAddId = 0;
+  int quantity = itemToEdit.quantity;
+  double price = itemToEdit.price;
+  String weight = itemToEdit.weight;
+  String firstAddonName = itemToEdit.firstAddonName;
+  String secondAddonName = itemToEdit.secondAddonName;
+  int weightId = itemToEdit.weightId,
+      firstAddId = itemToEdit.firstAddId,
+      secondAddId = itemToEdit.secondAddId;
   //selections
   List<bool> isSelectedWeight = List.generate(2, (_) => false);
   List<Sizes> buttonsListWeight = [];
@@ -61,9 +64,23 @@ void addToCartBottomSheet(BuildContext context) {
                   ? restaurantItemsProvider
                       .resturantProductModel.secondAdditionsData
                   : [];
-              //force selected weight
-              if (buttonsListWeight.isNotEmpty && price == 0) {
-                isSelectedWeight[0] = true;
+              //mark selected weight
+
+              if (buttonsListWeight.isNotEmpty) {
+                isSelectedWeight[buttonsListWeight
+                    .indexWhere((element) => element.id == weightId)] = true;
+              }
+              //mark selected firstAdd
+
+              if (buttonsListFirstAddon.isNotEmpty) {
+                isSelectedFirstAddon[buttonsListFirstAddon
+                    .indexWhere((element) => element.id == firstAddId)] = true;
+              }
+              //mark selected secondAdd
+
+              if (buttonsListSeccondAddon.isNotEmpty) {
+                isSelectedSecondAddon[buttonsListSeccondAddon
+                    .indexWhere((element) => element.id == secondAddId)] = true;
               }
               //cart model
               cartItem = CartItemModel(
@@ -513,10 +530,7 @@ void addToCartBottomSheet(BuildContext context) {
                               onPressed: () {
                                 Provider.of<CartProvider>(context,
                                         listen: false)
-                                    .addItemToCart(
-                                        cartItem,
-                                        restaurantItemsProvider
-                                            .resturantCategoriesModel.restId);
+                                    .editCartItem(cartItem, itemIndex);
                                 Get.back();
                               },
                               color: kAppBarColor,
@@ -524,7 +538,7 @@ void addToCartBottomSheet(BuildContext context) {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                'اضف الى السلة',
+                                'تعديل السلة',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),

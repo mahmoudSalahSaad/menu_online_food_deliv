@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
+import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/edit_cart_widget.dart';
 import 'package:menu_egypt/screens/placement_order_screen/placement_order.dart';
 import 'package:menu_egypt/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
@@ -155,7 +157,21 @@ class _BodyState extends State<Body> {
                                                           child:
                                                               GestureDetector(
                                                             //edit cart item
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              Provider.of<ResturantItemsProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .getResturantProduct(cart
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .id);
+                                                              editCartBottomSheet(
+                                                                  context,
+                                                                  cart.cartItems[
+                                                                      index],
+                                                                  index);
+                                                            },
                                                             child: Icon(
                                                               Icons.edit,
                                                               color: Colors.red,
@@ -190,10 +206,8 @@ class _BodyState extends State<Body> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .removeItemFromCart(cart
-                                                                      .cartItems[
-                                                                          index]
-                                                                      .id);
+                                                                  .removeItemFromCart(
+                                                                      index);
                                                             },
                                                             child: Icon(
                                                               Icons.delete,

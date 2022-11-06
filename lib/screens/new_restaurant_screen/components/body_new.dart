@@ -188,13 +188,31 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                     Expanded(
                       child: IconButton(
                         onPressed: () {
-                          Provider.of<ResturantItemsProvider>(context,
-                                  listen: false)
-                              .getResturantProduct(resturantCategoriesModel
-                                  .catgeoriesList[i]
-                                  .catgeoryProducts[index]
-                                  .id);
-                          addToCartBottomSheet(context);
+                          print(resturantCategoriesModel.restId);
+                          print(
+                              Provider.of<CartProvider>(context, listen: false)
+                                  .cart
+                                  .resturantId);
+                          if (resturantCategoriesModel.restId ==
+                                  Provider.of<CartProvider>(context,
+                                          listen: false)
+                                      .cart
+                                      .resturantId ||
+                              Provider.of<CartProvider>(context, listen: false)
+                                      .cart
+                                      .resturantId ==
+                                  0) {
+                            Provider.of<ResturantItemsProvider>(context,
+                                    listen: false)
+                                .getResturantProduct(resturantCategoriesModel
+                                    .catgeoriesList[i]
+                                    .catgeoryProducts[index]
+                                    .id);
+                            addToCartBottomSheet(context);
+                          } else {
+                            dialog(
+                                'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                          }
                         },
                         icon: Icon(Icons.add_circle_outline),
                         color: Colors.red,
