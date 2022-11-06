@@ -30,6 +30,7 @@ class CartProvider extends ChangeNotifier {
     if (json.isNotEmpty) {
       Map<String, dynamic> map = jsonDecode(json);
       _cart = CartModel.fromJson(map);
+      _cart.deliveryPrice = 10.0;
       _cart.subTotalPrice = calculateCartSubtotal();
       _cart.totalPrice = calculateCartTotal();
     } else {
@@ -120,4 +121,6 @@ class CartProvider extends ChangeNotifier {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove('cart');
   }
+
+  checkOut() async {}
 }

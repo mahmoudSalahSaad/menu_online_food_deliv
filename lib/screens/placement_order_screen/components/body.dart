@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
+import 'package:provider/provider.dart';
 
 enum PaymentMethode { cash, visa }
 
@@ -22,6 +24,8 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<CartProvider>(context, listen: false).cart;
+
     return SafeArea(
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -274,96 +278,57 @@ class _BodyState extends State<Body> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text('تفاصيل الطلب'),
-                            ListTile(
-                              title: Text(
-                                " x1 ريزو باربيكو" + " 1 ك",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            //cart items
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  title: Text(
+                                    'x' +
+                                        cart.cartItems[index].quantity
+                                            .toString() +
+                                        ' ' +
+                                        cart.cartItems[index].name +
+                                        ' ' +
+                                        cart.cartItems[index].weight,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    cart.cartItems[index].firstAddonName +
+                                        ' - ' +
+                                        cart.cartItems[index].secondAddonName,
+                                    style: TextStyle(color: Colors.grey[300]),
+                                  ),
+                                  trailing: SizedBox(
+                                    width: 110,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            cart.cartItems[index].price
+                                                    .toString() +
+                                                ' جم',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) => Divider(
+                                height: 1,
+                                color: Colors.white,
                               ),
-                              subtitle: Text(
-                                "إضافة 1 + إضافة 2",
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              trailing: Text(
-                                '50.0 جم',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2.0,
-                              width: double.infinity,
-                              color: Colors.grey,
-                            ),
-                            ListTile(
-                              title: Text(
-                                " x1 ريزو باربيكو" + " 1 ك",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "إضافة 1 + إضافة 2",
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              trailing: Text(
-                                '50.0 جم',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2.0,
-                              width: double.infinity,
-                              color: Colors.grey,
-                            ),
-                            ListTile(
-                              title: Text(
-                                " x1 ريزو باربيكو" + " 1 ك",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "إضافة 1 + إضافة 2",
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              trailing: Text(
-                                '50.0 جم',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2.0,
-                              width: double.infinity,
-                              color: Colors.grey,
-                            ),
-                            ListTile(
-                              title: Text(
-                                " x1 ريزو باربيكو" + " 1 ك",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                "إضافة 1 + إضافة 2",
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              trailing: Text(
-                                '50.0 جم',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              itemCount: cart.cartItems.length,
                             ),
                           ],
                         ),
@@ -393,7 +358,7 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  //prices
+                  //payment info
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
@@ -416,7 +381,7 @@ class _BodyState extends State<Body> {
                                   'مجموع الطلب',
                                 ),
                                 Text(
-                                  '200.0 جم',
+                                  cart.subTotalPrice.toString() + ' جم',
                                 ),
                               ],
                             ),
@@ -428,7 +393,7 @@ class _BodyState extends State<Body> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 Text(
-                                  '20.0 جم',
+                                  cart.deliveryPrice.toString() + ' جم',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ],
@@ -441,7 +406,7 @@ class _BodyState extends State<Body> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '220.0 جم',
+                                  cart.totalPrice.toString() + ' جم',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -455,7 +420,7 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          //button
+          //checkout button
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: MaterialButton(
@@ -470,17 +435,17 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    '220 جم',
+                    cart.totalPrice.toString() + ' جم',
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    'اطلب الان',
+                    'تأكيد الطلب',
                     style: TextStyle(color: Colors.white),
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.black12,
                     child: Text(
-                      '2',
+                      cart.cartItems.length.toString(),
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
