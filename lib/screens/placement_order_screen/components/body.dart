@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
@@ -8,8 +9,6 @@ import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 enum PaymentMethode { cash, visa }
-
-enum Address { address1, address2, address3 }
 
 class Body extends StatefulWidget {
   const Body({Key key}) : super(key: key);
@@ -20,12 +19,12 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   PaymentMethode _methode = PaymentMethode.cash;
-  Address _address = Address.address1;
-
+  int addressId;
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: false).cart;
-
+    final addresses =
+        Provider.of<AddressProvider>(context, listen: false).addresses;
     return SafeArea(
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -102,64 +101,74 @@ class _BodyState extends State<Body> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               children: [
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder: (context, index) {
-                                    return RadioListTile(
-                                      title: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                child: Row(
+                                addresses.isNotEmpty
+                                    ? ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, index) {
+                                          return RadioListTile(
+                                            title: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            FontAwesomeIcons
+                                                                .house,
+                                                            size: 10.0,
+                                                          ),
+                                                          SizedBox(width: 5.0),
+                                                          Text(addresses[index]
+                                                                  .cityName +
+                                                              ',' +
+                                                              addresses[index]
+                                                                  .regionName)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
                                                   children: [
                                                     Icon(
-                                                      FontAwesomeIcons.house,
+                                                      FontAwesomeIcons
+                                                          .locationPin,
                                                       size: 10.0,
                                                     ),
                                                     SizedBox(width: 5.0),
-                                                    Text('القاهرة , المعادى')
+                                                    Text(
+                                                        'شارع ${addresses[index].street} عمارة رقم ${addresses[index].building} شقة رقم ${addresses[index].apartment}'),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.locationPin,
-                                                size: 10.0,
-                                              ),
-                                              SizedBox(width: 5.0),
-                                              Text(
-                                                  'شارع 9 المعادى عمارة رقم 12 ')
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      groupValue: _address,
-                                      value: null,
-                                      activeColor: Colors.red,
-                                      onChanged: (Address value) {
-                                        setState(() {
-                                          _address = value;
-                                        });
-                                      },
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return Container(
-                                      height: 2.0,
-                                      width: double.infinity,
-                                      color: Colors.grey,
-                                    );
-                                  },
-                                  itemCount: 1,
-                                ),
+                                              ],
+                                            ),
+                                            groupValue: addressId,
+                                            value: addresses[index].id,
+                                            activeColor: Colors.red,
+                                            onChanged: (index) {
+                                              setState(() {
+                                                addressId = index;
+                                              });
+                                              print(addressId);
+                                            },
+                                          );
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return Container(
+                                            height: 2.0,
+                                            width: double.infinity,
+                                            color: Colors.grey,
+                                          );
+                                        },
+                                        itemCount: addresses.length,
+                                      )
+                                    : Text('لا يوجد لديك عناوين'),
                               ],
                             ),
                             MaterialButton(

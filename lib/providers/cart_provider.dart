@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_egypt/models/cart.dart';
 import 'package:menu_egypt/models/cart_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:menu_egypt/services/http_service_impl.dart';
 
 class CartProvider extends ChangeNotifier {
   bool _isLoading = false;
   CartModel _cart;
+  final HttpServiceImpl httpService = HttpServiceImpl();
 
   CartProvider() {
     initCart();
@@ -122,5 +125,39 @@ class CartProvider extends ChangeNotifier {
     preferences.remove('cart');
   }
 
-  checkOut() async {}
+  //work here...
+  checkOut() async {
+    Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+      'orderSerialNumber': null
+    };
+    _isLoading = true;
+    notifyListeners();
+    String url = '/add-new-address';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response =
+          await httpService.postRequest(url, _cart.toJson(), token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        result['orderSerialNumber'] = response.data['message'];
+        print('Success');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
 }
