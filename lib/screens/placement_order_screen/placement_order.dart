@@ -17,17 +17,20 @@ class PlacementOrder extends StatefulWidget {
 
 class _PlacementOrderState extends State<PlacementOrder> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
-    final addressProvider =
-        Provider.of<AddressProvider>(context, listen: false);
+    Provider.of<AddressProvider>(context, listen: true);
+
     return Container(
       decoration: BoxDecoration(gradient: kBackgroundColor),
       child: BaseConnectivity(
         child: Scaffold(
-          body: cartProvider.isLoading || addressProvider.isLoading
-              ? LoadingCircle()
-              : Body(),
+          body: cartProvider.isLoading ? LoadingCircle() : Body(),
           bottomNavigationBar: BottomNavBarWidgetNew(index: 2),
         ),
       ),

@@ -126,7 +126,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   //work here...
-  checkOut() async {
+  checkOut(int addressId) async {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
@@ -134,19 +134,81 @@ class CartProvider extends ChangeNotifier {
     };
     _isLoading = true;
     notifyListeners();
-    String url = '/add-new-address';
+    String url = '/checkout';
     httpService.init();
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       String token = preferences.getString('apiToken');
       print(token);
+      print(_cart.resturantId);
+
+      List<Map<String, dynamic>> cartItemsList = [];
+      for (CartItemModel item in _cart.cartItems) {
+        if (item.weightId != 0 &&
+            item.firstAddId != 0 &&
+            item.secondAddId != 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "size_id": item.weightId,
+            "addition1_id": item.firstAddId,
+            "addition2_id": item.secondAddId,
+            "quantity": item.quantity
+          });
+        } else if (item.weightId == 0 &&
+            item.firstAddId == 0 &&
+            item.secondAddId == 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "quantity": item.quantity
+          });
+        } else if (item.weightId == 0 &&
+            item.firstAddId != 0 &&
+            item.secondAddId != 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "addition1_id": item.firstAddId,
+            "addition2_id": item.secondAddId,
+            "quantity": item.quantity
+          });
+        } else if (item.weightId != 0 &&
+            item.firstAddId == 0 &&
+            item.secondAddId != 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "size_id": item.weightId,
+            "addition2_id": item.secondAddId,
+            "quantity": item.quantity
+          });
+        } else if (item.weightId != 0 &&
+            item.firstAddId != 0 &&
+            item.secondAddId == 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "size_id": item.weightId,
+            "addition1_id": item.firstAddId,
+            "quantity": item.quantity
+          });
+        }
+      }
+      Map<String, dynamic> cartMap = {
+        'rest_id': _cart.resturantId,
+        'payment_type': 1,
+        'address_id': addressId,
+        'cart': cartItemsList,
+      };
       Response response =
-          await httpService.postRequest(url, _cart.toJson(), token ?? '');
+          await httpService.postRequest(url, cartMap, token ?? '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
-        result['orderSerialNumber'] = response.data['message'];
+        result['orderSerialNumber'] = response.data['serial_number'];
         print('Success');
+        result['error'] = response.data['message'];
         result['success'] = true;
       } else {
         print('Failed');

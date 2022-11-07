@@ -6,8 +6,6 @@ import 'package:menu_egypt/utilities/constants.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
-import '../../new_restaurant_screen/new_restaurant_screen.dart';
-
 class SearchWidgetBar extends StatelessWidget {
   const SearchWidgetBar({Key key, @required this.restaurantProvider})
       : super(key: key);

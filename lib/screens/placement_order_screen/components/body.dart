@@ -19,7 +19,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   PaymentMethode _methode = PaymentMethode.cash;
-  int addressId;
+  int addressId = 0;
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: false).cart;
@@ -435,7 +435,26 @@ class _BodyState extends State<Body> {
             child: MaterialButton(
               height: 50.0,
               minWidth: MediaQuery.of(context).size.width,
-              onPressed: () {},
+              onPressed: () async {
+                if (addressId == 0) {
+                  dialog('برجاء اختيار عنوان التوصيل');
+                } else {
+                  final result =
+                      await Provider.of<CartProvider>(context, listen: false)
+                          .checkOut(addressId);
+                  if (result['success']) {
+                    dialog(result['error']);
+                    print(result['orderSerialNumber']);
+                    /*
+                    await Provider.of<OrderProvider>(context, listen: false)
+                        .getOrderDetails(result['orderSerialNumber']);
+                    Get.toNamed(OrderDetails.routeName);
+                    */
+                  } else {
+                    dialog(result['error']);
+                  }
+                }
+              },
               color: kAppBarColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
