@@ -1,11 +1,16 @@
 class ResturantCategoriesModel {
   int restId;
+  int deliveryFee;
+  int deliveryTime;
   List<CatgeoriesList> catgeoriesList;
 
-  ResturantCategoriesModel({this.restId, this.catgeoriesList});
+  ResturantCategoriesModel(
+      {this.restId, this.deliveryFee, this.deliveryTime, this.catgeoriesList});
 
   ResturantCategoriesModel.fromJson(Map<String, dynamic> json) {
     restId = json['rest_id'];
+    deliveryFee = json['delivery_fee'];
+    deliveryTime = json['delivery_time'];
     if (json['catgeories_list'] != null) {
       catgeoriesList = [];
       json['catgeories_list'].forEach((v) {

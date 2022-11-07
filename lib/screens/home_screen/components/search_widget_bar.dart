@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
-import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +36,9 @@ class SearchWidgetBar extends StatelessWidget {
       height: 36.0,
       child: TypeAheadField(
         suggestionsBoxController: SuggestionsBoxController(),
-        hideOnLoading: true,
-        hideOnEmpty: true,
-        hideSuggestionsOnKeyboardHide: true,
+        hideOnLoading: false,
+        hideOnEmpty: false,
+        hideSuggestionsOnKeyboardHide: false,
         keepSuggestionsOnSuggestionSelected: false,
         textFieldConfiguration: TextFieldConfiguration(
           autofocus: false,
@@ -70,8 +70,9 @@ class SearchWidgetBar extends StatelessWidget {
           return getSuggestions(pattern);
         },
         itemBuilder: (context, suggestion) {
-          return ListTile(
-            title: Text(suggestion),
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(suggestion),
           );
         },
         onSuggestionSelected: (suggestion) async {
@@ -86,10 +87,12 @@ class SearchWidgetBar extends StatelessWidget {
           // } else {
           //   Get.toNamed(RestaurantScreen.routeName + '/$index/0/0');
           // }
-
+          print(suggestion +
+              ' ' +
+              restaurantProvider.restaurants[index].id.toString());
           Provider.of<RestaurantsProvider>(context, listen: false)
               .fetchRestaurant(restaurantProvider.restaurants[index].id);
-          Get.toNamed(ResturantScreenNew.routeName);
+          Get.toNamed(NewRestaurantScreen.routeName);
         },
       ),
     );

@@ -516,7 +516,13 @@ void addToCartBottomSheet(BuildContext context) {
                                     .addItemToCart(
                                         cartItem,
                                         restaurantItemsProvider
-                                            .resturantCategoriesModel.restId);
+                                            .resturantCategoriesModel.restId,
+                                        restaurantItemsProvider
+                                            .resturantCategoriesModel
+                                            .deliveryFee,
+                                        restaurantItemsProvider
+                                            .resturantCategoriesModel
+                                            .deliveryTime);
                                 Get.back();
                               },
                               color: kAppBarColor,

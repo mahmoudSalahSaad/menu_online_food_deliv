@@ -444,8 +444,9 @@ class _BodyState extends State<Body> {
                           .checkOut(addressId);
                   if (result['success']) {
                     dialog(result['error']);
-                    print(result['orderSerialNumber']);
                     /*
+                    await Provider.of<CartProvider>(context, listen: false)
+                        .clearCart();
                     await Provider.of<OrderProvider>(context, listen: false)
                         .getOrderDetails(result['orderSerialNumber']);
                     Get.toNamed(OrderDetails.routeName);

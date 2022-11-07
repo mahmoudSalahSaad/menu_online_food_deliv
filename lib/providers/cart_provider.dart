@@ -29,11 +29,12 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final json = preferences.getString('cart') ?? '';
-    print(json);
+    print('json::: ' + json);
     if (json.isNotEmpty) {
       Map<String, dynamic> map = jsonDecode(json);
       _cart = CartModel.fromJson(map);
-      _cart.deliveryPrice = 10.0;
+      _cart.resturantId = map['resturantId'];
+      _cart.deliveryPrice = map['deliveryPrice'];
       _cart.subTotalPrice = calculateCartSubtotal();
       _cart.totalPrice = calculateCartTotal();
     } else {
@@ -63,7 +64,8 @@ class CartProvider extends ChangeNotifier {
     return total;
   }
 
-  addItemToCart(CartItemModel cartItem, int resturantId) async {
+  addItemToCart(CartItemModel cartItem, int resturantId, int deliveryPrice,
+      int deliveryTime) async {
     bool theSameItemExistsInCart = false;
     //if the same item is found in cart .. update it's quantity
     for (CartItemModel item in _cart.cartItems) {
@@ -81,7 +83,7 @@ class CartProvider extends ChangeNotifier {
       _cart.cartItems.add(cartItem);
     }
     _cart.resturantId = resturantId;
-    _cart.deliveryPrice = 10.0;
+    _cart.deliveryPrice = deliveryPrice.toDouble();
     _cart.subTotalPrice = calculateCartSubtotal();
     _cart.totalPrice = calculateCartTotal();
     await updateCartToSharedPref();
@@ -125,7 +127,6 @@ class CartProvider extends ChangeNotifier {
     preferences.remove('cart');
   }
 
-  //work here...
   checkOut(int addressId) async {
     Map<String, dynamic> result = {
       'success': false,
