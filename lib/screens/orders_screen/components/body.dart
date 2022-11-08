@@ -25,111 +25,144 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: orders.isEmpty
-          ? Center(child: Text('لا يوجد لديك طلبات '))
-          : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: getProportionateScreenHeight(2),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: AppBarWidget(title: 'طلباتى'),
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          await Provider.of<OrderProvider>(context,
-                                  listen: false)
-                              .getOrderDetails(orders[index].serialNumber);
-                          Get.toNamed(OrderDetails.routeName);
-                        },
-                        child: ListTile(
-                          leading: Container(
-                            height: 50,
-                            width: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage('https://menuegypt.com/' +
-                                    orders[index].restLogo),
-                              ),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Provider.of<OrderProvider>(context, listen: false).getOrders();
+      },
+      child: SafeArea(
+        child: FutureProvider<Map<String, dynamic>>(
+          initialData: null,
+          create: (_) =>
+              Provider.of<OrderProvider>(context, listen: true).getOrders(),
+          child: Consumer<Map<String, dynamic>>(
+            builder: (_, value, __) {
+              if (value != null) {
+                return orders.isNotEmpty
+                    ? SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: getProportionateScreenHeight(2),
                             ),
-                          ),
-                          title: Text(
-                            orders[index].restName,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: AppBarWidget(title: 'طلباتى'),
                             ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${orders[index].countItems} منتج - ${orders[index].orderStatus} ",
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              Text(
-                                orders[index].operationDate,
-                                style: TextStyle(color: Colors.grey[300]),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MaterialButton(
-                                    onPressed: () async {
-                                      await Provider.of<OrderProvider>(context,
-                                              listen: false)
-                                          .getOrderDetails(
-                                              orders[index].serialNumber);
-                                      Get.toNamed(OrderDetails.routeName);
-                                    },
-                                    color: kAppBarColor,
-                                    shape: RoundedRectangleBorder(
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    await Provider.of<OrderProvider>(context,
+                                            listen: false)
+                                        .getOrderDetails(
+                                            orders[index].serialNumber);
+                                    Get.toNamed(OrderDetails.routeName);
+                                  },
+                                  child: ListTile(
+                                    leading: Container(
+                                      height: 50,
+                                      width: 50,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Text('تفاصيل الطلب'),
+                                            BorderRadius.circular(5.0),
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(
+                                              'https://menuegypt.com/' +
+                                                  orders[index].restLogo),
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      orders[index].restName,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${orders[index].countItems} منتج - ${orders[index].orderStatus} ",
+                                          style: TextStyle(
+                                              color: Colors.grey[300]),
+                                        ),
+                                        Text(
+                                          orders[index].operationDate,
+                                          style: TextStyle(
+                                              color: Colors.grey[300]),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            MaterialButton(
+                                              onPressed: () async {
+                                                await Provider.of<
+                                                            OrderProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .getOrderDetails(
+                                                        orders[index]
+                                                            .serialNumber);
+                                                Get.toNamed(
+                                                    OrderDetails.routeName);
+                                              },
+                                              color: kAppBarColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              child: Text('تفاصيل الطلب'),
+                                            ),
+                                            MaterialButton(
+                                              onPressed: () {},
+                                              color: kAppBarColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                              child: Text('اعادة الطلب'),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Text(
+                                      '${orders[index].total} جم',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                  MaterialButton(
-                                    onPressed: () {},
-                                    color: kAppBarColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Text('اعادة الطلب'),
-                                  ),
-                                ],
+                                );
+                              },
+                              separatorBuilder: (context, index) => Divider(
+                                height: 1,
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
-                          trailing: Text(
-                            '${orders[index].total} جم',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                              itemCount: orders.length,
+                            )
+                          ],
                         ),
+                      )
+                    : Center(
+                        child: Center(child: Text('لا يوجد لديك طلبات')),
                       );
-                    },
-                    separatorBuilder: (context, index) => Divider(
-                      height: 1,
-                      color: Colors.white,
-                    ),
-                    itemCount: orders.length,
-                  )
-                ],
-              ),
-            ),
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 }

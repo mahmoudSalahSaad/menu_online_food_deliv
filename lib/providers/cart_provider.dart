@@ -35,16 +35,21 @@ class CartProvider extends ChangeNotifier {
       _cart = CartModel.fromJson(map);
       _cart.resturantId = map['resturantId'];
       _cart.deliveryPrice = map['deliveryPrice'];
+      _cart.deliveryTime = map['deliveryTime'];
+      _cart.resturantName = map['resturantName'];
+      _cart.resturantLogo = map['resturantLogo'];
       _cart.subTotalPrice = calculateCartSubtotal();
       _cart.totalPrice = calculateCartTotal();
     } else {
       _cart = CartModel(
-        cartItems: [],
-        resturantId: 0,
-        deliveryPrice: 0.0,
-        subTotalPrice: 0.0,
-        totalPrice: 0.0,
-      );
+          cartItems: [],
+          resturantId: 0,
+          deliveryTime: 0,
+          deliveryPrice: 0.0,
+          subTotalPrice: 0.0,
+          totalPrice: 0.0,
+          resturantName: '',
+          resturantLogo: '');
     }
     _isLoading = false;
     notifyListeners();
@@ -65,7 +70,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   addItemToCart(CartItemModel cartItem, int resturantId, int deliveryPrice,
-      int deliveryTime) async {
+      int deliveryTime, String resturantName, String resturantLogo) async {
     bool theSameItemExistsInCart = false;
     //if the same item is found in cart .. update it's quantity
     for (CartItemModel item in _cart.cartItems) {
@@ -83,7 +88,10 @@ class CartProvider extends ChangeNotifier {
       _cart.cartItems.add(cartItem);
     }
     _cart.resturantId = resturantId;
+    _cart.deliveryTime = deliveryTime;
     _cart.deliveryPrice = deliveryPrice.toDouble();
+    _cart.resturantName = resturantName;
+    _cart.resturantLogo = resturantLogo;
     _cart.subTotalPrice = calculateCartSubtotal();
     _cart.totalPrice = calculateCartTotal();
     await updateCartToSharedPref();
@@ -100,6 +108,7 @@ class CartProvider extends ChangeNotifier {
 
   clearCart() async {
     _cart.cartItems.clear();
+    _cart.deliveryTime = 0;
     _cart.deliveryPrice = 0.0;
     _cart.subTotalPrice = 0.0;
     _cart.totalPrice = 0.0;
@@ -211,6 +220,7 @@ class CartProvider extends ChangeNotifier {
         print('Success');
         result['error'] = response.data['message'];
         result['success'] = true;
+        clearCart();
       } else {
         print('Failed');
         result['error'] = response.data['message'];

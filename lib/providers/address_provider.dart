@@ -85,6 +85,8 @@ class AddressProvider extends ChangeNotifier {
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
         result['success'] = true;
+        _addresses.clear();
+        getAddresses();
       } else {
         print('Failed');
         result['error'] = response.data['message'];
@@ -145,7 +147,6 @@ class AddressProvider extends ChangeNotifier {
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
         result['success'] = true;
-        //_addresses.add(addressModel);
         _addresses.clear();
         getAddresses();
       } else {

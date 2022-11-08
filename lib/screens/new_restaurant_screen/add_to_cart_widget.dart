@@ -8,7 +8,8 @@ import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
-void addToCartBottomSheet(BuildContext context) {
+void addToCartBottomSheet(
+    BuildContext context, String resturantName, String resturantLogo) {
   CartItemModel cartItem;
 
   int quantity = 1;
@@ -522,7 +523,9 @@ void addToCartBottomSheet(BuildContext context) {
                                             .deliveryFee,
                                         restaurantItemsProvider
                                             .resturantCategoriesModel
-                                            .deliveryTime);
+                                            .deliveryTime,
+                                        resturantName,
+                                        resturantLogo);
                                 Get.back();
                               },
                               color: kAppBarColor,

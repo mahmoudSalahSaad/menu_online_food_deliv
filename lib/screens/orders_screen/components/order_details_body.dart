@@ -40,6 +40,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
       },
       child: SafeArea(
         child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: orderDetailsModel.itemDetails.isNotEmpty
               ? Column(
                   children: [

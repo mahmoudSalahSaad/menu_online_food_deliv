@@ -208,7 +208,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                                     .catgeoriesList[i]
                                     .catgeoryProducts[index]
                                     .id);
-                            addToCartBottomSheet(context);
+                            addToCartBottomSheet(context, restaurant.nameAr,
+                                restaurant.logoSmall);
                           } else {
                             dialog(
                                 'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');

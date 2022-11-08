@@ -121,7 +121,7 @@ class _BodyState extends State<Body> {
                                           ),
                                           SizedBox(width: 5.0),
                                           Text(
-                                              'شارع ${addresses[index].street} عمارة رقم ${addresses[index].building} شقة رقم ${addresses[index].apartment}')
+                                              'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}')
                                         ],
                                       ),
                                     ],

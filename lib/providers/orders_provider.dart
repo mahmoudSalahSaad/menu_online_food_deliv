@@ -11,10 +11,6 @@ class OrderProvider extends ChangeNotifier {
   bool _isLoading = false;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
-  OrderProvider() {
-    getOrders();
-  }
-
   bool get isLoading {
     return _isLoading;
   }
@@ -26,7 +22,7 @@ class OrderProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getOrders() async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    notifyListeners();
+    _orders.clear();
     String url = '/orders';
     httpService.init();
     try {
