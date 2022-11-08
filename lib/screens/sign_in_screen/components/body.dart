@@ -35,9 +35,9 @@ class _BodyState extends State<Body> {
       _formKey.currentState.save();
       var result = await Provider.of<UserProvider>(context, listen: false)
           .signIn(_formData);
-      if (result['success']) {
+      if (result['success'] && result['verified'] == 1) {
         Get.offAllNamed(HomeScreen.routeName);
-      } else if (result['error'].toString().contains('رمز')) {
+      } else if (result['verified'] == 0) {
         Get.offAllNamed(OtpScreen.routeName);
       } else {
         dialog(result['error'].toString());

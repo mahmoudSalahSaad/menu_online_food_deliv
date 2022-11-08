@@ -165,7 +165,11 @@ class UserProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> signIn(formData) async {
     _emailExist = '';
-    Map<String, dynamic> result = {'success': false, 'error': null};
+    Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+      'verified': 0
+    };
     final Map<String, dynamic> userData = {
       'password': formData['password'],
       'email': formData['email'],
@@ -177,7 +181,9 @@ class UserProvider extends ChangeNotifier {
     try {
       Response response = await httpService.postRequest(url, userData, '');
       print(response.data);
-      if (response.statusCode == 200 && response.data['status'] == true) {
+      if (response.statusCode == 200 &&
+          response.data['status'] == true &&
+          response.data['user']['verified'] != 0) {
         var parsedUser = response.data['user'];
         var parsedFavorites = parsedUser['favorites'] as List;
         UserModel user = UserModel(
@@ -202,10 +208,12 @@ class UserProvider extends ChangeNotifier {
         _user = user;
         storeAuthUser(_user, response.data['user']['api_token'], true);
         result['success'] = true;
+        result['verified'] = 1;
+
         print('Login Success');
       } else {
         result['error'] = response.data['message'];
-        if (result['error'].toString().contains('رمز')) {
+        if (response.data['user']['verified'] == 0) {
           var parsedUser = response.data['user'];
           var parsedFavorites = parsedUser['favorites'] as List;
           UserModel user = UserModel(
