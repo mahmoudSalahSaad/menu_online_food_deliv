@@ -144,7 +144,7 @@ class UserProvider extends ChangeNotifier {
           phoneNumber: parsedUser['phone_number'],
           //avatarUrl: '',
           //authType: 'email',
-          //favorites: [],
+          favorites: [],
           apiToken: token,
           birthDate: parsedUser['birth_date'],
           gender: parsedUser['gender'],
@@ -179,7 +179,7 @@ class UserProvider extends ChangeNotifier {
       print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
-        //var parsedFavorites = response.data['favorites'] as List;
+        var parsedFavorites = parsedUser['favorites'] as List;
         UserModel user = UserModel(
           id: parsedUser['id'],
           regionId: parsedUser['region_id'],
@@ -189,16 +189,16 @@ class UserProvider extends ChangeNotifier {
           phoneNumber: parsedUser['phone_number'],
           //avatarUrl: '',
           //authType: 'email',
-          //favorites: [],
+          favorites: [],
           apiToken: parsedUser['api_token'],
           birthDate: parsedUser['birth_date'],
           gender: parsedUser['gender'],
         );
-        /*
+
         parsedFavorites.forEach((fav) {
           user.favorites.add(fav['restaurant_id']);
         });
-        */
+
         _user = user;
         storeAuthUser(_user, response.data['user']['api_token'], true);
         result['success'] = true;
@@ -207,7 +207,7 @@ class UserProvider extends ChangeNotifier {
         result['error'] = response.data['message'];
         if (result['error'].toString().contains('رمز')) {
           var parsedUser = response.data['user'];
-          //var parsedFavorites = response.data['favorites'] as List;
+          var parsedFavorites = parsedUser['favorites'] as List;
           UserModel user = UserModel(
             id: parsedUser['id'],
             regionId: parsedUser['region_id'],
@@ -217,16 +217,16 @@ class UserProvider extends ChangeNotifier {
             phoneNumber: parsedUser['phone_number'],
             //avatarUrl: '',
             //authType: 'email',
-            //favorites: [],
+            favorites: [],
             apiToken: parsedUser['api_token'],
             birthDate: parsedUser['birth_date'],
             gender: parsedUser['gender'],
           );
-          /*
-        parsedFavorites.forEach((fav) {
-          user.favorites.add(fav['restaurant_id']);
-        });
-        */
+
+          parsedFavorites.forEach((fav) {
+            user.favorites.add(fav['restaurant_id']);
+          });
+
           _user = user;
           storeAuthUser(_user, response.data['user']['api_token'], false);
         }
@@ -445,7 +445,7 @@ class UserProvider extends ChangeNotifier {
       Response response = await httpService.postRequest(url, userData, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         var parsedUser = response.data['data']['user'];
-        var parsedFavorites = response.data['data']['favorites'] as List;
+        var parsedFavorites = parsedUser['favorites'] as List;
         UserModel userData = UserModel(
             id: parsedUser['id'],
             cityId: parsedUser['city_id'],
@@ -620,7 +620,7 @@ class UserProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['data']['user'];
-        //var parsedFavorites = response.data['favorites'] as List;
+        var parsedFavorites = parsedUser['favorites'] as List;
         UserModel user = UserModel(
           id: parsedUser['id'],
           regionId: parsedUser['region_id'],
@@ -630,15 +630,15 @@ class UserProvider extends ChangeNotifier {
           phoneNumber: parsedUser['phone_number'],
           //avatarUrl: '',
           //authType: 'email',
-          //favorites: [],
+          favorites: [],
           birthDate: parsedUser['birth_date'],
           gender: parsedUser['gender'],
         );
-        /*
+
         parsedFavorites.forEach((fav) {
           user.favorites.add(fav['restaurant_id']);
         });
-        */
+
         _user = user;
         storeAuthUser(_user, response.data['data']['token'], true);
         result['success'] = true;

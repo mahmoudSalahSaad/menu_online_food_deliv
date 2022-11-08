@@ -43,7 +43,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
       });
     });
     restaurant = restaurantProvider.restaurant;
-    /*
+
     if (Provider.of<UserProvider>(context, listen: false).user != null) {
       if (Provider.of<UserProvider>(context, listen: false)
           .user
@@ -52,7 +52,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         isFav = true;
       }
     }
-    */
+
     if (restaurant.images.length >= 1) {
       images = restaurant.images;
     }
