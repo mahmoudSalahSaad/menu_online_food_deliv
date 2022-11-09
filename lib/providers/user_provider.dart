@@ -609,7 +609,7 @@ class UserProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['data']['user'];
-        var parsedFavorites = parsedUser['favorites'] as List;
+        var parsedFavorites = response.data['data']['favorites'] as List;
         UserModel user = UserModel(
           id: parsedUser['id'],
           regionId: parsedUser['region_id'],
@@ -638,7 +638,7 @@ class UserProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('catch');
-      result['error'] = error;
+      throw result['error'] = error;
     }
     _isLoading = false;
     notifyListeners();

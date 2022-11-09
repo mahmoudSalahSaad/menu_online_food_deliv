@@ -66,17 +66,17 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                             currentStep: currentStep,
                             steps: [
                               Step(
-                                title: Text('جار المراجعة'),
+                                title: Text('جار التحضير'),
                                 content: Container(),
                                 isActive: currentStep == 0,
                               ),
                               Step(
-                                title: Text('جار التحضير'),
+                                title: Text('جار التوصيل'),
                                 content: Container(),
                                 isActive: currentStep == 1,
                               ),
                               Step(
-                                title: Text('جار التوصيل'),
+                                title: Text('تم التوصيل'),
                                 content: Container(),
                                 isActive: currentStep == 2,
                               ),
