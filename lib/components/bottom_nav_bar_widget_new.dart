@@ -10,6 +10,7 @@ import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
 import 'package:menu_egypt/screens/profile_screen/profile_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/sign_in_screen/sign_in_screen.dart';
 
@@ -91,7 +92,8 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 label: "حسابى"),
           ],
           currentIndex: _index,
-          onTap: (index) {
+          onTap: (index) async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
             setState(() {
               _index = index;
               if (_index == 0) {
@@ -112,12 +114,18 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 if (user == null) {
                   Get.toNamed(SignInScreen.routeName);
                 } else {
+                  /*
                   var userFavorites =
                       Provider.of<UserProvider>(context, listen: false)
                           .user
                           .favorites;
+                  */
+                  List<String> savedFavsStrList =
+                      prefs.getStringList('favList');
+                  List<int> intFavList =
+                      savedFavsStrList.map((i) => int.parse(i)).toList();
                   Provider.of<RestaurantsProvider>(context, listen: false)
-                      .favoritesRestaurantsFilter(userFavorites);
+                      .favoritesRestaurantsFilter(intFavList);
                   Get.toNamed(FavoritesScreen.routeName);
                 }
               } else if ((_index == 4)) {

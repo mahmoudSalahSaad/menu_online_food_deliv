@@ -181,9 +181,7 @@ class UserProvider extends ChangeNotifier {
     try {
       Response response = await httpService.postRequest(url, userData, '');
       print(response.data);
-      if (response.statusCode == 200 &&
-          response.data['status'] == true &&
-          response.data['user']['verified'] != 0) {
+      if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
         var parsedFavorites = parsedUser['favorites'] as List;
         UserModel user = UserModel(
@@ -206,38 +204,21 @@ class UserProvider extends ChangeNotifier {
         });
 
         _user = user;
-        storeAuthUser(_user, response.data['user']['api_token'], true);
-        result['success'] = true;
-        result['verified'] = 1;
 
-        print('Login Success');
+        if (response.data['user']['verified'] == 1) {
+          storeAuthUser(_user, response.data['user']['api_token'], true);
+          result['success'] = true;
+          result['verified'] = 1;
+          print('Login Success & Verified');
+        } else {
+          storeAuthUser(_user, response.data['user']['api_token'], false);
+          result['success'] = false;
+          result['verified'] = 0;
+          print('Login Success & Unverified');
+        }
+        result['error'] = response.data['message'];
       } else {
         result['error'] = response.data['message'];
-        if (response.data['user']['verified'] == 0) {
-          var parsedUser = response.data['user'];
-          var parsedFavorites = parsedUser['favorites'] as List;
-          UserModel user = UserModel(
-            id: parsedUser['id'],
-            regionId: parsedUser['region_id'],
-            cityId: parsedUser['city_id'],
-            email: parsedUser['email'],
-            fullName: parsedUser['full_name'],
-            phoneNumber: parsedUser['phone_number'],
-            //avatarUrl: '',
-            //authType: 'email',
-            favorites: [],
-            apiToken: parsedUser['api_token'],
-            birthDate: parsedUser['birth_date'],
-            gender: parsedUser['gender'],
-          );
-
-          parsedFavorites.forEach((fav) {
-            user.favorites.add(fav['restaurant_id']);
-          });
-
-          _user = user;
-          storeAuthUser(_user, response.data['user']['api_token'], false);
-        }
         print('Login Failed');
       }
     } catch (error) {
@@ -667,11 +648,14 @@ class UserProvider extends ChangeNotifier {
   void storeAuthUser(UserModel user, String apiToken, [isAuth = false]) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     if (isAuth) {
+      preferences.setStringList(
+          "favList", user.favorites.map((i) => i.toString()).toList());
       preferences.setBool('userExistence', true);
       Map<String, dynamic> userMap = user.toJson();
       preferences.setString('user', jsonEncode(userMap));
       preferences.setString('apiToken', apiToken);
     } else {
+      preferences.remove('favList');
       preferences.remove('user');
       preferences.remove('userExistence');
       preferences.remove('apiToken');

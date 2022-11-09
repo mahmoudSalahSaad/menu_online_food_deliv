@@ -5,6 +5,7 @@ import 'package:menu_egypt/screens/new_restaurant_screen/components/branches_tab
 import 'package:menu_egypt/screens/new_restaurant_screen/components/comments_tab_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tab_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/Restaurant.dart';
 import '../../../providers/city_provider.dart';
@@ -161,6 +162,10 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           var result = await userProvider.removeFavorite(restaurant.id);
           if (result['success']) {
             userProvider.user.favorites.remove(restaurant.id);
+            List<String> favList =
+                userProvider.user.favorites.map((i) => i.toString()).toList();
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setStringList("favList", favList);
             setState(() {
               isFav = !isFav;
             });
@@ -173,6 +178,10 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           var result = await userProvider.addFavorite(restaurant.id);
           if (result['success']) {
             userProvider.user.favorites.add(restaurant.id);
+            List<String> favList =
+                userProvider.user.favorites.map((i) => i.toString()).toList();
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setStringList("favList", favList);
             setState(() {
               isFav = !isFav;
             });

@@ -37,7 +37,9 @@ class _BodyState extends State<Body> {
           .signIn(_formData);
       if (result['success'] && result['verified'] == 1) {
         Get.offAllNamed(HomeScreen.routeName);
-      } else if (result['verified'] == 0) {
+      } else if (!result['success'] &&
+          result['verified'] == 0 &&
+          result['error'].toString().contains('رمز')) {
         Get.offAllNamed(OtpScreen.routeName);
       } else {
         dialog(result['error'].toString());

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
+//import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
+//import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
@@ -496,14 +500,8 @@ class _BodyState extends State<Body> {
                                     listen: false)
                                 .checkOut(addressId);
                             if (result['success']) {
-                              dialog(result['error']);
-                              /*
-                              //go to order details
-                              await Provider.of<OrderProvider>(context,
-                                      listen: false)
-                                  .getOrderDetails(result['orderSerialNumber']);
-                              Get.toNamed(OrderDetails.routeName);
-                              */
+                              successDialog(context, 'تم الدفع بنجاح',
+                                  result['orderSerialNumber']);
                             } else {
                               dialog(result['error']);
                             }
@@ -541,4 +539,21 @@ class _BodyState extends State<Body> {
       ),
     );
   }
+}
+
+//go to order details
+void successDialog(
+    BuildContext context, String message, String orderSerialNumber) {
+  Get.defaultDialog(
+      content: Text(message),
+      textConfirm: 'تفاصيل الطلب',
+      title: 'عملية ناجحة',
+      buttonColor: Colors.green,
+      onConfirm: () async {
+        print(orderSerialNumber);
+        //await Provider.of<OrderProvider>(context, listen: false)
+        // .getOrderDetails(orderSerialNumber);
+        Get.toNamed(MyOrders.routeName);
+      },
+      confirmTextColor: kTextColor);
 }

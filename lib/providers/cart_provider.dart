@@ -204,8 +204,26 @@ class CartProvider extends ChangeNotifier {
             "addition1_id": item.firstAddId,
             "quantity": item.quantity
           });
+        } else if (item.weightId != 0 &&
+            item.firstAddId == 0 &&
+            item.secondAddId == 0) {
+          cartItemsList.add({
+            "id": item.id,
+            "rest_id": _cart.resturantId,
+            "size_id": item.weightId,
+            "quantity": item.quantity
+          });
         }
       }
+      /*
+      for (CartItemModel item in _cart.cartItems) {
+        print(addressId);
+        print(_cart.resturantId);
+        print(item.id);
+        print(item.name);
+        print(item.weightId);
+      }
+      */
       Map<String, dynamic> cartMap = {
         'rest_id': _cart.resturantId,
         'payment_type': 1,
