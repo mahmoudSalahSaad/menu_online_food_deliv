@@ -177,10 +177,21 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                   children: [
                     Expanded(
                       child: Text(
-                        resturantCategoriesModel
-                                .catgeoriesList[i].catgeoryProducts[index].price
-                                .toString() +
-                            ' جم',
+                        resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].price !=
+                                0
+                            ? resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].price
+                                    .toString() +
+                                ' جم'
+                            : resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].minPrice
+                                    .toString() +
+                                ' - ' +
+                                resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].maxPrice
+                                    .toString() +
+                                ' جم',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

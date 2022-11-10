@@ -65,6 +65,8 @@ class CatgeoryProducts {
   String title;
   String image;
   int price;
+  int minPrice;
+  int maxPrice;
   String shortDescription;
   String haveSizes;
 
@@ -73,6 +75,8 @@ class CatgeoryProducts {
       this.title,
       this.image,
       this.price,
+      this.minPrice,
+      this.maxPrice,
       this.shortDescription,
       this.haveSizes});
 
@@ -81,6 +85,8 @@ class CatgeoryProducts {
     title = json['title'];
     image = json['image'];
     price = json['price'];
+    minPrice = json['min'];
+    maxPrice = json['max'];
     shortDescription = json['short_description'];
     haveSizes = json['have_sizes'];
   }
@@ -91,6 +97,8 @@ class CatgeoryProducts {
     data['title'] = this.title;
     data['image'] = this.image;
     data['price'] = this.price;
+    data['min'] = this.minPrice;
+    data['max'] = this.maxPrice;
     data['short_description'] = this.shortDescription;
     data['have_sizes'] = this.haveSizes;
     return data;

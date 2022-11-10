@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+//import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/order_details.dart';
+//import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
+//import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +19,7 @@ class OrderDetailsBody extends StatefulWidget {
 class _OrderDetailsBodyState extends State<OrderDetailsBody> {
   OrderDetailsModel orderDetailsModel;
   int currentStep = 0;
-
+  bool cancelled = false;
   @override
   void initState() {
     orderDetailsModel =
@@ -26,6 +29,9 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
     } else if (orderDetailsModel.orderDetails.orderStatus == 'shipping') {
       currentStep = 1;
     } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
+      currentStep = 2;
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'cancelled') {
+      cancelled = true;
       currentStep = 2;
     }
     super.initState();
@@ -76,7 +82,9 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                 isActive: currentStep == 1,
                               ),
                               Step(
-                                title: Text('تم التوصيل'),
+                                title: cancelled
+                                    ? Text('تم الإلغاء')
+                                    : Text('تم التوصيل'),
                                 content: Container(),
                                 isActive: currentStep == 2,
                               ),
@@ -274,6 +282,56 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         ),
                       ),
                     ),
+                    /*
+                    //re order
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: MaterialButton(
+                        onPressed: () {
+                          for (int i = 0;
+                              i < orderDetailsModel.itemDetails.length;
+                              i++) {
+                            CartItemModel cartItem = CartItemModel(
+                              //fixed params
+                              id: orderDetailsModel.itemDetails[i].id,
+                              name: orderDetailsModel.itemDetails[i].product,
+                              description: '',
+                              photoUrl: '',
+                              //selected params
+                              price: orderDetailsModel.itemDetails[i].subTotal
+                                  .toDouble(),
+                              quantity:
+                                  orderDetailsModel.itemDetails[i].quantity,
+                              weight: orderDetailsModel.itemDetails[i].size,
+                              firstAddonName:
+                                  orderDetailsModel.itemDetails[i].addition1,
+                              secondAddonName:
+                                  orderDetailsModel.itemDetails[i].addition2,
+                              firstAddonPrice: 0.0,
+                              secondAddonPrice: 0.0,
+                              weightId: 1,
+                              firstAddId: 2,
+                              secondAddId: 0,
+                            );
+
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addItemToCart(
+                              cartItem,
+                              orderDetailsModel.restDetails.id,
+                              orderDetailsModel.orderDetails.deliveryFee,
+                              orderDetailsModel.orderDetails.deliveryTime,
+                              orderDetailsModel.restDetails.name,
+                              orderDetailsModel.restDetails.logo,
+                            );
+                          }
+                        },
+                        color: kAppBarColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Text('اعادة الطلب'),
+                      ),
+                    ),
+                    */
                   ],
                 )
               : Center(

@@ -65,6 +65,7 @@ void addToCartBottomSheet(
               //force selected weight
               if (buttonsListWeight.isNotEmpty && price == 0) {
                 isSelectedWeight[0] = true;
+                weightId = buttonsListWeight[0].id;
                 price = buttonsListWeight[0].price.toDouble();
               }
               //cart model

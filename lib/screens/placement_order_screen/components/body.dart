@@ -499,11 +499,15 @@ class _BodyState extends State<Body> {
                                     context,
                                     listen: false)
                                 .checkOut(addressId);
-                            if (result['success']) {
+                            if (result['success'] &&
+                                !result['error']
+                                    .toString()
+                                    .contains('عضويتك')) {
                               successDialog(context, 'تم الدفع بنجاح',
                                   result['orderSerialNumber']);
                             } else {
-                              dialog(result['error']);
+                              dialog(result['error'] +
+                                  ' قم بتسجيل الخروج و الدخول مرة اخرى');
                             }
                           }
                         },
