@@ -60,6 +60,7 @@ android {
             shrinkResources false // Add this line.
             minifyEnabled false
             signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
        }
    }
 }
