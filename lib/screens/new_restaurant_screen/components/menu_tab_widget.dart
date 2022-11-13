@@ -54,7 +54,7 @@ class MenuTabWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(
                             color: Colors.white,
-                            width: 1,
+                            width: getProportionateScreenWidth(1),
                             style: BorderStyle.solid,
                           ),
                         ),
@@ -71,7 +71,7 @@ class MenuTabWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 side: BorderSide(
                                   color: Colors.white,
-                                  width: 1,
+                                  width: getProportionateScreenWidth(1),
                                   style: BorderStyle.solid,
                                 ),
                               ),

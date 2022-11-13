@@ -48,8 +48,8 @@ class ImageDialog extends StatelessWidget {
                     itemCount: images.length,
                     loadingBuilder: (context, event) => Center(
                       child: Container(
-                        width: 20.0,
-                        height: 20.0,
+                        width: getProportionateScreenWidth(20),
+                        height: getProportionateScreenHeight(20),
                         child: CircularProgressIndicator(
                           value: event == null
                               ? 0

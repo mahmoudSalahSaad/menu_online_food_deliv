@@ -199,7 +199,7 @@ class _BodyState extends State<Body> {
                         color: kPrimaryColor,
                         textColor: kTextColor,
                         minWidth: 0.0,
-                        height: 33.0),
+                        height: getProportionateScreenHeight(33)),
                 Divider(color: Colors.white),
               ])),
               // Categories(categories: categories)

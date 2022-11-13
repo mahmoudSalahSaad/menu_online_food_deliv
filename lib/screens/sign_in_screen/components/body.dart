@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
                         child: Text('تسجيل الدخول'),
                         color: kPrimaryColor,
                         minWidth: 0.0,
-                        height: 45.0),
+                        height: getProportionateScreenHeight(45)),
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(

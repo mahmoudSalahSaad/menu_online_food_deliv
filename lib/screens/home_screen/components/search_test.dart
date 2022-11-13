@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 
 class SearchTestBar extends StatelessWidget {
   const SearchTestBar({Key key, @required this.restaurantProvider})
@@ -31,7 +32,7 @@ class SearchTestBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 36.0,
+        height: getProportionateScreenHeight(36),
         child: TypeAheadField(
           textFieldConfiguration: TextFieldConfiguration(
               autofocus: true,

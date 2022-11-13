@@ -37,7 +37,7 @@ class _BodyState extends State<Body> {
                   alignment: Alignment.bottomCenter,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 64.0),
+                      padding: const EdgeInsets.only(bottom: 100.0),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -84,7 +84,9 @@ class _BodyState extends State<Body> {
                                                   BorderRadius.circular(10),
                                               side: BorderSide(
                                                 color: Colors.white,
-                                                width: 1,
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        1),
                                                 style: BorderStyle.solid,
                                               ),
                                             ),
@@ -122,7 +124,9 @@ class _BodyState extends State<Body> {
                                                   color: Colors.grey[300]),
                                             ),
                                             trailing: SizedBox(
-                                              width: 110,
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      110),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
@@ -180,7 +184,9 @@ class _BodyState extends State<Body> {
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 5.0,
+                                                        width:
+                                                            getProportionateScreenWidth(
+                                                                5),
                                                       ),
                                                       Expanded(
                                                         child: Container(
@@ -225,7 +231,8 @@ class _BodyState extends State<Body> {
                                         },
                                         separatorBuilder: (context, index) =>
                                             Divider(
-                                          height: 1,
+                                          height:
+                                              getProportionateScreenHeight(1),
                                           color: Colors.white,
                                         ),
                                         itemCount: cart.cartItems.length,
@@ -312,7 +319,7 @@ class _BodyState extends State<Body> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: MaterialButton(
-                        height: 50.0,
+                        height: getProportionateScreenHeight(50),
                         minWidth: MediaQuery.of(context).size.width,
                         onPressed: () {
                           if (user == null) {

@@ -34,8 +34,8 @@ class TextIconWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      width: kDefaultHeight,
-                      height: kDefaultHeight,
+                      width: getProportionateScreenWidth(40),
+                      height: getProportionateScreenHeight(40),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle, color: kPrimaryColor),
                       child: Icon(

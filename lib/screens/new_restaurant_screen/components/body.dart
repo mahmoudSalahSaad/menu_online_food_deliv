@@ -115,7 +115,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               int currentActiveIndex = tabs.indexOf(tab);
               return Container(
                 width: double.maxFinite,
-                height: 30,
+                height: getProportionateScreenHeight(30),
                 color: currentActiveIndex == _currentIndex
                     ? kPrimaryColor
                     : Colors.black,

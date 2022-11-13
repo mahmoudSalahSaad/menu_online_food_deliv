@@ -33,7 +33,7 @@ class Categories extends StatelessWidget {
                   children: [
                     Container(
                       width: (SizeConfig.screenWidth - kDefaultPadding * 4) / 2,
-                      height: 300.0,
+                      height: getProportionateScreenHeight(300),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(kDefaultPadding),
                           child: FadeInImage.assetNetwork(

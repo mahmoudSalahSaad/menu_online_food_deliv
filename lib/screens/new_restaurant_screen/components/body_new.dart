@@ -109,7 +109,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
                 Expanded(
                   child: ScrollableListTabView(
-                    tabHeight: 50,
+                    tabHeight: getProportionateScreenHeight(50),
                     bodyAnimationDuration: const Duration(milliseconds: 500),
                     tabAnimationCurve: Curves.easeOut,
                     tabAnimationDuration: const Duration(milliseconds: 500),
@@ -148,8 +148,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 leading: Container(
-                  height: 50,
-                  width: 50,
+                  height: getProportionateScreenHeight(50),
+                  width: getProportionateScreenWidth(50),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
@@ -237,7 +237,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
             separatorBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: Divider(
-                height: 1,
+                height: getProportionateScreenHeight(1),
                 color: Colors.white,
               ),
             ),

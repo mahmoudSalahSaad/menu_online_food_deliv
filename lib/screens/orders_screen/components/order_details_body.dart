@@ -30,7 +30,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
       currentStep = 1;
     } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
       currentStep = 2;
-    } else if (orderDetailsModel.orderDetails.orderStatus == 'cancelled') {
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'canceled') {
       cancelled = true;
       currentStep = 2;
     }
@@ -59,7 +59,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     ),
                     //order status
                     SizedBox(
-                      height: 110,
+                      height: getProportionateScreenHeight(110),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Theme(
@@ -119,9 +119,12 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                       children: [
                                         Icon(
                                           FontAwesomeIcons.house,
-                                          size: 10.0,
+                                          size:
+                                              getProportionateScreenHeight(10),
                                         ),
-                                        SizedBox(width: 5.0),
+                                        SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(5)),
                                         Text(
                                             orderDetailsModel.orderDetails
                                                     .address.cityIName +
@@ -140,9 +143,10 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                 children: [
                                   Icon(
                                     FontAwesomeIcons.locationPin,
-                                    size: 10.0,
+                                    size: getProportionateScreenHeight(10),
                                   ),
-                                  SizedBox(width: 5.0),
+                                  SizedBox(
+                                      width: getProportionateScreenWidth(5)),
                                   Expanded(
                                     child: Text(
                                       'شارع ${orderDetailsModel.orderDetails.address.street} عمارة رقم ${orderDetailsModel.orderDetails.address.building} شقة رقم ${orderDetailsModel.orderDetails.address.apartmentNumber}',
@@ -206,7 +210,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                   },
                                   separatorBuilder: (context, index) {
                                     return Container(
-                                      height: 2.0,
+                                      height: getProportionateScreenHeight(2),
                                       width: double.infinity,
                                       color: Colors.grey,
                                     );

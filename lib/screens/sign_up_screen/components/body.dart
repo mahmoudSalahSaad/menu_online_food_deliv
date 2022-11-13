@@ -135,7 +135,7 @@ class _BodyState extends State<Body> {
                     'اختر تاريخ الميلاد ' + birthDate,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15.0,
+                      fontSize: getProportionateScreenHeight(15),
                     ),
                   ),
                 ),
@@ -150,7 +150,7 @@ class _BodyState extends State<Body> {
                         child: Text('دخول'),
                         color: kPrimaryColor,
                         minWidth: 0.0,
-                        height: 45.0),
+                        height: getProportionateScreenHeight(45)),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
                 ),

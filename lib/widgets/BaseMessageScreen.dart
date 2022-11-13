@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menu_egypt/utilities/constants.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 
 class BaseMessageScreen extends StatelessWidget {
   final String title;
@@ -19,22 +20,24 @@ class BaseMessageScreen extends StatelessWidget {
             children: <Widget>[
               Icon(
                 Icons.perm_scan_wifi,
-                size: 60.0,
+                size: getProportionateScreenHeight(60),
                 color: Theme.of(context).primaryColor,
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: getProportionateScreenHeight(20)),
               Text('لايوجد اتصال بالشبكة',
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: getProportionateScreenHeight(14),
                   )),
-              SizedBox(height: 10.0),
+              SizedBox(height: getProportionateScreenHeight(10)),
               if (subtitle != null)
                 Text(
                   '$subtitle',
-                  style: TextStyle(fontSize: 12.0, color: Colors.grey.shade500),
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(12),
+                      color: Colors.grey.shade500),
                 ),
               SizedBox(
-                height: 20.0,
+                height: getProportionateScreenHeight(20),
               ),
               if (child != null) child,
             ],

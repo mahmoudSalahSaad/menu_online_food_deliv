@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 
 class MenuWidgetSlider extends StatelessWidget {
   const MenuWidgetSlider({Key key, @required this.image}) : super(key: key);
@@ -9,8 +10,8 @@ class MenuWidgetSlider extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          height: 350,
-          width: 350,
+          height: getProportionateScreenHeight(350),
+          width: getProportionateScreenWidth(350),
           alignment: Alignment.center,
           decoration: BoxDecoration(
               image: DecorationImage(

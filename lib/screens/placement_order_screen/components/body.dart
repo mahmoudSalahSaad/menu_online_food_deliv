@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
                   alignment: Alignment.bottomCenter,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 64.0),
+                      padding: const EdgeInsets.only(bottom: 100.0),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -52,8 +52,8 @@ class _BodyState extends State<Body> {
                             //resturant
                             ListTile(
                               leading: Container(
-                                height: 50,
-                                width: 50,
+                                height: getProportionateScreenHeight(50),
+                                width: getProportionateScreenWidth(50),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
@@ -66,7 +66,8 @@ class _BodyState extends State<Body> {
                               title: Text(
                                 "طلبك من مطعم",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 10.0),
+                                    color: Colors.white,
+                                    fontSize: getProportionateScreenHeight(10)),
                               ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,20 +75,26 @@ class _BodyState extends State<Body> {
                                   Text(
                                     cart.resturantName,
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
                                   ),
                                   Row(
                                     children: [
                                       Icon(
                                         FontAwesomeIcons.motorcycle,
-                                        size: 10.0,
+                                        size: getProportionateScreenHeight(10),
                                       ),
-                                      SizedBox(width: 5.0),
+                                      SizedBox(
+                                          width:
+                                              getProportionateScreenWidth(5)),
                                       Text(
                                         "التوصيل خلال ${cart.deliveryTime} دقيقة",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 10.0),
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    10)),
                                       )
                                     ],
                                   ),
@@ -140,12 +147,12 @@ class _BodyState extends State<Body> {
                                                                     Icon(
                                                                       FontAwesomeIcons
                                                                           .house,
-                                                                      size:
-                                                                          10.0,
+                                                                      size: getProportionateScreenHeight(
+                                                                          10),
                                                                     ),
                                                                     SizedBox(
-                                                                        width:
-                                                                            5.0),
+                                                                        width: getProportionateScreenWidth(
+                                                                            5)),
                                                                     Text(addresses[index]
                                                                             .cityName +
                                                                         ',' +
@@ -161,10 +168,14 @@ class _BodyState extends State<Body> {
                                                               Icon(
                                                                 FontAwesomeIcons
                                                                     .locationPin,
-                                                                size: 10.0,
+                                                                size:
+                                                                    getProportionateScreenHeight(
+                                                                        10),
                                                               ),
                                                               SizedBox(
-                                                                  width: 5.0),
+                                                                  width:
+                                                                      getProportionateScreenWidth(
+                                                                          5)),
                                                               Text(
                                                                   'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}'),
                                                             ],
@@ -186,7 +197,9 @@ class _BodyState extends State<Body> {
                                                   separatorBuilder:
                                                       (context, index) {
                                                     return Container(
-                                                      height: 2.0,
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              2),
                                                       width: double.infinity,
                                                       color: Colors.grey,
                                                     );
@@ -208,7 +221,8 @@ class _BodyState extends State<Body> {
                                               BorderRadius.circular(10),
                                           side: BorderSide(
                                             color: Colors.white,
-                                            width: 1,
+                                            width:
+                                                getProportionateScreenWidth(1),
                                             style: BorderStyle.solid,
                                           ),
                                         ),
@@ -255,7 +269,10 @@ class _BodyState extends State<Body> {
                                               },
                                             ),
                                           ),
-                                          SizedBox(width: 5.0),
+                                          SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      5)),
                                           Expanded(
                                               flex: 1,
                                               child: Icon(
@@ -263,7 +280,7 @@ class _BodyState extends State<Body> {
                                         ],
                                       ),
                                       Container(
-                                        height: 2.0,
+                                        height: getProportionateScreenHeight(2),
                                         width: double.infinity,
                                         color: Colors.grey,
                                       ),
@@ -292,7 +309,10 @@ class _BodyState extends State<Body> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 5.0),
+                                          SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      5)),
                                           Expanded(
                                               flex: 1,
                                               child: Icon(
@@ -354,7 +374,9 @@ class _BodyState extends State<Body> {
                                                   color: Colors.grey[300]),
                                             ),
                                             trailing: SizedBox(
-                                              width: 110,
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      110),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
@@ -378,7 +400,8 @@ class _BodyState extends State<Body> {
                                         },
                                         separatorBuilder: (context, index) =>
                                             Divider(
-                                          height: 1,
+                                          height:
+                                              getProportionateScreenHeight(1),
                                           color: Colors.white,
                                         ),
                                         itemCount: cart.cartItems.length,
@@ -489,7 +512,7 @@ class _BodyState extends State<Body> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: MaterialButton(
-                        height: 50.0,
+                        height: getProportionateScreenHeight(50),
                         minWidth: MediaQuery.of(context).size.width,
                         onPressed: () async {
                           if (addressId == 0) {

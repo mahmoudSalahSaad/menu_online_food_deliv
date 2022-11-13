@@ -25,7 +25,7 @@ class IconTextWidget extends StatelessWidget {
           size: iconSize,
         ),
         SizedBox(
-          width: 5,
+          width: getProportionateScreenWidth(5),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -26,8 +26,8 @@ class TextIconWidget extends StatelessWidget {
         children: [
           fav
               ? Container(
-                  width: kDefaultHeight,
-                  height: kDefaultHeight,
+                  width: getProportionateScreenWidth(40),
+                  height: getProportionateScreenHeight(40),
                   child: Icon(
                     icon,
                     size: getProportionateScreenHeight(20),
@@ -35,8 +35,8 @@ class TextIconWidget extends StatelessWidget {
                   ),
                 )
               : Container(
-                  width: kDefaultHeight,
-                  height: kDefaultHeight,
+                  width: getProportionateScreenWidth(40),
+                  height: getProportionateScreenHeight(40),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle, color: kPrimaryColor),
                   child: Icon(

@@ -32,12 +32,16 @@ class RestaurantLogos extends StatelessWidget {
                       .fetchRestaurant(restaurants[index].id);
                   Get.toNamed(NewRestaurantScreen.routeName);
                 },
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: FadeInImage.assetNetwork(
-                        width: SizeConfig.screenWidth * 0.15,
-                        placeholder: "assets/icons/menu_egypt_logo.png",
-                        image: '${restaurants[index].logoSmall}'))),
+                child: SizedBox(
+                  height: SizeConfig.screenHeight * 0.15,
+                  width: SizeConfig.screenWidth * 0.15,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: FadeInImage.assetNetwork(
+                          fit: BoxFit.contain,
+                          placeholder: "assets/icons/menu_egypt_logo.png",
+                          image: '${restaurants[index].logoSmall}')),
+                )),
           ],
         );
       }, childCount: 15),

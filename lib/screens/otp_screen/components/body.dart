@@ -76,7 +76,7 @@ class _BodyState extends State<Body> {
             child: userProvider.isLoading
                 ? LoadingCircle()
                 : MaterialButton(
-                    height: 50.0,
+                    height: getProportionateScreenHeight(50),
                     minWidth: MediaQuery.of(context).size.width,
                     onPressed: () async {
                       print(otpController.text);

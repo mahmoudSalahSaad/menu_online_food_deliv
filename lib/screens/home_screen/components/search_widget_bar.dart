@@ -4,6 +4,7 @@ import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 class SearchWidgetBar extends StatelessWidget {
@@ -33,7 +34,7 @@ class SearchWidgetBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 36.0,
+      height: getProportionateScreenHeight(36),
       child: TypeAheadField(
         suggestionsBoxController: SuggestionsBoxController(),
         hideOnLoading: false,

@@ -72,9 +72,14 @@ class _BodyState extends State<Body> {
                                               children: [
                                                 Icon(
                                                   FontAwesomeIcons.house,
-                                                  size: 10.0,
+                                                  size:
+                                                      getProportionateScreenHeight(
+                                                          15),
                                                 ),
-                                                SizedBox(width: 5.0),
+                                                SizedBox(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            5)),
                                                 Text(addresses[index].cityName +
                                                     ',' +
                                                     addresses[index].regionName)
@@ -117,9 +122,13 @@ class _BodyState extends State<Body> {
                                         children: [
                                           Icon(
                                             FontAwesomeIcons.locationPin,
-                                            size: 10.0,
+                                            size: getProportionateScreenHeight(
+                                                10),
                                           ),
-                                          SizedBox(width: 5.0),
+                                          SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      5)),
                                           Text(
                                               'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}')
                                         ],
@@ -139,7 +148,7 @@ class _BodyState extends State<Body> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MaterialButton(
-                height: 50.0,
+                height: getProportionateScreenHeight(50),
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: () {
                   addNewAddressBottomSheet(context);

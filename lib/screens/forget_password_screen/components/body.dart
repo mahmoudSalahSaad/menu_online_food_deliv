@@ -72,7 +72,7 @@ class _BodyState extends State<Body> {
                       child: Text('أرسل'),
                       color: kPrimaryColor,
                       minWidth: 0.0,
-                      height: 45.0),
+                      height: getProportionateScreenHeight(45)),
             ],
           ),
         ),

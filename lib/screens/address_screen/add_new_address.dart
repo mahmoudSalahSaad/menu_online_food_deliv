@@ -11,6 +11,7 @@ import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/home_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 void addNewAddressBottomSheet(BuildContext context) {
@@ -63,7 +64,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                       'عنوان جديد',
                       style: TextStyle(
                         color: kAppBarColor,
-                        fontSize: 20,
+                        fontSize: getProportionateScreenHeight(20),
                       ),
                     ),
                     Container(
@@ -128,7 +129,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           hintText: 'الشارع',
                           hintStyle: TextStyle(color: Colors.grey),
@@ -150,7 +151,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           hintText: 'رقم العمارة',
                           hintStyle: TextStyle(color: Colors.grey),
@@ -172,7 +173,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           hintText: 'الدور',
                           hintStyle: TextStyle(color: Colors.grey),
@@ -194,7 +195,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           hintText: 'رقم الشقة',
                           hintStyle: TextStyle(color: Colors.grey),
@@ -216,7 +217,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           hintText: 'وصف',
                           hintStyle: TextStyle(color: Colors.grey),
@@ -325,7 +326,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                       'تعديل العنوان',
                       style: TextStyle(
                         color: kAppBarColor,
-                        fontSize: 20,
+                        fontSize: getProportionateScreenHeight(20),
                       ),
                     ),
                     Container(
@@ -390,7 +391,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           prefix: Text('شارع'),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -412,7 +413,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           prefix: Text('عمارة'),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -434,7 +435,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           prefix: Text('الدور'),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -456,7 +457,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           prefix: Text('شقة'),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -478,7 +479,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                           prefixIcon: Icon(
                             FontAwesomeIcons.house,
                             color: kAppBarColor,
-                            size: 15.0,
+                            size: getProportionateScreenHeight(15),
                           ),
                           prefix: Text('وصف'),
                           hintText: addressModel.description,

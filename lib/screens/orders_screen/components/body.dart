@@ -64,8 +64,8 @@ class _BodyState extends State<Body> {
                                   },
                                   child: ListTile(
                                     leading: Container(
-                                      height: 50,
-                                      width: 50,
+                                      height: getProportionateScreenHeight(50),
+                                      width: getProportionateScreenWidth(50),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius:
@@ -145,7 +145,7 @@ class _BodyState extends State<Body> {
                                 );
                               },
                               separatorBuilder: (context, index) => Divider(
-                                height: 1,
+                                height: getProportionateScreenHeight(1),
                                 color: Colors.white,
                               ),
                               itemCount: orders.length,

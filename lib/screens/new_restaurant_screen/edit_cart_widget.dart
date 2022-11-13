@@ -6,6 +6,7 @@ import 'package:menu_egypt/models/resturant_product.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 void editCartBottomSheet(
@@ -129,8 +130,8 @@ void editCartBottomSheet(
                             child: ListTile(
                               //img
                               leading: Container(
-                                height: 50,
-                                width: 50,
+                                height: getProportionateScreenHeight(50),
+                                width: getProportionateScreenWidth(50),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
@@ -192,7 +193,8 @@ void editCartBottomSheet(
                                         quantity.toString(),
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 13.0,
+                                          fontSize:
+                                              getProportionateScreenHeight(13),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -228,7 +230,9 @@ void editCartBottomSheet(
                                     child: Text(
                                       'لا يوجد مقاسات',
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 20.0),
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(20)),
                                     ),
                                   ),
                                 ),
@@ -327,7 +331,9 @@ void editCartBottomSheet(
                                     child: Text(
                                       'لا يوجد إضافة اولى',
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 20.0),
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(20)),
                                     ),
                                   ),
                                 ),
@@ -423,7 +429,9 @@ void editCartBottomSheet(
                                     child: Text(
                                       'لا يوجد إضافة ثانية',
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 20.0),
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(20)),
                                     ),
                                   ),
                                 ),
@@ -512,12 +520,16 @@ void editCartBottomSheet(
                                 Text(
                                   'المبلغ الإجمالى',
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20.0),
+                                      color: Colors.black,
+                                      fontSize:
+                                          getProportionateScreenHeight(20)),
                                 ),
                                 Text(
                                   (price * quantity).toString() + ' جم',
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20.0),
+                                      color: Colors.black,
+                                      fontSize:
+                                          getProportionateScreenHeight(20)),
                                 ),
                               ],
                             ),

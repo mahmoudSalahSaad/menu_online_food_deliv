@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 
 class SliderDots extends StatelessWidget {
   const SliderDots({
@@ -20,8 +21,8 @@ class SliderDots extends StatelessWidget {
           children: imagesSliders.map((image) {
             int index = imagesSliders.indexOf(image);
             return Container(
-              width: 8.0,
-              height: 8.0,
+              width: getProportionateScreenWidth(8),
+              height: getProportionateScreenHeight(8),
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
