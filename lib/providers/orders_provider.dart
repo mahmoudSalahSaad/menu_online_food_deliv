@@ -66,7 +66,11 @@ class OrderProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getOrderDetails(String orderSerialNumber) async {
-    Map<String, dynamic> result = {'success': false, 'error': null};
+    Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+      'data': null
+    };
     _isLoading = true;
     notifyListeners();
     String url = '/view-order/$orderSerialNumber';
@@ -89,6 +93,7 @@ class OrderProvider extends ChangeNotifier {
 
         print('Success');
         result['success'] = true;
+        result['data'] = detailsModel;
       } else {
         print('Failed');
         result['error'] = response.data['message'];

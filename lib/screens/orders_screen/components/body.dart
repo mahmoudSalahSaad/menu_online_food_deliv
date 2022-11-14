@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/order.dart';
+import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
+import 'package:menu_egypt/screens/basket_screen/basket_screen.dart';
 import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
@@ -25,6 +28,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     return RefreshIndicator(
       onRefresh: () async {
         await Provider.of<OrderProvider>(context, listen: false).getOrders();
@@ -103,6 +107,7 @@ class _BodyState extends State<Body> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
+                                            //order details btn
                                             MaterialButton(
                                               onPressed: () async {
                                                 await Provider.of<
@@ -122,8 +127,92 @@ class _BodyState extends State<Body> {
                                                           10.0)),
                                               child: Text('تفاصيل الطلب'),
                                             ),
+                                            //re-order btn
                                             MaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () async {
+                                                Map<String, dynamic> result =
+                                                    await Provider.of<
+                                                                OrderProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .getOrderDetails(
+                                                            orders[index]
+                                                                .serialNumber);
+
+                                                for (int i = 0;
+                                                    i <
+                                                        result['data']
+                                                            .itemDetails
+                                                            .length;
+                                                    i++) {
+                                                  CartItemModel cartItem =
+                                                      CartItemModel(
+                                                    //fixed params
+                                                    id: result['data']
+                                                        .itemDetails[i]
+                                                        .id,
+                                                    name: result['data']
+                                                        .itemDetails[i]
+                                                        .product,
+                                                    description: '',
+                                                    photoUrl: '',
+                                                    //selected params
+                                                    price: result['data']
+                                                        .itemDetails[i]
+                                                        .subTotal
+                                                        .toDouble(),
+                                                    quantity: result['data']
+                                                        .itemDetails[i]
+                                                        .quantity,
+                                                    weight: result['data']
+                                                        .itemDetails[i]
+                                                        .size,
+                                                    firstAddonName:
+                                                        result['data']
+                                                            .itemDetails[i]
+                                                            .addition1,
+                                                    secondAddonName:
+                                                        result['data']
+                                                            .itemDetails[i]
+                                                            .addition2,
+                                                    firstAddonPrice: 0.0,
+                                                    secondAddonPrice: 0.0,
+                                                    weightId: result['data']
+                                                        .itemDetails[i]
+                                                        .sizeId,
+                                                    firstAddId: result['data']
+                                                        .itemDetails[i]
+                                                        .addition1Id,
+                                                    secondAddId: result['data']
+                                                        .itemDetails[i]
+                                                        .addition2Id,
+                                                  );
+                                                  print(cartItem.name);
+                                                  print(cartItem.quantity);
+                                                  print(result['data']
+                                                      .restDetails
+                                                      .logo);
+                                                  cartProvider.addItemToCart(
+                                                    cartItem,
+                                                    result['data']
+                                                        .restDetails
+                                                        .id,
+                                                    result['data']
+                                                        .orderDetails
+                                                        .deliveryFee,
+                                                    result['data']
+                                                        .orderDetails
+                                                        .deliveryTime,
+                                                    result['data']
+                                                        .restDetails
+                                                        .name,
+                                                    result['data']
+                                                        .restDetails
+                                                        .logo,
+                                                  );
+                                                }
+                                                Get.toNamed(MyBasket.routeName);
+                                              },
                                               color: kAppBarColor,
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:

@@ -176,6 +176,9 @@ class ItemDetails {
   String size;
   String addition1;
   String addition2;
+  int sizeId;
+  int addition1Id;
+  int addition2Id;
   int quantity;
   int subTotal;
   int total;
@@ -186,16 +189,22 @@ class ItemDetails {
       this.size,
       this.addition1,
       this.addition2,
+      this.sizeId,
+      this.addition1Id,
+      this.addition2Id,
       this.quantity,
       this.subTotal,
       this.total});
 
   ItemDetails.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['product_id'];
     product = json['product'];
     size = json['size'];
     addition1 = json['addition1'];
     addition2 = json['addition2'];
+    sizeId = json['size_id'];
+    addition1Id = json['addition1_id'];
+    addition2Id = json['addition2_id'];
     quantity = json['quantity'];
     subTotal = json['sub_total'];
     total = json['total'];
@@ -203,11 +212,14 @@ class ItemDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['product_id'] = this.id;
     data['product'] = this.product;
     data['size'] = this.size;
     data['addition1'] = this.addition1;
     data['addition2'] = this.addition2;
+    data['size_id'] = this.sizeId;
+    data['addition1_id'] = this.addition1Id;
+    data['addition2_id'] = this.addition2Id;
     data['quantity'] = this.quantity;
     data['sub_total'] = this.subTotal;
     data['total'] = this.total;
