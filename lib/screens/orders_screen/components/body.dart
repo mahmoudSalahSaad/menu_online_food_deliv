@@ -206,9 +206,10 @@ class _BodyState extends State<Body> {
                                                     result['data']
                                                         .restDetails
                                                         .name,
-                                                    result['data']
-                                                        .restDetails
-                                                        .logo,
+                                                    "https://menuegypt.com//" +
+                                                        result['data']
+                                                            .restDetails
+                                                            .logo,
                                                   );
                                                 }
                                                 Get.toNamed(MyBasket.routeName);
