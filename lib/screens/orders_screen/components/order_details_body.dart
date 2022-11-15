@@ -191,14 +191,32 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      subtitle: Text(
-                                        orderDetailsModel
-                                                .itemDetails[index].addition1 +
-                                            ' ' +
-                                            orderDetailsModel
-                                                .itemDetails[index].addition2,
-                                        style:
-                                            TextStyle(color: Colors.grey[300]),
+                                      subtitle: Row(
+                                        children: [
+                                          Text(
+                                            orderDetailsModel.itemDetails[index]
+                                                        .addition1 ==
+                                                    null
+                                                ? ''
+                                                : orderDetailsModel
+                                                    .itemDetails[index]
+                                                    .addition1,
+                                            style: TextStyle(
+                                                color: Colors.grey[300]),
+                                          ),
+                                          Text(' '),
+                                          Text(
+                                            orderDetailsModel.itemDetails[index]
+                                                        .addition2 ==
+                                                    null
+                                                ? ''
+                                                : orderDetailsModel
+                                                    .itemDetails[index]
+                                                    .addition2,
+                                            style: TextStyle(
+                                                color: Colors.grey[300]),
+                                          ),
+                                        ],
                                       ),
                                       trailing: Text(
                                         '${orderDetailsModel.itemDetails[index].subTotal} جم',

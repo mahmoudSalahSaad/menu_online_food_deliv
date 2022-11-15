@@ -67,19 +67,25 @@ void editCartBottomSheet(
                   : [];
               //mark selected weight
 
-              if (buttonsListWeight.isNotEmpty && weightId != 0) {
+              if (buttonsListWeight.isNotEmpty &&
+                  weightId != 0 &&
+                  weightId != null) {
                 isSelectedWeight[buttonsListWeight
                     .indexWhere((element) => element.id == weightId)] = true;
               }
               //mark selected firstAdd
 
-              if (buttonsListFirstAddon.isNotEmpty && firstAddId != 0) {
+              if (buttonsListFirstAddon.isNotEmpty &&
+                  firstAddId != 0 &&
+                  firstAddId != null) {
                 isSelectedFirstAddon[buttonsListFirstAddon
                     .indexWhere((element) => element.id == firstAddId)] = true;
               }
               //mark selected secondAdd
 
-              if (buttonsListSeccondAddon.isNotEmpty && secondAddId != 0) {
+              if (buttonsListSeccondAddon.isNotEmpty &&
+                  secondAddId != 0 &&
+                  secondAddId != null) {
                 isSelectedSecondAddon[buttonsListSeccondAddon
                     .indexWhere((element) => element.id == secondAddId)] = true;
               }

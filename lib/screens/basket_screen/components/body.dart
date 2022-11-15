@@ -114,14 +114,30 @@ class _BodyState extends State<Body> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            subtitle: Text(
-                                              cart.cartItems[index]
-                                                      .firstAddonName +
-                                                  ' - ' +
+                                            subtitle: Row(
+                                              children: [
+                                                Text(
                                                   cart.cartItems[index]
-                                                      .secondAddonName,
-                                              style: TextStyle(
-                                                  color: Colors.grey[300]),
+                                                              .firstAddonName ==
+                                                          null
+                                                      ? ''
+                                                      : cart.cartItems[index]
+                                                          .firstAddonName,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[300]),
+                                                ),
+                                                Text(' '),
+                                                Text(
+                                                  cart.cartItems[index]
+                                                              .secondAddonName ==
+                                                          null
+                                                      ? ''
+                                                      : cart.cartItems[index]
+                                                          .secondAddonName,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[300]),
+                                                ),
+                                              ],
                                             ),
                                             trailing: SizedBox(
                                               width:

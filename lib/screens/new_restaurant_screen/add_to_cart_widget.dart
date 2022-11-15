@@ -68,6 +68,7 @@ void addToCartBottomSheet(
                 isSelectedWeight[0] = true;
                 weightId = buttonsListWeight[0].id;
                 price = buttonsListWeight[0].price.toDouble();
+                weight = buttonsListWeight[0].title;
               }
               //cart model
               cartItem = CartItemModel(
