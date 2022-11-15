@@ -211,7 +211,10 @@ class UserProvider extends ChangeNotifier {
           result['verified'] = 1;
           print('Login Success & Verified');
         } else {
-          storeAuthUser(_user, response.data['user']['api_token'], false);
+          final SharedPreferences preferences =
+              await SharedPreferences.getInstance();
+          preferences.setString('apiToken', response.data['user']['api_token']);
+
           result['success'] = false;
           result['verified'] = 0;
           print('Login Success & Unverified');
