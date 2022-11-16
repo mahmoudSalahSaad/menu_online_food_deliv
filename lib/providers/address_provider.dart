@@ -9,10 +9,6 @@ class AddressProvider extends ChangeNotifier {
   bool _isLoading = false;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
-  AddressProvider() {
-    getAddresses();
-  }
-
   bool get isLoading {
     return _isLoading;
   }
@@ -24,7 +20,7 @@ class AddressProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getAddresses() async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    notifyListeners();
+    _addresses.clear();
     String url = '/my-addresses';
     httpService.init();
     try {
@@ -85,8 +81,6 @@ class AddressProvider extends ChangeNotifier {
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
         result['success'] = true;
-        _addresses.clear();
-        getAddresses();
       } else {
         print('Failed');
         result['error'] = response.data['message'];

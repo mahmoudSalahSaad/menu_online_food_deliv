@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
+import 'package:menu_egypt/providers/orders_provider.dart';
 //import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
+import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
@@ -24,11 +27,18 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   PaymentMethode _methode = PaymentMethode.cash;
   int addressId = 0;
+  List<AddressModel> addresses = [];
+  OrderProvider orderProvider = OrderProvider();
+  @override
+  void initState() {
+    addresses = Provider.of<AddressProvider>(context, listen: false).addresses;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context, listen: false).cart;
-    final addresses =
-        Provider.of<AddressProvider>(context, listen: false).addresses;
+    orderProvider = Provider.of<OrderProvider>(context, listen: false);
     return SafeArea(
       child: Consumer<CartProvider>(
         builder: (context, value, child) {
@@ -102,135 +112,207 @@ class _BodyState extends State<Body> {
                               ),
                             ),
                             //address
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ExpansionTile(
-                                        title: Text(
-                                          'عنوان التوصيل',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        children: [
-                                          addresses.isNotEmpty
-                                              ? ListView.separated(
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return RadioListTile(
-                                                      title: Column(
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Container(
-                                                                child: Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      FontAwesomeIcons
-                                                                          .house,
-                                                                      size: getProportionateScreenHeight(
-                                                                          10),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        width: getProportionateScreenWidth(
-                                                                            5)),
-                                                                    Text(addresses[index]
-                                                                            .cityName +
-                                                                        ',' +
-                                                                        addresses[index]
-                                                                            .regionName)
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                FontAwesomeIcons
-                                                                    .locationPin,
-                                                                size:
-                                                                    getProportionateScreenHeight(
-                                                                        10),
-                                                              ),
-                                                              SizedBox(
-                                                                  width:
-                                                                      getProportionateScreenWidth(
-                                                                          5)),
-                                                              Text(
-                                                                  'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}'),
-                                                            ],
-                                                          ),
-                                                        ],
+                            FutureProvider(
+                              create: (_) => Provider.of<AddressProvider>(
+                                      context,
+                                      listen: true)
+                                  .getAddresses(),
+                              initialData: null,
+                              child: Consumer<Map<String, dynamic>>(
+                                builder: (_, value, __) {
+                                  if (value != null) {
+                                    return addresses.isNotEmpty
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.white,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ExpansionTile(
+                                                      title: Text(
+                                                        'عنوان التوصيل',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
                                                       ),
-                                                      groupValue: addressId,
-                                                      value:
-                                                          addresses[index].id,
-                                                      activeColor: Colors.red,
-                                                      onChanged: (index) {
-                                                        setState(() {
-                                                          addressId = index;
-                                                        });
-                                                        print(addressId);
+                                                      children: [
+                                                        ListView.separated(
+                                                          shrinkWrap: true,
+                                                          physics:
+                                                              NeverScrollableScrollPhysics(),
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            return RadioListTile(
+                                                              title: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Container(
+                                                                        child:
+                                                                            Row(
+                                                                          children: [
+                                                                            Icon(
+                                                                              FontAwesomeIcons.house,
+                                                                              size: getProportionateScreenHeight(10),
+                                                                            ),
+                                                                            SizedBox(width: getProportionateScreenWidth(5)),
+                                                                            Text(addresses[index].cityName +
+                                                                                ',' +
+                                                                                addresses[index].regionName)
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        FontAwesomeIcons
+                                                                            .locationPin,
+                                                                        size: getProportionateScreenHeight(
+                                                                            10),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              getProportionateScreenWidth(5)),
+                                                                      Text(
+                                                                          'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}'),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              groupValue:
+                                                                  addressId,
+                                                              value: addresses[
+                                                                      index]
+                                                                  .id,
+                                                              activeColor:
+                                                                  Colors.red,
+                                                              onChanged:
+                                                                  (index) {
+                                                                setState(() {
+                                                                  addressId =
+                                                                      index;
+                                                                });
+                                                                print(
+                                                                    addressId);
+                                                              },
+                                                            );
+                                                          },
+                                                          separatorBuilder:
+                                                              (context, index) {
+                                                            return Container(
+                                                              height:
+                                                                  getProportionateScreenHeight(
+                                                                      2),
+                                                              width: double
+                                                                  .infinity,
+                                                              color:
+                                                                  Colors.grey,
+                                                            );
+                                                          },
+                                                          itemCount:
+                                                              addresses.length,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    MaterialButton(
+                                                      onPressed: () {
+                                                        addNewAddressBottomSheet(
+                                                            context);
                                                       },
-                                                    );
-                                                  },
-                                                  separatorBuilder:
-                                                      (context, index) {
-                                                    return Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              2),
-                                                      width: double.infinity,
-                                                      color: Colors.grey,
-                                                    );
-                                                  },
-                                                  itemCount: addresses.length,
-                                                )
-                                              : Text('لا يوجد لديك عناوين'),
-                                        ],
-                                      ),
-                                      MaterialButton(
-                                        onPressed: () {
-                                          addNewAddressBottomSheet(context);
-                                        },
-                                        minWidth:
-                                            MediaQuery.of(context).size.width,
-                                        color: kAppBarColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          side: BorderSide(
-                                            color: Colors.white,
-                                            width:
-                                                getProportionateScreenWidth(1),
-                                            style: BorderStyle.solid,
-                                          ),
-                                        ),
-                                        child: Text('اضف عنوان جديد'),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                                      minWidth:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      color: kAppBarColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        side: BorderSide(
+                                                          color: Colors.white,
+                                                          width:
+                                                              getProportionateScreenWidth(
+                                                                  1),
+                                                          style:
+                                                              BorderStyle.solid,
+                                                        ),
+                                                      ),
+                                                      child: Text(
+                                                          'اضف عنوان جديد'),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Center(
+                                            child: Center(
+                                              child: Column(
+                                                children: [
+                                                  Text('لا يوجد لديك عناوين'),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: MaterialButton(
+                                                      onPressed: () {
+                                                        addNewAddressBottomSheet(
+                                                            context);
+                                                      },
+                                                      minWidth:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      color: kAppBarColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        side: BorderSide(
+                                                          color: Colors.white,
+                                                          width:
+                                                              getProportionateScreenWidth(
+                                                                  1),
+                                                          style:
+                                                              BorderStyle.solid,
+                                                        ),
+                                                      ),
+                                                      child: Text(
+                                                          'اضف عنوان جديد'),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
                               ),
                             ),
                             //payment
@@ -582,21 +664,20 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-}
 
-//go to order details
-void successDialog(
-    BuildContext context, String message, String orderSerialNumber) {
-  Get.defaultDialog(
-      content: Text(message),
-      textConfirm: 'تفاصيل الطلب',
-      title: 'عملية ناجحة',
-      buttonColor: Colors.green,
-      onConfirm: () async {
-        print(orderSerialNumber);
-        //await Provider.of<OrderProvider>(context, listen: false)
-        // .getOrderDetails(orderSerialNumber);
-        Get.toNamed(MyOrders.routeName);
-      },
-      confirmTextColor: kTextColor);
+  //go to order details
+  void successDialog(
+      BuildContext context, String message, String orderSerialNumber) {
+    Get.defaultDialog(
+        content: Text(message),
+        textConfirm: 'تفاصيل الطلب',
+        title: 'عملية ناجحة',
+        buttonColor: Colors.green,
+        onConfirm: () async {
+          print(orderSerialNumber);
+          await orderProvider.getOrderDetails(orderSerialNumber);
+          Get.toNamed(OrderDetails.routeName);
+        },
+        confirmTextColor: kTextColor);
+  }
 }
