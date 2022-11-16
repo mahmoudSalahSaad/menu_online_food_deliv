@@ -8,7 +8,6 @@ import 'package:menu_egypt/providers/orders_provider.dart';
 //import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
-import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
 import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
