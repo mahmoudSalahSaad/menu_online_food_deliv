@@ -5,6 +5,7 @@ import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/models/order_details.dart';
 //import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
+import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
 //import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
@@ -24,15 +25,17 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
   void initState() {
     orderDetailsModel =
         Provider.of<OrderProvider>(context, listen: false).orderDetailsModel;
-    if (orderDetailsModel.orderDetails.orderStatus == 'in-progress') {
+    if (orderDetailsModel.orderDetails.orderStatus == 'hold') {
       currentStep = 0;
-    } else if (orderDetailsModel.orderDetails.orderStatus == 'shipping') {
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'in-progress') {
       currentStep = 1;
-    } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'shipping') {
       currentStep = 2;
+    } else if (orderDetailsModel.orderDetails.orderStatus == 'delivered') {
+      currentStep = 3;
     } else if (orderDetailsModel.orderDetails.orderStatus == 'canceled') {
       cancelled = true;
-      currentStep = 2;
+      currentStep = 3;
     }
     super.initState();
   }
@@ -55,7 +58,11 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: AppBarWidget(title: 'تفاصيل الطلب'),
+                      child: AppBarWidget(
+                        title: 'تفاصيل الطلب',
+                        withBack: true,
+                        navigationPage: MyOrders.routeName,
+                      ),
                     ),
                     //order status
                     SizedBox(
@@ -72,21 +79,26 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                             currentStep: currentStep,
                             steps: [
                               Step(
-                                title: Text('جار التحضير'),
+                                title: Text('المعالجة'),
                                 content: Container(),
                                 isActive: currentStep == 0,
                               ),
                               Step(
-                                title: Text('جار التوصيل'),
+                                title: Text('التجهيز'),
                                 content: Container(),
                                 isActive: currentStep == 1,
+                              ),
+                              Step(
+                                title: Text('التوصيل'),
+                                content: Container(),
+                                isActive: currentStep == 2,
                               ),
                               Step(
                                 title: cancelled
                                     ? Text('تم الإلغاء')
                                     : Text('تم التوصيل'),
                                 content: Container(),
-                                isActive: currentStep == 2,
+                                isActive: currentStep == 3,
                               ),
                             ],
                           ),

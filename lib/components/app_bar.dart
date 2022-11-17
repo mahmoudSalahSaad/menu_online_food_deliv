@@ -4,9 +4,14 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 
 class AppBarWidget extends StatelessWidget {
-  AppBarWidget({@required this.title});
+  AppBarWidget(
+      {@required this.title,
+      @required this.withBack,
+      this.navigationPage = ''});
 
   final String title;
+  final String navigationPage;
+  final bool withBack;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,11 +20,20 @@ class AppBarWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(FontAwesomeIcons.chevronRight)),
+          withBack
+              ? IconButton(
+                  onPressed: () {
+                    if (navigationPage.isNotEmpty) {
+                      Get.toNamed(navigationPage);
+                    } else {
+                      Get.back();
+                    }
+                  },
+                  icon: Icon(FontAwesomeIcons.chevronRight),
+                )
+              : Spacer(
+                  flex: 1,
+                ),
           Spacer(
             flex: 2,
           ),

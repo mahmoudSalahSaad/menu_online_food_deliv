@@ -23,7 +23,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   Gender _gender = Gender.male;
-  String birthDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String birthDate =
+      DateFormat('yyyy-MM-dd').format(DateTime.parse('1980-01-01'));
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'fullName': null,
@@ -76,7 +77,10 @@ class _BodyState extends State<Body> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppBarWidget(title: 'التسجيل'),
+                AppBarWidget(
+                  title: 'التسجيل',
+                  withBack: true,
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: getProportionateScreenWidth(20.0)),
@@ -93,27 +97,35 @@ class _BodyState extends State<Body> {
                   region: regionProvider
                       .regionsOfCity(cityProvider.cities[0].cityId)[0],
                 ),
-                RadioListTile(
-                  title: Text('ذكر'),
-                  groupValue: _gender,
-                  value: Gender.male,
-                  activeColor: Colors.red,
-                  onChanged: (Gender value) {
-                    setState(() {
-                      _gender = value;
-                    });
-                  },
-                ),
-                RadioListTile(
-                  title: Text('انثى'),
-                  groupValue: _gender,
-                  value: Gender.female,
-                  activeColor: Colors.red,
-                  onChanged: (Gender value) {
-                    setState(() {
-                      _gender = value;
-                    });
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text('ذكر'),
+                        groupValue: _gender,
+                        value: Gender.male,
+                        activeColor: Colors.red,
+                        onChanged: (Gender value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text('انثى'),
+                        groupValue: _gender,
+                        value: Gender.female,
+                        activeColor: Colors.red,
+                        onChanged: (Gender value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
@@ -122,7 +134,7 @@ class _BodyState extends State<Body> {
                   onPressed: () async {
                     DateTime selected = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: DateTime.parse('1980-01-01'),
                       firstDate: DateTime(1900),
                       lastDate: DateTime(2100),
                     );
@@ -134,6 +146,7 @@ class _BodyState extends State<Body> {
                   child: Text(
                     'اختر تاريخ الميلاد ' + birthDate,
                     style: TextStyle(
+                      decoration: TextDecoration.underline,
                       color: Colors.white,
                       fontSize: getProportionateScreenHeight(15),
                     ),

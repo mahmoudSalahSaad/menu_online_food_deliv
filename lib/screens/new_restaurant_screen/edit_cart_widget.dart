@@ -114,7 +114,11 @@ void editCartBottomSheet(
             }
             //UI
             return Container(
-              height: MediaQuery.of(context).size.height * 0.90,
+              height: buttonsListWeight.isEmpty &&
+                      buttonsListFirstAddon.isEmpty &&
+                      buttonsListSeccondAddon.isEmpty
+                  ? MediaQuery.of(context).size.height * 0.54
+                  : MediaQuery.of(context).size.height * 0.90,
               color: Colors.transparent,
               child: Container(
                 decoration: BoxDecoration(
@@ -231,16 +235,7 @@ void editCartBottomSheet(
                                   ),
                                 )
                               : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      'لا يوجد مقاسات',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenHeight(20)),
-                                    ),
-                                  ),
+                                  padding: const EdgeInsets.all(0.0),
                                 ),
                           buttonsListWeight.isNotEmpty
                               ? Padding(
@@ -332,16 +327,7 @@ void editCartBottomSheet(
                                   ),
                                 )
                               : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      'لا يوجد إضافة اولى',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenHeight(20)),
-                                    ),
-                                  ),
+                                  padding: const EdgeInsets.all(0.0),
                                 ),
                           buttonsListFirstAddon.isNotEmpty
                               ? Padding(
@@ -417,7 +403,9 @@ void editCartBottomSheet(
                                     ),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                ),
                           //second addon
                           buttonsListSeccondAddon.isNotEmpty
                               ? Padding(
@@ -430,16 +418,7 @@ void editCartBottomSheet(
                                   ),
                                 )
                               : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      'لا يوجد إضافة ثانية',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenHeight(20)),
-                                    ),
-                                  ),
+                                  padding: const EdgeInsets.all(0.0),
                                 ),
                           buttonsListSeccondAddon.isNotEmpty
                               ? Padding(
@@ -516,7 +495,9 @@ void editCartBottomSheet(
                                     ),
                                   ),
                                 )
-                              : Padding(padding: const EdgeInsets.all(0.0)),
+                              : Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                ),
                           //total
                           Padding(
                             padding: const EdgeInsets.all(8.0),

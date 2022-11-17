@@ -87,7 +87,10 @@ class _BodyState extends State<Body> {
           padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: Column(
             children: [
-              AppBarWidget(title: ''),
+              AppBarWidget(
+                title: '',
+                withBack: true,
+              ),
               SizedBox(
                 height: SizeConfig.screenHeight * 0.02,
               ),

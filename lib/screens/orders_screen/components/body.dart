@@ -52,7 +52,10 @@ class _BodyState extends State<Body> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: AppBarWidget(title: 'طلباتى'),
+                              child: AppBarWidget(
+                                title: 'طلباتى',
+                                withBack: false,
+                              ),
                             ),
                             ListView.separated(
                               shrinkWrap: true,
@@ -93,10 +96,59 @@ class _BodyState extends State<Body> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${orders[index].countItems} منتج - ${orders[index].orderStatus} ",
-                                          style: TextStyle(
-                                              color: Colors.grey[300]),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${orders[index].countItems} منتج ",
+                                              style: TextStyle(
+                                                  color: Colors.grey[300]),
+                                            ),
+                                            Text(' - '),
+                                            orders[index].orderStatus == 'hold'
+                                                ? Text(
+                                                    "جار المعالجة",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.grey[300]),
+                                                  )
+                                                : orders[index].orderStatus ==
+                                                        'in-progress'
+                                                    ? Text(
+                                                        "جار التجهيز",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[300]),
+                                                      )
+                                                    : orders[index]
+                                                                .orderStatus ==
+                                                            'shipping'
+                                                        ? Text(
+                                                            "جار التوصيل",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[300]),
+                                                          )
+                                                        : orders[index]
+                                                                    .orderStatus ==
+                                                                'delivered'
+                                                            ? Text(
+                                                                "تم التوصيل",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        300]),
+                                                              )
+                                                            : orders[index]
+                                                                        .orderStatus ==
+                                                                    'canceled'
+                                                                ? Text(
+                                                                    "تم إلغاء الطلب",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .grey[300]),
+                                                                  )
+                                                                : Text(''),
+                                          ],
                                         ),
                                         Text(
                                           orders[index].operationDate,
@@ -126,6 +178,9 @@ class _BodyState extends State<Body> {
                                                       BorderRadius.circular(
                                                           10.0)),
                                               child: Text('تفاصيل الطلب'),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
                                             ),
                                             //re-order btn
                                             MaterialButton(

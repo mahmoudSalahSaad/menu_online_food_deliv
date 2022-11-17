@@ -101,6 +101,9 @@ class _BodyState extends State<Body> {
                         color: kPrimaryColor,
                         minWidth: 0.0,
                         height: getProportionateScreenHeight(45)),
+                SizedBox(
+                  height: SizeConfig.screenHeight * 0.02,
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
@@ -113,7 +116,7 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
                 ),
-                Text('يمكنك الدخول عن طريق حسابات'),
+                //Text('يمكنك الدخول عن طريق حسابات'),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
                 ),

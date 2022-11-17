@@ -8,6 +8,7 @@ import 'package:menu_egypt/providers/orders_provider.dart';
 //import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/screens/basket_screen/basket_screen.dart';
 import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
@@ -56,7 +57,11 @@ class _BodyState extends State<Body> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: AppBarWidget(title: 'الدفع'),
+                              child: AppBarWidget(
+                                title: 'الدفع',
+                                withBack: true,
+                                navigationPage: MyBasket.routeName,
+                              ),
                             ),
                             //resturant
                             ListTile(
@@ -141,98 +146,105 @@ class _BodyState extends State<Body> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    ExpansionTile(
-                                                      title: Text(
-                                                        'عنوان التوصيل',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                      children: [
-                                                        ListView.separated(
-                                                          shrinkWrap: true,
-                                                          physics:
-                                                              NeverScrollableScrollPhysics(),
-                                                          scrollDirection:
-                                                              Axis.vertical,
-                                                          itemBuilder:
-                                                              (context, index) {
-                                                            return RadioListTile(
-                                                              title: Column(
+                                                    ListView.separated(
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return RadioListTile(
+                                                          title: Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
                                                                 children: [
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Container(
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            Icon(
-                                                                              FontAwesomeIcons.house,
-                                                                              size: getProportionateScreenHeight(10),
-                                                                            ),
-                                                                            SizedBox(width: getProportionateScreenWidth(5)),
-                                                                            Text(addresses[index].cityName +
-                                                                                ',' +
-                                                                                addresses[index].regionName)
-                                                                          ],
+                                                                  Container(
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          FontAwesomeIcons
+                                                                              .house,
+                                                                          size:
+                                                                              getProportionateScreenHeight(10),
                                                                         ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Row(
-                                                                    children: [
-                                                                      Icon(
-                                                                        FontAwesomeIcons
-                                                                            .locationPin,
-                                                                        size: getProportionateScreenHeight(
-                                                                            10),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          width:
-                                                                              getProportionateScreenWidth(5)),
-                                                                      Text(
-                                                                          'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}'),
-                                                                    ],
+                                                                        SizedBox(
+                                                                            width:
+                                                                                getProportionateScreenWidth(5)),
+                                                                        Text(addresses[index].cityName +
+                                                                            ',' +
+                                                                            addresses[index].regionName)
+                                                                      ],
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
-                                                              groupValue:
-                                                                  addressId,
-                                                              value: addresses[
-                                                                      index]
+                                                              Row(
+                                                                children: [
+                                                                  Icon(
+                                                                    FontAwesomeIcons
+                                                                        .locationPin,
+                                                                    size:
+                                                                        getProportionateScreenHeight(
+                                                                            10),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      width:
+                                                                          getProportionateScreenWidth(
+                                                                              5)),
+                                                                  Text(
+                                                                      'شارع: ${addresses[index].street}')
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  Icon(
+                                                                    FontAwesomeIcons
+                                                                        .locationPin,
+                                                                    size:
+                                                                        getProportionateScreenHeight(
+                                                                            10),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      width:
+                                                                          getProportionateScreenWidth(
+                                                                              5)),
+                                                                  Text(
+                                                                      'عمارة: ${addresses[index].building} شقة: ${addresses[index].apartment}')
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          groupValue: addressId,
+                                                          value:
+                                                              addresses[index]
                                                                   .id,
-                                                              activeColor:
-                                                                  Colors.red,
-                                                              onChanged:
-                                                                  (index) {
-                                                                setState(() {
-                                                                  addressId =
-                                                                      index;
-                                                                });
-                                                                print(
-                                                                    addressId);
-                                                              },
-                                                            );
+                                                          activeColor:
+                                                              Colors.red,
+                                                          onChanged: (index) {
+                                                            setState(() {
+                                                              addressId = index;
+                                                            });
+                                                            print(addressId);
                                                           },
-                                                          separatorBuilder:
-                                                              (context, index) {
-                                                            return Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      2),
-                                                              width: double
-                                                                  .infinity,
-                                                              color:
-                                                                  Colors.grey,
-                                                            );
-                                                          },
-                                                          itemCount:
-                                                              addresses.length,
-                                                        )
-                                                      ],
+                                                        );
+                                                      },
+                                                      separatorBuilder:
+                                                          (context, index) {
+                                                        return Container(
+                                                          height:
+                                                              getProportionateScreenHeight(
+                                                                  2),
+                                                          width:
+                                                              double.infinity,
+                                                          color: Colors.grey,
+                                                        );
+                                                      },
+                                                      itemCount:
+                                                          addresses.length,
                                                     ),
                                                     MaterialButton(
                                                       onPressed: () {
@@ -671,7 +683,7 @@ class _BodyState extends State<Body> {
         content: Text(message),
         textConfirm: 'تفاصيل الطلب',
         title: 'عملية ناجحة',
-        buttonColor: Colors.green,
+        buttonColor: Colors.red,
         onConfirm: () async {
           print(orderSerialNumber);
           await orderProvider.getOrderDetails(orderSerialNumber);

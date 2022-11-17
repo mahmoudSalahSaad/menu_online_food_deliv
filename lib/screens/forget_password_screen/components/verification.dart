@@ -75,11 +75,14 @@ class _VerificationPasswordScreenState
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    AppBarWidget(title: 'كود التحقيق'),
+                    AppBarWidget(
+                      title: 'إرسال رمز التحقق الى البريد الإلكترونى',
+                      withBack: true,
+                    ),
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
-                    Text('من فضلك قم بإدخال كود التحقيق.',
+                    Text('من فضلك قم بإدخال رمز التحقق.',
                         style: Theme.of(context).textTheme.headline5.copyWith(
                             fontWeight: FontWeight.w400,
                             fontSize: getProportionateScreenHeight(14.0))),
@@ -92,7 +95,7 @@ class _VerificationPasswordScreenState
                         children: [
                           InputTextField(
                             textInputType: TextInputType.emailAddress,
-                            labelText: "كود التحقيق",
+                            labelText: "رمز التحقق",
                             border: false,
                             onChanged: (String value) {
                               if (value.isNotEmpty) {

@@ -41,7 +41,8 @@ class _BodyState extends State<Body> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: AppBarWidget(title: 'العناوين'),
+                          child:
+                              AppBarWidget(title: 'العناوين', withBack: true),
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.70,
@@ -147,9 +148,46 @@ class _BodyState extends State<Body> {
                                                           getProportionateScreenWidth(
                                                               5)),
                                                   Text(
-                                                      'شارع ${addresses[index].street} عمارة ${addresses[index].building} شقة ${addresses[index].apartment}')
+                                                      'شارع: ${addresses[index].street}')
                                                 ],
                                               ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons
+                                                        .locationPin,
+                                                    size:
+                                                        getProportionateScreenHeight(
+                                                            10),
+                                                  ),
+                                                  SizedBox(
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              5)),
+                                                  Text(
+                                                      'عمارة: ${addresses[index].building} شقة: ${addresses[index].apartment}')
+                                                ],
+                                              ),
+                                              addresses[index].description !=
+                                                      null
+                                                  ? Row(
+                                                      children: [
+                                                        Icon(
+                                                          FontAwesomeIcons
+                                                              .locationPin,
+                                                          size:
+                                                              getProportionateScreenHeight(
+                                                                  10),
+                                                        ),
+                                                        SizedBox(
+                                                            width:
+                                                                getProportionateScreenWidth(
+                                                                    5)),
+                                                        Text(
+                                                            'الوصف: ${addresses[index].description}')
+                                                      ],
+                                                    )
+                                                  : SizedBox(),
                                             ],
                                           ),
                                         ),

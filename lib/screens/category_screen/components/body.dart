@@ -20,7 +20,10 @@ class Body extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: kDefaultPadding),
-                    child: AppBarWidget(title: ""),
+                    child: AppBarWidget(
+                      title: "",
+                      withBack: true,
+                    ),
                   ),
                   Text('',
                       style: TextStyle(

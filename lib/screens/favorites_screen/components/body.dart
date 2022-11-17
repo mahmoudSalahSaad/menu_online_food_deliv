@@ -19,7 +19,10 @@ class Body extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: kDefaultPadding),
-            child: AppBarWidget(title: "المفضلة"),
+            child: AppBarWidget(
+              title: "المفضلة",
+              withBack: false,
+            ),
           ),
           Text('',
               style: TextStyle(fontSize: getProportionateScreenHeight(10))),

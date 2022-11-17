@@ -70,13 +70,13 @@ class MenuTabWidget extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 side: BorderSide(
-                                  color: Colors.white,
+                                  color: Colors.grey[600],
                                   width: getProportionateScreenWidth(1),
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              color: Colors.black87,
-                              child: Text('اطلب اونلاين'),
+                              color: Colors.grey,
+                              child: Text('خارج توقيت العمل'),
                             ),
                           )
                         : SizedBox(),

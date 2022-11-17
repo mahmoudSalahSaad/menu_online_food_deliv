@@ -31,7 +31,10 @@ class _BodyState extends State<Body> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: AppBarWidget(title: 'التحقق'),
+            child: AppBarWidget(
+              title: 'إرسال رمز التحقق الى البريد الإلكترونى',
+              withBack: true,
+            ),
           ),
           //otp
           Padding(
@@ -48,7 +51,7 @@ class _BodyState extends State<Body> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(16.0),
-                  hintText: 'كود التحقق',
+                  hintText: 'رمز التحقق',
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
                 ),
@@ -65,7 +68,7 @@ class _BodyState extends State<Body> {
               },
               onFinished: () {
                 setState(() {
-                  message = 'إضغط هنا لإعادة إرسال الكود';
+                  message = 'إضغط هنا لإعادة إرسال الرمز';
                 });
               },
             ),
@@ -97,7 +100,7 @@ class _BodyState extends State<Body> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      'تأكيد كود التحقق',
+                      'تأكيد رمز التحقق',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -113,7 +116,7 @@ class _BodyState extends State<Body> {
                   await Provider.of<UserProvider>(context, listen: false)
                       .resendOtp();
               if (result['success']) {
-                dialog('تم ارسال كود التحقق');
+                dialog('تم ارسال رمز التحقق');
               } else {
                 dialog(result['error'].toString());
               }

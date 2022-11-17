@@ -76,7 +76,10 @@ class _BodyState extends State<Body> {
             child: CustomScrollView(slivers: [
               SliverList(
                   delegate: SliverChildListDelegate([
-                AppBarWidget(title: ''),
+                AppBarWidget(
+                  title: '',
+                  withBack: true,
+                ),
                 Container(
                   height: SizeConfig.screenHeight * 0.2,
                   child: ClipRRect(
@@ -101,7 +104,7 @@ class _BodyState extends State<Body> {
                   icon: Icons.phone,
                   onTap: () async {
                     bool result = await FlutterPhoneDirectCaller.callNumber(
-                        '+2${restaurants[widget.restaurantIndex].phoneNumber1}');
+                        '${restaurants[widget.restaurantIndex].phoneNumber1}');
                     if (result) {
                       print('call');
                     }

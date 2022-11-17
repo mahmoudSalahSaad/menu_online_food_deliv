@@ -101,7 +101,10 @@ class _BodyState extends State<Body> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: AppBarWidget(title: 'تعديل الملف الشخصى'),
+                  child: AppBarWidget(
+                    title: 'تعديل الملف الشخصى',
+                    withBack: true,
+                  ),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 EditForm(
@@ -118,27 +121,35 @@ class _BodyState extends State<Body> {
                       : regionProvider
                           .regionsOfCity(cityProvider.cities[0].cityId)[0],
                 ),
-                RadioListTile(
-                  title: Text('ذكر'),
-                  groupValue: _gender,
-                  value: Gender.male,
-                  activeColor: Colors.red,
-                  onChanged: (Gender value) {
-                    setState(() {
-                      _gender = value;
-                    });
-                  },
-                ),
-                RadioListTile(
-                  title: Text('انثى'),
-                  groupValue: _gender,
-                  value: Gender.female,
-                  activeColor: Colors.red,
-                  onChanged: (Gender value) {
-                    setState(() {
-                      _gender = value;
-                    });
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text('ذكر'),
+                        groupValue: _gender,
+                        value: Gender.male,
+                        activeColor: Colors.red,
+                        onChanged: (Gender value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile(
+                        title: Text('انثى'),
+                        groupValue: _gender,
+                        value: Gender.female,
+                        activeColor: Colors.red,
+                        onChanged: (Gender value) {
+                          setState(() {
+                            _gender = value;
+                          });
+                        },
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
@@ -159,6 +170,7 @@ class _BodyState extends State<Body> {
                   child: Text(
                     'اختر تاريخ الميلاد ' + birthDate,
                     style: TextStyle(
+                      decoration: TextDecoration.underline,
                       color: Colors.white,
                       fontSize: getProportionateScreenHeight(15),
                     ),

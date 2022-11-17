@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
@@ -46,8 +47,66 @@ class _BodyState extends State<Body> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: AppBarWidget(title: 'السلة'),
+                              child: AppBarWidget(
+                                title: 'السلة',
+                                withBack: false,
+                              ),
                             ),
+                            //resturant info
+                            //resturant
+                            ListTile(
+                              leading: Container(
+                                height: getProportionateScreenHeight(50),
+                                width: getProportionateScreenWidth(50),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(cart.resturantLogo),
+                                  ),
+                                ),
+                              ),
+                              title: Text(
+                                "طلبك من مطعم",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: getProportionateScreenHeight(10)),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cart.resturantName,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.motorcycle,
+                                        size: getProportionateScreenHeight(10),
+                                      ),
+                                      SizedBox(
+                                          width:
+                                              getProportionateScreenWidth(5)),
+                                      Text(
+                                        "التوصيل خلال ${cart.deliveryTime} دقيقة",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    10)),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            //cart info
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Container(

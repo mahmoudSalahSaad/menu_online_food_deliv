@@ -88,7 +88,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    AppBarWidget(title: 'كود التحقيق'),
+                    AppBarWidget(
+                      title: 'كود التحقيق',
+                      withBack: true,
+                    ),
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),

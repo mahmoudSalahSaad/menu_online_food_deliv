@@ -49,7 +49,10 @@ class _BodyState extends State<Body> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AppBarWidget(title: 'نسيت كلمة السر'),
+              AppBarWidget(
+                title: 'نسيت كلمة السر',
+                withBack: true,
+              ),
               SizedBox(
                 height: SizeConfig.screenHeight * 0.04,
               ),

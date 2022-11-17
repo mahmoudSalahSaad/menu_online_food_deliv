@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/basket_screen/basket_screen.dart';
@@ -36,6 +37,8 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false).user;
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
     return Stack(
       children: [
         BottomNavigationBar(
@@ -64,17 +67,22 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                   children: [
                     Icon(
                       FontAwesomeIcons.cartShopping,
+                      size: 40,
                     ),
-                    /*
-                    CircleAvatar(
-                      radius: 10,
-                      backgroundColor: kAppBarColor,
-                      child: Text(
-                        '2',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    Consumer<CartProvider>(
+                      builder: (context, value, child) {
+                        return CircleAvatar(
+                          radius: 11,
+                          backgroundColor: Colors.redAccent,
+                          child: Text(
+                            cartProvider.cart != null
+                                ? '${cartProvider.cart.cartItems.length}'
+                                : '0',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
                     ),
-                    */
                   ],
                 ),
                 label: "السلة"),
@@ -114,12 +122,11 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 if (user == null) {
                   Get.toNamed(SignInScreen.routeName);
                 } else {
-                  /*
                   var userFavorites =
                       Provider.of<UserProvider>(context, listen: false)
                           .user
                           .favorites;
-                  */
+
                   List<String> savedFavsStrList =
                       prefs.getStringList('favList');
                   List<int> intFavList =

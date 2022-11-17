@@ -60,7 +60,10 @@ class _BodyState extends State<Body> {
             child: CustomScrollView(slivers: [
               SliverList(
                   delegate: SliverChildListDelegate([
-                AppBarWidget(title: 'حسابى'),
+                AppBarWidget(
+                  title: 'حسابى',
+                  withBack: false,
+                ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.04,
                 ),
