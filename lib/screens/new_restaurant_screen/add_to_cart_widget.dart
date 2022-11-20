@@ -14,17 +14,18 @@ void addToCartBottomSheet(
   CartItemModel cartItem;
 
   int quantity = 1;
-  double price = 0;
+  num price = 0.0;
   String weight = '';
   String firstAddonName = '';
   String secondAddonName = '';
   int weightId = 0, firstAddId = 0, secondAddId = 0;
   //selections
-  List<bool> isSelectedWeight = List.generate(2, (_) => false);
+
+  List<bool> isSelectedWeight = [];
   List<Sizes> buttonsListWeight = [];
-  List<bool> isSelectedFirstAddon = List.generate(2, (_) => false);
+  List<bool> isSelectedFirstAddon = [];
   List<FirstAdditionsData> buttonsListFirstAddon = [];
-  List<bool> isSelectedSecondAddon = List.generate(2, (_) => false);
+  List<bool> isSelectedSecondAddon = [];
   List<SecondAdditionsData> buttonsListSeccondAddon = [];
 
   showModalBottomSheet(
@@ -36,10 +37,9 @@ void addToCartBottomSheet(
             //restaurantItemsProvider
             final restaurantItemsProvider =
                 Provider.of<ResturantItemsProvider>(context, listen: true);
-
             if (!restaurantItemsProvider.isLoading) {
               //main product price
-              if (price == 0) {
+              if (price == 0.0) {
                 price = restaurantItemsProvider
                     .resturantProductModel.product.price
                     .toDouble();
@@ -49,6 +49,13 @@ void addToCartBottomSheet(
                   restaurantItemsProvider.resturantProductModel.sizes != null
                       ? restaurantItemsProvider.resturantProductModel.sizes
                       : [];
+              isSelectedWeight =
+                  restaurantItemsProvider.resturantProductModel.sizes != null
+                      ? List.generate(
+                          restaurantItemsProvider
+                              .resturantProductModel.sizes.length,
+                          (_) => false)
+                      : List.generate(0, (_) => false);
               //first add selections
               buttonsListFirstAddon = restaurantItemsProvider
                           .resturantProductModel.firstAdditionsData !=
@@ -56,6 +63,15 @@ void addToCartBottomSheet(
                   ? restaurantItemsProvider
                       .resturantProductModel.firstAdditionsData
                   : [];
+
+              isSelectedFirstAddon = restaurantItemsProvider
+                          .resturantProductModel.firstAdditionsData !=
+                      null
+                  ? List.generate(
+                      restaurantItemsProvider
+                          .resturantProductModel.firstAdditionsData.length,
+                      (_) => false)
+                  : List.generate(0, (_) => false);
               //second add selections
               buttonsListSeccondAddon = restaurantItemsProvider
                           .resturantProductModel.secondAdditionsData !=
@@ -63,6 +79,14 @@ void addToCartBottomSheet(
                   ? restaurantItemsProvider
                       .resturantProductModel.secondAdditionsData
                   : [];
+              isSelectedSecondAddon = restaurantItemsProvider
+                          .resturantProductModel.secondAdditionsData !=
+                      null
+                  ? List.generate(
+                      restaurantItemsProvider
+                          .resturantProductModel.secondAdditionsData.length,
+                      (_) => false)
+                  : List.generate(0, (_) => false);
               //force selected weight
               if (buttonsListWeight.isNotEmpty && price == 0) {
                 isSelectedWeight[0] = true;
@@ -128,12 +152,18 @@ void addToCartBottomSheet(
                                   borderRadius: BorderRadius.circular(5.0),
                                   image: DecorationImage(
                                     fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        'https://menuegypt.com/order_online/product_images/' +
-                                            restaurantItemsProvider
+                                    image: restaurantItemsProvider
                                                 .resturantProductModel
                                                 .product
-                                                .image),
+                                                .image ==
+                                            null
+                                        ? AssetImage('assets/icons/menu.png')
+                                        : NetworkImage(
+                                            'https://menuegypt.com/order_online/product_images/' +
+                                                restaurantItemsProvider
+                                                    .resturantProductModel
+                                                    .product
+                                                    .image),
                                   ),
                                 ),
                               ),
@@ -163,9 +193,10 @@ void addToCartBottomSheet(
                                   //description
                                   Text(
                                     restaurantItemsProvider
-                                        .resturantProductModel
-                                        .product
-                                        .shortDescription,
+                                            .resturantProductModel
+                                            .product
+                                            .shortDescription ??
+                                        '',
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   // incr , decr quantity
@@ -275,15 +306,34 @@ void addToCartBottomSheet(
                                                     color: kAppBarColor),
                                               ),
                                               child: Center(
-                                                child: Text(
-                                                  buttonsListWeight[index]
-                                                      .title,
-                                                  style: TextStyle(
-                                                    color:
-                                                        isSelectedWeight[index]
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Text(
+                                                      buttonsListWeight[index]
+                                                          .title,
+                                                      style: TextStyle(
+                                                        color: isSelectedWeight[
+                                                                index]
                                                             ? Colors.white
                                                             : Colors.black,
-                                                  ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      buttonsListWeight[index]
+                                                              .price
+                                                              .toString() +
+                                                          ' جم',
+                                                      style: TextStyle(
+                                                        color: isSelectedWeight[
+                                                                index]
+                                                            ? Colors.white
+                                                            : Colors.black,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -516,7 +566,8 @@ void addToCartBottomSheet(
                                             .resturantCategoriesModel.restId,
                                         restaurantItemsProvider
                                             .resturantCategoriesModel
-                                            .deliveryFee,
+                                            .deliveryFee
+                                            .toDouble(),
                                         restaurantItemsProvider
                                             .resturantCategoriesModel
                                             .deliveryTime,

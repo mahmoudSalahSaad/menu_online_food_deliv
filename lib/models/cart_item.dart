@@ -1,6 +1,6 @@
 class CartItemModel {
   int id, quantity, weightId, firstAddId, secondAddId;
-  double price, firstAddonPrice, secondAddonPrice;
+  num price, firstAddonPrice, secondAddonPrice;
   String name, description, weight, firstAddonName, secondAddonName, photoUrl;
 
   CartItemModel({

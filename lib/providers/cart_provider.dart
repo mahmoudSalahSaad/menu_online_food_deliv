@@ -55,21 +55,21 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  double calculateCartSubtotal() {
-    double subTotal = 0.0;
+  num calculateCartSubtotal() {
+    num subTotal = 0.0;
     for (CartItemModel cartItem in _cart.cartItems) {
       subTotal += cartItem.quantity * cartItem.price;
     }
     return subTotal;
   }
 
-  double calculateCartTotal() {
-    double total = 0.0;
+  num calculateCartTotal() {
+    num total = 0.0;
     total = _cart.subTotalPrice + _cart.deliveryPrice;
     return total;
   }
 
-  addItemToCart(CartItemModel cartItem, int resturantId, int deliveryPrice,
+  addItemToCart(CartItemModel cartItem, int resturantId, num deliveryPrice,
       int deliveryTime, String resturantName, String resturantLogo) async {
     bool theSameItemExistsInCart = false;
     //if the same item is found in cart .. update it's quantity
@@ -102,12 +102,18 @@ class CartProvider extends ChangeNotifier {
     _cart.cartItems.removeAt(itemIndex);
     _cart.subTotalPrice = calculateCartSubtotal();
     _cart.totalPrice = calculateCartTotal();
+    if (_cart.cartItems.isEmpty) {
+      _cart.resturantId = 0;
+    }
     await updateCartToSharedPref();
     notifyListeners();
   }
 
   clearCart() async {
     _cart.cartItems.clear();
+    _cart.resturantId = 0;
+    _cart.resturantName = '';
+    _cart.resturantLogo = '';
     _cart.deliveryTime = 0;
     _cart.deliveryPrice = 0.0;
     _cart.subTotalPrice = 0.0;

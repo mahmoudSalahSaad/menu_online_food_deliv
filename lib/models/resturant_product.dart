@@ -67,7 +67,7 @@ class Product {
   int categoryId;
   String title;
   String image;
-  int price;
+  num price;
   String shortDescription;
   String productHaveSizes;
 
@@ -109,7 +109,7 @@ class Product {
 class Sizes {
   int id;
   String title;
-  int price;
+  num price;
 
   Sizes({this.id, this.title, this.price});
 

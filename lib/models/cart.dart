@@ -2,7 +2,7 @@ import 'package:menu_egypt/models/cart_item.dart';
 
 class CartModel {
   int resturantId = 0, deliveryTime = 0;
-  double deliveryPrice = 0.0, subTotalPrice = 0.0, totalPrice = 0.0;
+  num deliveryPrice = 0.0, subTotalPrice = 0.0, totalPrice = 0.0;
   String resturantName = '', resturantLogo = '';
   List<CartItemModel> cartItems = [];
 

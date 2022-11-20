@@ -63,7 +63,7 @@ class OrderDetails {
   String serialNumber;
   int countItems;
   int subTotal;
-  int deliveryFee;
+  num deliveryFee;
   int total;
   int deliveryTime;
   String orderStatus;

@@ -93,7 +93,7 @@ class RestaurantsProvider extends ChangeNotifier {
         var parsedRestaurantImages = response.data['data']['images'] as List;
         var parsedRestaurantComment = response.data['data']['comments'] as List;
 
-        if (parsedrbanches != null) {
+        if (parsedrbanches.isNotEmpty) {
           parsedrbanches.forEach((restaurantObject) {
             restaurantBranches.add({
               'name': restaurantObject['name_ar'],
@@ -104,7 +104,7 @@ class RestaurantsProvider extends ChangeNotifier {
           });
         }
 
-        if (parsedRestaurantImages != null) {
+        if (parsedRestaurantImages.isNotEmpty) {
           parsedRestaurantImages.forEach((restaurantObject) {
             restaurantImages
                 .add('https://menuegypt.com/' + restaurantObject['pic']);
@@ -112,12 +112,12 @@ class RestaurantsProvider extends ChangeNotifier {
           });
         }
 
-        if (parsedRegoins != null) {
+        if (parsedRegoins.isNotEmpty) {
           parsedRegoins.forEach((restaurantObject) {
             regionsResult.add(restaurantObject['region_id']);
           });
         }
-        if (parsedRestaurantComment != null) {
+        if (parsedRestaurantComment.isNotEmpty) {
           parsedRestaurantComment.forEach((commentObject) {
             Comment comment = Comment(
                 email: commentObject['email'],
@@ -174,9 +174,11 @@ class RestaurantsProvider extends ChangeNotifier {
           review: response.data['data']['review'] > 0
               ? response.data['data']['review']
               : 5,
-          date: DateFormat('dd/MM/yyyy').format(
-            DateTime.parse(latestDate),
-          ),
+          date: latestDate.isNotEmpty
+              ? DateFormat('dd/MM/yyyy').format(
+                  DateTime.parse(latestDate),
+                )
+              : '',
           isOnline: response.data['data']['is_online'],
           isOutOfTime: response.data['data']['is_out_of_time'],
         );

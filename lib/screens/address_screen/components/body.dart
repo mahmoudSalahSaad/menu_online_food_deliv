@@ -220,7 +220,33 @@ class _BodyState extends State<Body> {
                     ),
                   )
                 : Center(
-                    child: Center(child: Text('لا يوجد لديك عناوين')),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text('لا يوجد لديك عناوين'),
+                        ),
+                        //add address
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: MaterialButton(
+                            height: getProportionateScreenHeight(50),
+                            minWidth: MediaQuery.of(context).size.width,
+                            onPressed: () {
+                              addNewAddressBottomSheet(context);
+                            },
+                            color: kAppBarColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'إضافة عنوان جديد',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   );
           } else {
             return Center(child: CircularProgressIndicator());

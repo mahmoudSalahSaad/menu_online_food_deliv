@@ -40,7 +40,7 @@ class MenuTabWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('المنيو بتاريخ : ' + date),
+                date.isNotEmpty ? Text('المنيو بتاريخ : ' + date) : Text(''),
                 isOnline == 'yes' && isOutOfTime == 'no'
                     ? MaterialButton(
                         onPressed: () {

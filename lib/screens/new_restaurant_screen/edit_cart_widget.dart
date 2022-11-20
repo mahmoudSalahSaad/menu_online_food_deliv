@@ -14,7 +14,7 @@ void editCartBottomSheet(
   CartItemModel cartItem;
 
   int quantity = itemToEdit.quantity;
-  double price = itemToEdit.price;
+  num price = itemToEdit.price;
   String weight = itemToEdit.weight;
   String firstAddonName = itemToEdit.firstAddonName;
   String secondAddonName = itemToEdit.secondAddonName;
@@ -22,11 +22,11 @@ void editCartBottomSheet(
       firstAddId = itemToEdit.firstAddId,
       secondAddId = itemToEdit.secondAddId;
   //selections
-  List<bool> isSelectedWeight = List.generate(2, (_) => false);
+  List<bool> isSelectedWeight = [];
   List<Sizes> buttonsListWeight = [];
-  List<bool> isSelectedFirstAddon = List.generate(2, (_) => false);
+  List<bool> isSelectedFirstAddon = [];
   List<FirstAdditionsData> buttonsListFirstAddon = [];
-  List<bool> isSelectedSecondAddon = List.generate(2, (_) => false);
+  List<bool> isSelectedSecondAddon = [];
   List<SecondAdditionsData> buttonsListSeccondAddon = [];
 
   showModalBottomSheet(
@@ -38,10 +38,9 @@ void editCartBottomSheet(
             //restaurantItemsProvider
             final restaurantItemsProvider =
                 Provider.of<ResturantItemsProvider>(context, listen: true);
-
             if (!restaurantItemsProvider.isLoading) {
               //main product price
-              if (price == 0) {
+              if (price == 0.0) {
                 price = restaurantItemsProvider
                     .resturantProductModel.product.price
                     .toDouble();
@@ -51,6 +50,13 @@ void editCartBottomSheet(
                   restaurantItemsProvider.resturantProductModel.sizes != null
                       ? restaurantItemsProvider.resturantProductModel.sizes
                       : [];
+              isSelectedWeight =
+                  restaurantItemsProvider.resturantProductModel.sizes != null
+                      ? List.generate(
+                          restaurantItemsProvider
+                              .resturantProductModel.sizes.length,
+                          (_) => false)
+                      : List.generate(0, (_) => false);
               //first add selections
               buttonsListFirstAddon = restaurantItemsProvider
                           .resturantProductModel.firstAdditionsData !=
@@ -58,6 +64,14 @@ void editCartBottomSheet(
                   ? restaurantItemsProvider
                       .resturantProductModel.firstAdditionsData
                   : [];
+              isSelectedFirstAddon = restaurantItemsProvider
+                          .resturantProductModel.firstAdditionsData !=
+                      null
+                  ? List.generate(
+                      restaurantItemsProvider
+                          .resturantProductModel.firstAdditionsData.length,
+                      (_) => false)
+                  : List.generate(0, (_) => false);
               //second add selections
               buttonsListSeccondAddon = restaurantItemsProvider
                           .resturantProductModel.secondAdditionsData !=
@@ -65,6 +79,15 @@ void editCartBottomSheet(
                   ? restaurantItemsProvider
                       .resturantProductModel.secondAdditionsData
                   : [];
+              isSelectedSecondAddon = restaurantItemsProvider
+                          .resturantProductModel.secondAdditionsData !=
+                      null
+                  ? List.generate(
+                      restaurantItemsProvider
+                          .resturantProductModel.secondAdditionsData.length,
+                      (_) => false)
+                  : List.generate(0, (_) => false);
+
               //mark selected weight
 
               if (buttonsListWeight.isNotEmpty &&
@@ -147,12 +170,18 @@ void editCartBottomSheet(
                                   borderRadius: BorderRadius.circular(5.0),
                                   image: DecorationImage(
                                     fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        'https://menuegypt.com/order_online/product_images/' +
-                                            restaurantItemsProvider
+                                    image: restaurantItemsProvider
                                                 .resturantProductModel
                                                 .product
-                                                .image),
+                                                .image ==
+                                            null
+                                        ? AssetImage('assets/icons/menu.png')
+                                        : NetworkImage(
+                                            'https://menuegypt.com/order_online/product_images/' +
+                                                restaurantItemsProvider
+                                                    .resturantProductModel
+                                                    .product
+                                                    .image),
                                   ),
                                 ),
                               ),
@@ -182,9 +211,10 @@ void editCartBottomSheet(
                                   //description
                                   Text(
                                     restaurantItemsProvider
-                                        .resturantProductModel
-                                        .product
-                                        .shortDescription,
+                                            .resturantProductModel
+                                            .product
+                                            .shortDescription ??
+                                        '',
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   // incr , decr quantity
@@ -294,15 +324,34 @@ void editCartBottomSheet(
                                                     color: kAppBarColor),
                                               ),
                                               child: Center(
-                                                child: Text(
-                                                  buttonsListWeight[index]
-                                                      .title,
-                                                  style: TextStyle(
-                                                    color:
-                                                        isSelectedWeight[index]
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Text(
+                                                      buttonsListWeight[index]
+                                                          .title,
+                                                      style: TextStyle(
+                                                        color: isSelectedWeight[
+                                                                index]
                                                             ? Colors.white
                                                             : Colors.black,
-                                                  ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      buttonsListWeight[index]
+                                                              .price
+                                                              .toString() +
+                                                          ' جم',
+                                                      style: TextStyle(
+                                                        color: isSelectedWeight[
+                                                                index]
+                                                            ? Colors.white
+                                                            : Colors.black,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                             ),

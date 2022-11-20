@@ -131,6 +131,9 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
     List<ScrollableListTab> taps = [];
 
     for (int i = 0; i < resturantCategoriesModel.catgeoriesList.length; i++) {
+      if (resturantCategoriesModel.catgeoriesList[i].catgeoryProducts.isEmpty) {
+        continue;
+      }
       taps.add(
         ScrollableListTab(
           tab: ListTab(
@@ -146,6 +149,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
+              print(resturantCategoriesModel
+                  .catgeoriesList[i].catgeoryProducts[index].image);
               return ListTile(
                 leading: Container(
                   height: getProportionateScreenHeight(50),
@@ -155,10 +160,14 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(5.0),
                     image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: NetworkImage(
-                          'https://menuegypt.com/order_online/product_images/' +
-                              resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].image),
+                      image: resturantCategoriesModel.catgeoriesList[i]
+                                  .catgeoryProducts[index].image ==
+                              null
+                          ? AssetImage('assets/icons/menu.png')
+                          : NetworkImage(
+                              'https://menuegypt.com/order_online/product_images/' +
+                                  resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].image),
                     ),
                   ),
                 ),
@@ -170,7 +179,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
                 subtitle: Text(
                   resturantCategoriesModel.catgeoriesList[i]
-                      .catgeoryProducts[index].shortDescription,
+                          .catgeoryProducts[index].shortDescription ??
+                      '',
                   style: TextStyle(color: Colors.grey[300]),
                 ),
                 trailing: Column(

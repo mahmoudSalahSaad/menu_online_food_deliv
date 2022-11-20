@@ -1,6 +1,6 @@
 class ResturantCategoriesModel {
   int restId;
-  int deliveryFee;
+  num deliveryFee;
   int deliveryTime;
   List<CatgeoriesList> catgeoriesList;
 
@@ -64,9 +64,9 @@ class CatgeoryProducts {
   int id;
   String title;
   String image;
-  int price;
-  int minPrice;
-  int maxPrice;
+  num price;
+  num minPrice;
+  num maxPrice;
   String shortDescription;
   String haveSizes;
 
