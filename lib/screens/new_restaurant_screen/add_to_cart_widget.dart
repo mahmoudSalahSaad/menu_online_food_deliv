@@ -23,11 +23,13 @@ void addToCartBottomSheet(
 
   List<bool> isSelectedWeight = [];
   List<Sizes> buttonsListWeight = [];
+  int selectedWeightIndex = 0;
   List<bool> isSelectedFirstAddon = [];
   List<FirstAdditionsData> buttonsListFirstAddon = [];
+  int selectedFirstAddIndex = -1;
   List<bool> isSelectedSecondAddon = [];
   List<SecondAdditionsData> buttonsListSeccondAddon = [];
-
+  int selectedSecondAddIndex = -1;
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -53,8 +55,12 @@ void addToCartBottomSheet(
                   restaurantItemsProvider.resturantProductModel.sizes != null
                       ? List.generate(
                           restaurantItemsProvider
-                              .resturantProductModel.sizes.length,
-                          (_) => false)
+                              .resturantProductModel.sizes.length, (index) {
+                          if (index == selectedWeightIndex) {
+                            return true;
+                          }
+                          return false;
+                        })
                       : List.generate(0, (_) => false);
               //first add selections
               buttonsListFirstAddon = restaurantItemsProvider
@@ -68,9 +74,13 @@ void addToCartBottomSheet(
                           .resturantProductModel.firstAdditionsData !=
                       null
                   ? List.generate(
-                      restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData.length,
-                      (_) => false)
+                      restaurantItemsProvider.resturantProductModel
+                          .firstAdditionsData.length, (index) {
+                      if (index == selectedFirstAddIndex) {
+                        return true;
+                      }
+                      return false;
+                    })
                   : List.generate(0, (_) => false);
               //second add selections
               buttonsListSeccondAddon = restaurantItemsProvider
@@ -83,9 +93,13 @@ void addToCartBottomSheet(
                           .resturantProductModel.secondAdditionsData !=
                       null
                   ? List.generate(
-                      restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData.length,
-                      (_) => false)
+                      restaurantItemsProvider.resturantProductModel
+                          .secondAdditionsData.length, (index) {
+                      if (index == selectedSecondAddIndex) {
+                        return true;
+                      }
+                      return false;
+                    })
                   : List.generate(0, (_) => false);
               //force selected weight
               if (buttonsListWeight.isNotEmpty && price == 0) {
@@ -186,9 +200,8 @@ void addToCartBottomSheet(
                                   )
                                 ],
                               ),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   //description
                                   Text(
@@ -269,6 +282,7 @@ void addToCartBottomSheet(
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  selectedWeightIndex = index;
                                                   weightId =
                                                       buttonsListWeight[index]
                                                           .id;
@@ -380,6 +394,7 @@ void addToCartBottomSheet(
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  selectedFirstAddIndex = index;
                                                   firstAddId =
                                                       buttonsListFirstAddon[
                                                               index]
@@ -471,6 +486,8 @@ void addToCartBottomSheet(
                                             onTap: () {
                                               setBottomSheetState(
                                                 () {
+                                                  selectedSecondAddIndex =
+                                                      index;
                                                   secondAddId =
                                                       buttonsListSeccondAddon[
                                                               index]

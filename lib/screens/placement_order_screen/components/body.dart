@@ -5,11 +5,14 @@ import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
+import 'package:menu_egypt/providers/resturant_items_provider.dart';
 //import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/screens/basket_screen/basket_screen.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
+import 'package:menu_egypt/screens/otp_screen/otp_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
@@ -65,17 +68,25 @@ class _BodyState extends State<Body> {
                             ),
                             //resturant
                             ListTile(
-                              leading: Container(
-                                height: getProportionateScreenHeight(50),
-                                width: getProportionateScreenWidth(50),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(cart.resturantLogo),
+                              leading: GestureDetector(
+                                child: Container(
+                                  height: getProportionateScreenHeight(50),
+                                  width: getProportionateScreenWidth(50),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(cart.resturantLogo),
+                                    ),
                                   ),
                                 ),
+                                onTap: () {
+                                  Provider.of<ResturantItemsProvider>(context,
+                                          listen: false)
+                                      .getResturantCategories(cart.resturantId);
+                                  Get.offNamed(ResturantScreenNew.routeName);
+                                },
                               ),
                               title: Text(
                                 "طلبك من مطعم",
@@ -86,12 +97,23 @@ class _BodyState extends State<Body> {
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    cart.resturantName,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            getProportionateScreenHeight(20)),
+                                  GestureDetector(
+                                    child: Text(
+                                      cart.resturantName,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                              getProportionateScreenHeight(20)),
+                                    ),
+                                    onTap: () {
+                                      Provider.of<ResturantItemsProvider>(
+                                              context,
+                                              listen: false)
+                                          .getResturantCategories(
+                                              cart.resturantId);
+                                      Get.offNamed(
+                                          ResturantScreenNew.routeName);
+                                    },
                                   ),
                                   Row(
                                     children: [
@@ -444,18 +466,57 @@ class _BodyState extends State<Body> {
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return ListTile(
-                                            title: Text(
-                                              'x' +
-                                                  cart.cartItems[index].quantity
-                                                      .toString() +
-                                                  ' ' +
-                                                  cart.cartItems[index].name +
-                                                  ' ' +
-                                                  cart.cartItems[index].weight,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            title: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      cart.cartItems[index]
+                                                          .quantity
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'x ',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cart.cartItems[index]
+                                                              .name +
+                                                          ' ' +
+                                                          cart.cartItems[index]
+                                                              .weight,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Text(
+                                                  cart.cartItems[index].price
+                                                          .toString() +
+                                                      'X' +
+                                                      cart.cartItems[index]
+                                                          .quantity
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            10),
+                                                    color: Colors.grey[100],
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                             subtitle: Row(
                                               children: [
@@ -469,7 +530,7 @@ class _BodyState extends State<Body> {
                                                   style: TextStyle(
                                                       color: Colors.grey[300]),
                                                 ),
-                                                Text(' '),
+                                                Text('-'),
                                                 Text(
                                                   cart.cartItems[index]
                                                               .secondAddonName ==
@@ -492,8 +553,12 @@ class _BodyState extends State<Body> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      cart.cartItems[index]
-                                                              .price
+                                                      (cart.cartItems[index]
+                                                                      .price *
+                                                                  cart
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .quantity)
                                                               .toString() +
                                                           ' جم',
                                                       style: TextStyle(
@@ -635,11 +700,11 @@ class _BodyState extends State<Body> {
                                 !result['error']
                                     .toString()
                                     .contains('عضويتك')) {
-                              successDialog(context, 'تم الدفع بنجاح',
+                              successDialog(context, 'جار ارسال طلبك للمطعم',
                                   result['orderSerialNumber']);
                             } else {
-                              dialog(result['error'] +
-                                  ' قم بتسجيل الخروج و الدخول مرة اخرى');
+                              dialog(result['error']);
+                              Get.toNamed(OtpScreen.routeName);
                             }
                           }
                         },

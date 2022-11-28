@@ -7,6 +7,7 @@ import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class Body extends StatefulWidget {
@@ -18,6 +19,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   TextEditingController otpController = TextEditingController();
+  final CountdownController timerController =
+      CountdownController(autoStart: true);
   String message = '';
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class _BodyState extends State<Body> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: AppBarWidget(
-              title: 'إرسال رمز التحقق الى البريد الإلكترونى',
+              title: 'إرسال رمز التحقق الى الاميل',
               withBack: true,
             ),
           ),
@@ -62,6 +65,7 @@ class _BodyState extends State<Body> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Countdown(
+              controller: timerController,
               seconds: 60,
               build: (BuildContext context, double time) {
                 return Text(time.toString());
@@ -112,6 +116,10 @@ class _BodyState extends State<Body> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () async {
+              setState(() {
+                message = '';
+                timerController.restart();
+              });
               var result =
                   await Provider.of<UserProvider>(context, listen: false)
                       .resendOtp();

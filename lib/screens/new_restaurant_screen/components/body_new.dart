@@ -7,6 +7,7 @@ import 'package:menu_egypt/screens/new_restaurant_screen/add_to_cart_widget.dart
 import 'package:menu_egypt/screens/new_restaurant_screen/components/branches_tab_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/comments_tab_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tab_widget.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tap/image_slider_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_list_tabview/scrollable_list_tabview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,7 +110,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
                 Expanded(
                   child: ScrollableListTabView(
-                    tabHeight: getProportionateScreenHeight(50),
+                    tabHeight: getProportionateScreenHeight(40),
                     bodyAnimationDuration: const Duration(milliseconds: 500),
                     tabAnimationCurve: Curves.easeOut,
                     tabAnimationDuration: const Duration(milliseconds: 500),
@@ -151,97 +152,136 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
             itemBuilder: (BuildContext context, int index) {
               print(resturantCategoriesModel
                   .catgeoriesList[i].catgeoryProducts[index].image);
-              return ListTile(
-                leading: Container(
-                  height: getProportionateScreenHeight(50),
-                  width: getProportionateScreenWidth(50),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].image ==
-                              null
-                          ? AssetImage('assets/icons/menu.png')
-                          : NetworkImage(
-                              'https://menuegypt.com/order_online/product_images/' +
-                                  resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].image),
+              return GestureDetector(
+                child: ListTile(
+                  leading: GestureDetector(
+                    child: Container(
+                      height: getProportionateScreenHeight(50),
+                      width: getProportionateScreenWidth(50),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].image ==
+                                  null
+                              ? AssetImage('assets/icons/menu.png')
+                              : NetworkImage(
+                                  'https://menuegypt.com/order_online/product_images/' +
+                                      resturantCategoriesModel.catgeoriesList[i]
+                                          .catgeoryProducts[index].image),
+                        ),
+                      ),
                     ),
+                    onTap: () {
+                      if (resturantCategoriesModel.catgeoriesList[i]
+                              .catgeoryProducts[index].image !=
+                          null) {
+                        imageDialog([
+                          'https://menuegypt.com/order_online/product_images/' +
+                              resturantCategoriesModel.catgeoriesList[i]
+                                  .catgeoryProducts[index].image
+                        ], index, context);
+                      }
+                    },
+                  ),
+                  title: Text(
+                    resturantCategoriesModel
+                        .catgeoriesList[i].catgeoryProducts[index].title,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    resturantCategoriesModel.catgeoriesList[i]
+                            .catgeoryProducts[index].shortDescription ??
+                        '',
+                    style: TextStyle(color: Colors.grey[300]),
+                  ),
+                  trailing: Column(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].price !=
+                                  0
+                              ? resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].price
+                                      .toString() +
+                                  ' جم'
+                              : resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].minPrice
+                                      .toString() +
+                                  ' - ' +
+                                  resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].maxPrice
+                                      .toString() +
+                                  ' جم',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      //add to cart
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {
+                            print(resturantCategoriesModel.restId);
+                            print(Provider.of<CartProvider>(context,
+                                    listen: false)
+                                .cart
+                                .resturantId);
+                            if (resturantCategoriesModel.restId ==
+                                    Provider.of<CartProvider>(context,
+                                            listen: false)
+                                        .cart
+                                        .resturantId ||
+                                Provider.of<CartProvider>(context,
+                                            listen: false)
+                                        .cart
+                                        .resturantId ==
+                                    0) {
+                              Provider.of<ResturantItemsProvider>(context,
+                                      listen: false)
+                                  .getResturantProduct(resturantCategoriesModel
+                                      .catgeoriesList[i]
+                                      .catgeoryProducts[index]
+                                      .id);
+                              addToCartBottomSheet(context, restaurant.nameAr,
+                                  restaurant.logoSmall);
+                            } else {
+                              dialog(
+                                  'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                            }
+                          },
+                          icon: Icon(Icons.add_box_outlined),
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                title: Text(
-                  resturantCategoriesModel
-                      .catgeoriesList[i].catgeoryProducts[index].title,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  resturantCategoriesModel.catgeoriesList[i]
-                          .catgeoryProducts[index].shortDescription ??
-                      '',
-                  style: TextStyle(color: Colors.grey[300]),
-                ),
-                trailing: Column(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        resturantCategoriesModel.catgeoriesList[i]
-                                    .catgeoryProducts[index].price !=
-                                0
-                            ? resturantCategoriesModel.catgeoriesList[i]
-                                    .catgeoryProducts[index].price
-                                    .toString() +
-                                ' جم'
-                            : resturantCategoriesModel.catgeoriesList[i]
-                                    .catgeoryProducts[index].minPrice
-                                    .toString() +
-                                ' - ' +
-                                resturantCategoriesModel.catgeoriesList[i]
-                                    .catgeoryProducts[index].maxPrice
-                                    .toString() +
-                                ' جم',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    //add to cart
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () {
-                          print(resturantCategoriesModel.restId);
-                          print(
-                              Provider.of<CartProvider>(context, listen: false)
-                                  .cart
-                                  .resturantId);
-                          if (resturantCategoriesModel.restId ==
-                                  Provider.of<CartProvider>(context,
-                                          listen: false)
-                                      .cart
-                                      .resturantId ||
-                              Provider.of<CartProvider>(context, listen: false)
-                                      .cart
-                                      .resturantId ==
-                                  0) {
-                            Provider.of<ResturantItemsProvider>(context,
-                                    listen: false)
-                                .getResturantProduct(resturantCategoriesModel
-                                    .catgeoriesList[i]
-                                    .catgeoryProducts[index]
-                                    .id);
-                            addToCartBottomSheet(context, restaurant.nameAr,
-                                restaurant.logoSmall);
-                          } else {
-                            dialog(
-                                'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
-                          }
-                        },
-                        icon: Icon(Icons.add_circle_outline),
-                        color: Colors.red,
-                      ),
-                    )
-                  ],
-                ),
+                onTap: () {
+                  print(resturantCategoriesModel.restId);
+                  print(Provider.of<CartProvider>(context, listen: false)
+                      .cart
+                      .resturantId);
+                  if (resturantCategoriesModel.restId ==
+                          Provider.of<CartProvider>(context, listen: false)
+                              .cart
+                              .resturantId ||
+                      Provider.of<CartProvider>(context, listen: false)
+                              .cart
+                              .resturantId ==
+                          0) {
+                    Provider.of<ResturantItemsProvider>(context, listen: false)
+                        .getResturantProduct(resturantCategoriesModel
+                            .catgeoriesList[i].catgeoryProducts[index].id);
+                    addToCartBottomSheet(
+                        context, restaurant.nameAr, restaurant.logoSmall);
+                  } else {
+                    dialog(
+                        'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                  }
+                },
               );
             },
             separatorBuilder: (context, index) => Padding(
@@ -322,5 +362,16 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
         title: 'تحذير',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
+  }
+
+  void imageDialog(List<String> menus, index, context) {
+    showGeneralDialog(
+        context: context, // background color
+        barrierDismissible: false,
+        transitionDuration: Duration(milliseconds: 400),
+        pageBuilder: (_, __, ___) {
+          // your widget implementation
+          return ImageDialog(images: menus, index: index);
+        });
   }
 }

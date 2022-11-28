@@ -204,9 +204,8 @@ void editCartBottomSheet(
                                   )
                                 ],
                               ),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   //description
                                   Text(

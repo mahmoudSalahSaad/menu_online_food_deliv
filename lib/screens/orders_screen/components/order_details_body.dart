@@ -6,6 +6,7 @@ import 'package:menu_egypt/models/order_details.dart';
 //import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
+import 'package:menu_egypt/utilities/constants.dart';
 //import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +72,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         padding: const EdgeInsets.all(16.0),
                         child: Theme(
                           data: ThemeData(
+                            canvasColor: kAppBarColor,
                             primarySwatch: Colors.red,
                             fontFamily: 'DroidArabic',
                           ),
@@ -79,24 +81,39 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                             currentStep: currentStep,
                             steps: [
                               Step(
-                                title: Text('المعالجة'),
+                                title: Text(
+                                  'مراجعة',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 content: Container(),
                                 isActive: currentStep == 0,
                               ),
                               Step(
-                                title: Text('التجهيز'),
+                                title: Text(
+                                  'تجهيز',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 content: Container(),
                                 isActive: currentStep == 1,
                               ),
                               Step(
-                                title: Text('التوصيل'),
+                                title: Text(
+                                  'فى الطريق',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 content: Container(),
                                 isActive: currentStep == 2,
                               ),
                               Step(
                                 title: cancelled
-                                    ? Text('تم الإلغاء')
-                                    : Text('تم التوصيل'),
+                                    ? Text(
+                                        'ملغى',
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    : Text(
+                                        'وصل',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                 content: Container(),
                                 isActive: currentStep == 3,
                               ),
@@ -195,13 +212,51 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return ListTile(
-                                      title: Text(
-                                        " x${orderDetailsModel.itemDetails[index].quantity} ${orderDetailsModel.itemDetails[index].product}" +
-                                            " ${orderDetailsModel.itemDetails[index].size}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "${orderDetailsModel.itemDetails[index].quantity}",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                'x ',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                "${orderDetailsModel.itemDetails[index].product}" +
+                                                    " ${orderDetailsModel.itemDetails[index].size}",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            orderDetailsModel
+                                                    .itemDetails[index].subTotal
+                                                    .toString() +
+                                                'X' +
+                                                orderDetailsModel
+                                                    .itemDetails[index].quantity
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      10),
+                                              color: Colors.grey[100],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                       subtitle: Row(
                                         children: [
@@ -216,7 +271,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                             style: TextStyle(
                                                 color: Colors.grey[300]),
                                           ),
-                                          Text(' '),
+                                          Text('-'),
                                           Text(
                                             orderDetailsModel.itemDetails[index]
                                                         .addition2 ==
@@ -231,7 +286,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                         ],
                                       ),
                                       trailing: Text(
-                                        '${orderDetailsModel.itemDetails[index].subTotal} جم',
+                                        '${orderDetailsModel.itemDetails[index].subTotal * orderDetailsModel.itemDetails[index].quantity} جم',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),

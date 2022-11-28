@@ -31,7 +31,7 @@ class _BodyState extends State<Body> {
     if (result['success']) {
       Get.offAllNamed(SignInScreen.routeName);
     } else {
-      dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.');
+      dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.', 'تحذير');
     }
   }
 
@@ -126,7 +126,10 @@ class _BodyState extends State<Body> {
                 TextIconWidget(
                   text: 'معلومات عنا',
                   icon: Icons.info,
-                  onTap: () {},
+                  onTap: () {
+                    dialog('info@menuegypt.com - 01116618752',
+                        'لديك اقتراح أو طلب مساعدة يمكنكم التواصل معنا عبر');
+                  },
                 ),
                 TextIconWidget(
                     text: 'الخروج من التطبيق',
@@ -138,11 +141,11 @@ class _BodyState extends State<Body> {
             ])));
   }
 
-  void dialog(String message) {
+  void dialog(String message, String title) {
     Get.defaultDialog(
-        content: Text(message),
+        content: SelectableText(message),
         textCancel: 'إغلاق',
-        title: 'تحذير',
+        title: title,
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
   }

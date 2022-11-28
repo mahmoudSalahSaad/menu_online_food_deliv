@@ -52,12 +52,14 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 backgroundColor: kBottomNavBarBackgroundColor,
                 icon: Icon(
                   FontAwesomeIcons.utensils,
+                  size: 30,
                 ),
                 label: "الرئيسية"),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
                 icon: Icon(
                   FontAwesomeIcons.listCheck,
+                  size: 30,
                 ),
                 label: "طلباتى"),
             BottomNavigationBarItem(
@@ -67,7 +69,7 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                   children: [
                     Icon(
                       FontAwesomeIcons.cartShopping,
-                      size: 40,
+                      size: 30,
                     ),
                     Consumer<CartProvider>(
                       builder: (context, value, child) {
@@ -90,12 +92,14 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 backgroundColor: kBottomNavBarBackgroundColor,
                 icon: Icon(
                   FontAwesomeIcons.heart,
+                  size: 30,
                 ),
                 label: "المفضلة"),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
                 icon: Icon(
                   FontAwesomeIcons.user,
+                  size: 30,
                 ),
                 label: "حسابى"),
           ],

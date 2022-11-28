@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/models/cart_item.dart';
@@ -104,57 +105,56 @@ class _BodyState extends State<Body> {
                                                   color: Colors.grey[300]),
                                             ),
                                             Text(' - '),
-                                            orders[index].orderStatus == 'hold'
+                                            Text(
+                                              orders[index].operationDate,
+                                              style: TextStyle(
+                                                  color: Colors.grey[300]),
+                                            ),
+                                          ],
+                                        ),
+                                        //status
+                                        orders[index].orderStatus == 'hold'
+                                            ? Text(
+                                                "مراجعة",
+                                                style: TextStyle(
+                                                    color: Colors.grey[300]),
+                                              )
+                                            : orders[index].orderStatus ==
+                                                    'in-progress'
                                                 ? Text(
-                                                    "جار المعالجة",
+                                                    "تجهيز",
                                                     style: TextStyle(
                                                         color:
                                                             Colors.grey[300]),
                                                   )
                                                 : orders[index].orderStatus ==
-                                                        'in-progress'
+                                                        'shipping'
                                                     ? Text(
-                                                        "جار التجهيز",
+                                                        "فى الطريق",
                                                         style: TextStyle(
                                                             color: Colors
                                                                 .grey[300]),
                                                       )
                                                     : orders[index]
                                                                 .orderStatus ==
-                                                            'shipping'
+                                                            'delivered'
                                                         ? Text(
-                                                            "جار التوصيل",
+                                                            "وصل",
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .grey[300]),
                                                           )
                                                         : orders[index]
                                                                     .orderStatus ==
-                                                                'delivered'
+                                                                'canceled'
                                                             ? Text(
-                                                                "تم التوصيل",
+                                                                "ملغى",
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                             .grey[
                                                                         300]),
                                                               )
-                                                            : orders[index]
-                                                                        .orderStatus ==
-                                                                    'canceled'
-                                                                ? Text(
-                                                                    "تم إلغاء الطلب",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .grey[300]),
-                                                                  )
-                                                                : Text(''),
-                                          ],
-                                        ),
-                                        Text(
-                                          orders[index].operationDate,
-                                          style: TextStyle(
-                                              color: Colors.grey[300]),
-                                        ),
+                                                            : Text(''),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -177,105 +177,136 @@ class _BodyState extends State<Body> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10.0)),
-                                              child: Text('تفاصيل الطلب'),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
+                                              child: Row(
+                                                children: [
+                                                  Text('تفاصيل الطلب '),
+                                                  Icon(
+                                                    FontAwesomeIcons.list,
+                                                    size: 10,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             //re-order btn
-                                            MaterialButton(
-                                              onPressed: () async {
-                                                Map<String, dynamic> result =
-                                                    await Provider.of<
-                                                                OrderProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .getOrderDetails(
-                                                            orders[index]
-                                                                .serialNumber);
+                                            orders[index].orderStatus ==
+                                                        'delivered' ||
+                                                    orders[index].orderStatus ==
+                                                        'canceled'
+                                                ? MaterialButton(
+                                                    onPressed: () async {
+                                                      Map<String, dynamic>
+                                                          result =
+                                                          await Provider.of<
+                                                                      OrderProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .getOrderDetails(
+                                                                  orders[index]
+                                                                      .serialNumber);
 
-                                                for (int i = 0;
-                                                    i <
-                                                        result['data']
-                                                            .itemDetails
-                                                            .length;
-                                                    i++) {
-                                                  CartItemModel cartItem =
-                                                      CartItemModel(
-                                                    //fixed params
-                                                    id: result['data']
-                                                        .itemDetails[i]
-                                                        .id,
-                                                    name: result['data']
-                                                        .itemDetails[i]
-                                                        .product,
-                                                    description: '',
-                                                    photoUrl: '',
-                                                    //selected params
-                                                    price: result['data']
-                                                        .itemDetails[i]
-                                                        .subTotal
-                                                        .toDouble(),
-                                                    quantity: result['data']
-                                                        .itemDetails[i]
-                                                        .quantity,
-                                                    weight: result['data']
-                                                        .itemDetails[i]
-                                                        .size,
-                                                    firstAddonName:
-                                                        result['data']
-                                                            .itemDetails[i]
-                                                            .addition1,
-                                                    secondAddonName:
-                                                        result['data']
-                                                            .itemDetails[i]
-                                                            .addition2,
-                                                    firstAddonPrice: 0.0,
-                                                    secondAddonPrice: 0.0,
-                                                    weightId: result['data']
-                                                        .itemDetails[i]
-                                                        .sizeId,
-                                                    firstAddId: result['data']
-                                                        .itemDetails[i]
-                                                        .addition1Id,
-                                                    secondAddId: result['data']
-                                                        .itemDetails[i]
-                                                        .addition2Id,
-                                                  );
-                                                  print(cartItem.name);
-                                                  print(cartItem.quantity);
-                                                  print(result['data']
-                                                      .restDetails
-                                                      .logo);
-                                                  cartProvider.addItemToCart(
-                                                    cartItem,
-                                                    result['data']
-                                                        .restDetails
-                                                        .id,
-                                                    result['data']
-                                                        .orderDetails
-                                                        .deliveryFee,
-                                                    result['data']
-                                                        .orderDetails
-                                                        .deliveryTime,
-                                                    result['data']
-                                                        .restDetails
-                                                        .name,
-                                                    "https://menuegypt.com//" +
-                                                        result['data']
+                                                      for (int i = 0;
+                                                          i <
+                                                              result['data']
+                                                                  .itemDetails
+                                                                  .length;
+                                                          i++) {
+                                                        CartItemModel cartItem =
+                                                            CartItemModel(
+                                                          //fixed params
+                                                          id: result['data']
+                                                              .itemDetails[i]
+                                                              .id,
+                                                          name: result['data']
+                                                              .itemDetails[i]
+                                                              .product,
+                                                          description: '',
+                                                          photoUrl: '',
+                                                          //selected params
+                                                          price: result['data']
+                                                              .itemDetails[i]
+                                                              .subTotal
+                                                              .toDouble(),
+                                                          quantity: result[
+                                                                  'data']
+                                                              .itemDetails[i]
+                                                              .quantity,
+                                                          weight: result['data']
+                                                              .itemDetails[i]
+                                                              .size,
+                                                          firstAddonName:
+                                                              result['data']
+                                                                  .itemDetails[
+                                                                      i]
+                                                                  .addition1,
+                                                          secondAddonName:
+                                                              result['data']
+                                                                  .itemDetails[
+                                                                      i]
+                                                                  .addition2,
+                                                          firstAddonPrice: 0.0,
+                                                          secondAddonPrice: 0.0,
+                                                          weightId: result[
+                                                                  'data']
+                                                              .itemDetails[i]
+                                                              .sizeId,
+                                                          firstAddId: result[
+                                                                  'data']
+                                                              .itemDetails[i]
+                                                              .addition1Id,
+                                                          secondAddId: result[
+                                                                  'data']
+                                                              .itemDetails[i]
+                                                              .addition2Id,
+                                                        );
+                                                        print(cartItem.name);
+                                                        print(
+                                                            cartItem.quantity);
+                                                        print(result['data']
                                                             .restDetails
-                                                            .logo,
-                                                  );
-                                                }
-                                                Get.toNamed(MyBasket.routeName);
-                                              },
-                                              color: kAppBarColor,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              child: Text('اعادة الطلب'),
-                                            ),
+                                                            .logo);
+                                                        cartProvider
+                                                            .addItemToCart(
+                                                          cartItem,
+                                                          result['data']
+                                                              .restDetails
+                                                              .id,
+                                                          result['data']
+                                                              .orderDetails
+                                                              .deliveryFee,
+                                                          result['data']
+                                                              .orderDetails
+                                                              .deliveryTime,
+                                                          result['data']
+                                                              .restDetails
+                                                              .name,
+                                                          "https://menuegypt.com//" +
+                                                              result['data']
+                                                                  .restDetails
+                                                                  .logo,
+                                                        );
+                                                      }
+                                                      Get.toNamed(
+                                                          MyBasket.routeName);
+                                                    },
+                                                    color: kAppBarColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0)),
+                                                    child: Row(
+                                                      children: [
+                                                        Text('إعادة الطلب '),
+                                                        Icon(
+                                                          FontAwesomeIcons
+                                                              .arrowsRotate,
+                                                          size: 10,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Text(''),
                                           ],
                                         ),
                                       ],
