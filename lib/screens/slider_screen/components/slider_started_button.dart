@@ -22,7 +22,7 @@ class SliderStartedButton extends StatelessWidget {
               Get.offAllNamed(HomeScreen.routeName);
             },
             color: kPrimaryColor,
-            child: Text('أبدء'),
+            child: Text('إبدأ'),
             minWidth: double.infinity,
             height: kDefaultButtonHeight,
           ),

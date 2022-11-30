@@ -3,23 +3,34 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tap/menu_widget_slider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
+import 'package:menu_egypt/screens/slider_screen/components/images_sliders.dart';
+import 'package:menu_egypt/screens/slider_screen/components/slider_dots.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 import 'menu_tap/menu_widget.dart';
 
-class MenuTabWidget extends StatelessWidget {
-  const MenuTabWidget(
-      {Key key,
-      @required this.images,
-      @required this.date,
-      @required this.isOnline,
-      @required this.isOutOfTime,
-      @required this.restId})
-      : super(key: key);
+class MenuTabWidget extends StatefulWidget {
+  const MenuTabWidget({
+    Key key,
+    @required this.images,
+    @required this.date,
+    @required this.isOnline,
+    @required this.isOutOfTime,
+    @required this.restId,
+    @required this.sliderImages,
+    @required this.sliderImagesLink,
+  }) : super(key: key);
   final int restId;
-  final List<String> images;
-  final String date, isOnline, isOutOfTime;
+  final List<String> images, sliderImages;
+  final String date, isOnline, isOutOfTime, sliderImagesLink;
+
+  @override
+  State<MenuTabWidget> createState() => _MenuTabWidgetState();
+}
+
+class _MenuTabWidgetState extends State<MenuTabWidget> {
+  int _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,23 +42,41 @@ class MenuTabWidget extends StatelessWidget {
         slivers: [
           SliverList(
               delegate: SliverChildListDelegate([
-            MenuWidgetSlider(
-                image:
-                    'https://menuegypt.com/images/Dahan-app/Dahan-App-Download.jpg'),
+            SizedBox(
+              height: 200,
+              child: Stack(
+                children: [
+                  ImagesSlider(
+                    imagesSliders: widget.sliderImages,
+                    pageIndex: _pageIndex,
+                    onPageChange: (index, reason) {
+                      setState(() {
+                        _pageIndex = index;
+                      });
+                    },
+                  ),
+                  SliderDots(
+                      imagesSliders: widget.sliderImages,
+                      pageIndex: _pageIndex),
+                ],
+              ),
+            ),
             SizedBox(
               height: getProportionateScreenHeight(10),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                date.isNotEmpty ? Text('المنيو بتاريخ : ' + date) : Text(''),
-                isOnline == 'yes' && isOutOfTime == 'no'
+                widget.date.isNotEmpty
+                    ? Text('المنيو بتاريخ : ' + widget.date)
+                    : Text(''),
+                widget.isOnline == 'yes' && widget.isOutOfTime == 'no'
                     ? MaterialButton(
                         onPressed: () {
-                          print('RESTURANT ID ' + restId.toString());
+                          print('RESTURANT ID ' + widget.restId.toString());
                           Provider.of<ResturantItemsProvider>(context,
                                   listen: false)
-                              .getResturantCategories(restId);
+                              .getResturantCategories(widget.restId);
                           Get.offNamed(ResturantScreenNew.routeName);
                         },
                         shape: RoundedRectangleBorder(
@@ -61,7 +90,7 @@ class MenuTabWidget extends StatelessWidget {
                         color: Colors.black,
                         child: Text('اطلب اونلاين'),
                       )
-                    : isOnline == 'yes' && isOutOfTime == 'yes'
+                    : widget.isOnline == 'yes' && widget.isOutOfTime == 'yes'
                         ? IgnorePointer(
                             child: MaterialButton(
                               onPressed: () {
@@ -87,14 +116,14 @@ class MenuTabWidget extends StatelessWidget {
               color: Colors.black,
             )
           ])),
-          images.length == 0
+          widget.images.length == 0
               ? SliverList(
                   delegate: SliverChildListDelegate([
                   Center(
                       child: Container(
                           child: Text('لا يوجد قوائم طعام لهذا المطعم')))
                 ]))
-              : MenuWidget(images: images)
+              : MenuWidget(images: widget.images)
         ],
       ),
     );

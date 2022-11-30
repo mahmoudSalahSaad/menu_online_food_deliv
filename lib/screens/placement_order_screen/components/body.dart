@@ -40,6 +40,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController notesController = TextEditingController();
     final cart = Provider.of<CartProvider>(context, listen: false).cart;
     orderProvider = Provider.of<OrderProvider>(context, listen: false);
     return SafeArea(
@@ -678,6 +679,28 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.white,
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                child: TextFormField(
+                                  controller: notesController,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(8),
+                                    hintText: 'ملاحظات',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -695,7 +718,7 @@ class _BodyState extends State<Body> {
                             final result = await Provider.of<CartProvider>(
                                     context,
                                     listen: false)
-                                .checkOut(addressId);
+                                .checkOut(addressId, notesController.text);
                             if (result['success'] &&
                                 !result['error']
                                     .toString()

@@ -37,9 +37,9 @@ class RestaurantLogos extends StatelessWidget {
                   width: SizeConfig.screenWidth * 0.15,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                       image: NetworkImage('${restaurants[index].logoSmall}'),
                     ),
                   ),

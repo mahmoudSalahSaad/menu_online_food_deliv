@@ -20,6 +20,9 @@ class RestaurantsProvider extends ChangeNotifier {
   List<String> _restaurantBranches = [];
   List<int> _restaurantRegions = [];
   List<Comment> _comments = [];
+  List<String> _sliderImages = [];
+  String _sliderImagesLink = '';
+
   final HttpServiceImpl httpService = HttpServiceImpl();
   bool get isLoading {
     return _isLoading;
@@ -31,6 +34,14 @@ class RestaurantsProvider extends ChangeNotifier {
 
   List<RestaurantModel> get restaurants {
     return _restaurants;
+  }
+
+  List<String> get sliderimages {
+    return _sliderImages;
+  }
+
+  String get sliderImagesLink {
+    return _sliderImagesLink;
   }
 
   UnmodifiableListView<RestaurantModel> get mostViewRestaurants {
@@ -92,6 +103,9 @@ class RestaurantsProvider extends ChangeNotifier {
         var parsedrbanches = response.data['data']['branches'] as List;
         var parsedRestaurantImages = response.data['data']['images'] as List;
         var parsedRestaurantComment = response.data['data']['comments'] as List;
+        var parsedSliderImages = response.data['data']['slider_images'] as List;
+        var parsedSliderImagesLink =
+            response.data['data']['slider_images_link'];
 
         if (parsedrbanches.isNotEmpty) {
           parsedrbanches.forEach((restaurantObject) {
@@ -127,6 +141,14 @@ class RestaurantsProvider extends ChangeNotifier {
                 review: commentObject['review']);
             _comments.add(comment);
           });
+        }
+
+        if (parsedSliderImages.isNotEmpty) {
+          _sliderImages.clear();
+          parsedSliderImages.forEach((element) {
+            _sliderImages.add(element['image']);
+          });
+          _sliderImagesLink = parsedSliderImagesLink;
         }
 
         double views = parsedRestaurants['view_times'] / 1.5;

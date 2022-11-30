@@ -26,10 +26,21 @@ class MenuWidget extends StatelessWidget {
                     onTap: () {
                       imageDialog(images, index, context);
                     },
-                    child: FadeInImage.assetNetwork(
+                    child: Container(
+                      height: 400,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage('${images[index]}'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+
+                    /*FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
                         placeholder: 'assets/images/01-Splash-Screen.png',
-                        image: images[index]),
+                        image: images[index]),*/
                   ),
                 )),
             SizedBox(

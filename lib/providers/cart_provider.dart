@@ -142,7 +142,7 @@ class CartProvider extends ChangeNotifier {
     preferences.remove('cart');
   }
 
-  checkOut(int addressId) async {
+  checkOut(int addressId, String notes) async {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
@@ -234,6 +234,7 @@ class CartProvider extends ChangeNotifier {
         'rest_id': _cart.resturantId,
         'payment_type': 1,
         'address_id': addressId,
+        'notes': notes,
         'cart': cartItemsList,
       };
       Response response =

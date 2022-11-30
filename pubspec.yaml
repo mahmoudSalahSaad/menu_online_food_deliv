@@ -53,8 +53,9 @@ dependencies:
   photo_view: ^0.14.0
   scrollable_list_tabview: ^0.1.6
   timer_count_down: ^2.2.1
-  im_stepper: ^1.0.1+1
-  
+  timelines: ^0.1.0
+  insta_image_viewer: ^1.0.2
+
 dev_dependencies:
   flutter_native_splash: ^2.1.6
   flutter_launcher_icons: ^0.9.2 

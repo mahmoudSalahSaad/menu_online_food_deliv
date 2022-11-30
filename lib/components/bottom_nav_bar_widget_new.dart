@@ -73,16 +73,19 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                     ),
                     Consumer<CartProvider>(
                       builder: (context, value, child) {
-                        return CircleAvatar(
-                          radius: 11,
-                          backgroundColor: Colors.redAccent,
-                          child: Text(
-                            cartProvider.cart != null
-                                ? '${cartProvider.cart.cartItems.length}'
-                                : '0',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
+                        return cartProvider.cart != null &&
+                                cartProvider.cart.cartItems.isNotEmpty
+                            ? CircleAvatar(
+                                radius: 11,
+                                backgroundColor: Colors.redAccent,
+                                child: Text(
+                                  cartProvider.cart != null
+                                      ? '${cartProvider.cart.cartItems.length}'
+                                      : '0',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            : SizedBox();
                       },
                     ),
                   ],

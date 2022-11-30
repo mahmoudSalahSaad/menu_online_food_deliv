@@ -152,10 +152,10 @@ void addToCartBottomSheet(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.05,
+                            height: MediaQuery.of(context).size.height * 0.01,
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.10,
+                            height: MediaQuery.of(context).size.height * 0.15,
                             child: ListTile(
                               //img
                               leading: Container(

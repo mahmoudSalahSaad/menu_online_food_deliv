@@ -42,9 +42,7 @@ class _BodyState extends State<Body> {
             },
           ),
           SliderDots(imagesSliders: imagesSliders, pageIndex: _pageIndex),
-          _pageIndex < imagesSliders.length - 1
-              ? Container()
-              : SliderStartedButton(),
+          SliderStartedButton(),
         ],
       ),
     );

@@ -30,6 +30,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   List<Widget> tabsWidget;
   RestaurantModel restaurant;
   List<String> areas = [];
+
   @override
   void initState() {
     final restaurantProvider =
@@ -71,6 +72,11 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         isOutOfTime: restaurant.isOutOfTime,
         restId: restaurant.id,
         images: images,
+        sliderImages: Provider.of<RestaurantsProvider>(context, listen: false)
+            .sliderimages,
+        sliderImagesLink:
+            Provider.of<RestaurantsProvider>(context, listen: false)
+                .sliderImagesLink,
       ),
       CommentsTabWidget(
         id: restaurant.id,

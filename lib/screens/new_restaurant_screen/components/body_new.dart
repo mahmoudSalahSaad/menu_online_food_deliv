@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:menu_egypt/models/resturant_categories.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
@@ -83,6 +84,11 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
         isOutOfTime: restaurant.isOutOfTime,
         restId: restaurant.id,
         images: images,
+        sliderImages: Provider.of<RestaurantsProvider>(context, listen: false)
+            .sliderimages,
+        sliderImagesLink:
+            Provider.of<RestaurantsProvider>(context, listen: false)
+                .sliderImagesLink,
       ),
       CommentsTabWidget(
         id: restaurant.id,
@@ -110,7 +116,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
                 Expanded(
                   child: ScrollableListTabView(
-                    tabHeight: getProportionateScreenHeight(40),
+                    tabHeight: getProportionateScreenHeight(30),
                     bodyAnimationDuration: const Duration(milliseconds: 500),
                     tabAnimationCurve: Curves.easeOut,
                     tabAnimationDuration: const Duration(milliseconds: 500),
@@ -154,37 +160,39 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                   .catgeoriesList[i].catgeoryProducts[index].image);
               return GestureDetector(
                 child: ListTile(
-                  leading: GestureDetector(
-                    child: Container(
-                      height: getProportionateScreenHeight(50),
-                      width: getProportionateScreenWidth(50),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].image ==
-                                  null
-                              ? AssetImage('assets/icons/menu.png')
-                              : NetworkImage(
-                                  'https://menuegypt.com/order_online/product_images/' +
-                                      resturantCategoriesModel.catgeoriesList[i]
-                                          .catgeoryProducts[index].image),
-                        ),
+                  leading: Container(
+                    height: getProportionateScreenHeight(50),
+                    width: getProportionateScreenWidth(50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].image ==
+                                null
+                            ? AssetImage('assets/icons/menu.png')
+                            : NetworkImage(
+                                'https://menuegypt.com/order_online/product_images/' +
+                                    resturantCategoriesModel.catgeoriesList[i]
+                                        .catgeoryProducts[index].image),
                       ),
                     ),
-                    onTap: () {
-                      if (resturantCategoriesModel.catgeoriesList[i]
-                              .catgeoryProducts[index].image !=
-                          null) {
-                        imageDialog([
-                          'https://menuegypt.com/order_online/product_images/' +
-                              resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].image
-                        ], index, context);
-                      }
-                    },
+                    child: InstaImageViewer(
+                      child: Image(
+                        image: resturantCategoriesModel.catgeoriesList[i]
+                                    .catgeoryProducts[index].image ==
+                                null
+                            ? AssetImage('assets/icons/menu.png')
+                            : Image.network(
+                                    'https://menuegypt.com/order_online/product_images/' +
+                                        resturantCategoriesModel
+                                            .catgeoriesList[i]
+                                            .catgeoryProducts[index]
+                                            .image)
+                                .image,
+                      ),
+                    ),
                   ),
                   title: Text(
                     resturantCategoriesModel
@@ -201,24 +209,63 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                   trailing: Column(
                     children: [
                       Expanded(
-                        child: Text(
+                        child: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: resturantCategoriesModel
+                                              .catgeoriesList[i]
+                                              .catgeoryProducts[index]
+                                              .price !=
+                                          0
+                                      ? resturantCategoriesModel
+                                          .catgeoriesList[i]
+                                          .catgeoryProducts[index]
+                                          .price
+                                          .toString()
+                                      : resturantCategoriesModel
+                                              .catgeoriesList[i]
+                                              .catgeoryProducts[index]
+                                              .minPrice
+                                              .toString() +
+                                          ' - ' +
+                                          resturantCategoriesModel
+                                              .catgeoriesList[i]
+                                              .catgeoryProducts[index]
+                                              .maxPrice
+                                              .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          getProportionateScreenHeight(12))),
+                              TextSpan(
+                                text: ' جم',
+                                style: TextStyle(fontFamily: 'DroidArabic'),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /*
+                        Text(
                           resturantCategoriesModel.catgeoriesList[i]
                                       .catgeoryProducts[index].price !=
                                   0
                               ? resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].price
-                                      .toString() +
-                                  ' جم'
+                                  .catgeoryProducts[index].price
+                                  .toString()
                               : resturantCategoriesModel.catgeoriesList[i]
                                       .catgeoryProducts[index].minPrice
                                       .toString() +
                                   ' - ' +
                                   resturantCategoriesModel.catgeoriesList[i]
                                       .catgeoryProducts[index].maxPrice
-                                      .toString() +
-                                  ' جم',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                                      .toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: getProportionateScreenHeight(14)),
                         ),
+                        */
                       ),
                       //add to cart
                       Expanded(

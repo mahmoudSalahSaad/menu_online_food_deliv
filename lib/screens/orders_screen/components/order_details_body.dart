@@ -10,6 +10,7 @@ import 'package:menu_egypt/utilities/constants.dart';
 //import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:timelines/timelines.dart';
 
 class OrderDetailsBody extends StatefulWidget {
   const OrderDetailsBody({Key key}) : super(key: key);
@@ -66,10 +67,50 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                       ),
                     ),
                     //order status
-                    SizedBox(
-                      height: getProportionateScreenHeight(110),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                    !cancelled
+                        ? SizedBox(
+                            height: getProportionateScreenHeight(150),
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Timeline.tileBuilder(
+                                scrollDirection: Axis.horizontal,
+                                builder: TimelineTileBuilder.connected(
+                                  connectionDirection:
+                                      ConnectionDirection.before,
+                                  contentsAlign: ContentsAlign.alternating,
+                                  contentsBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.all(24.0),
+                                    child: index == 0
+                                        ? Text('مراجعة')
+                                        : index == 1
+                                            ? Text('تجهيز')
+                                            : index == 2
+                                                ? Text('فى الطريق')
+                                                : index == 3 && cancelled
+                                                    ? Text('ملغى')
+                                                    : Text('وصل'),
+                                  ),
+                                  connectorBuilder:
+                                      (context, index, connectorType) {
+                                    return index <= currentStep
+                                        ? SolidLineConnector(
+                                            color: Colors.red,
+                                          )
+                                        : SolidLineConnector(
+                                            color: Colors.white);
+                                  },
+                                  indicatorBuilder: (context, index) {
+                                    return index <= currentStep
+                                        ? DotIndicator(
+                                            color: Colors.red,
+                                          )
+                                        : DotIndicator(color: Colors.white);
+                                  },
+                                  itemCount: 4,
+                                ),
+                              ),
+                              /*
                         child: Theme(
                           data: ThemeData(
                             canvasColor: kAppBarColor,
@@ -120,8 +161,10 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                             ],
                           ),
                         ),
-                      ),
-                    ),
+                        */
+                            ),
+                          )
+                        : Text('تم الغاء الطلب'),
                     //oreder address
                     Padding(
                       padding: const EdgeInsets.all(16.0),
