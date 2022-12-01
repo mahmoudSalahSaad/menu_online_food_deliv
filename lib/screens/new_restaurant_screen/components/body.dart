@@ -106,8 +106,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           controller: _tabController,
           onTap: (int index) async {
             if (index == 2) {
-              areas = filterRestaurantAreas(context, restaurant.regions);
-
+              // areas = filterRestaurantAreas(context, restaurant.regions);
+              areas = restaurant.areas;
               setState(() {});
             }
           },

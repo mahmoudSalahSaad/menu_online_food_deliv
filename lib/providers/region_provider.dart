@@ -31,6 +31,8 @@ class RegionProvider extends ChangeNotifier {
     final List<RegionModel> regions = [];
     try {
       Response response = await httpService.getRequest(url, null);
+      print(response);
+
       var parsedRegions = response.data['data']['regions'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         parsedRegions.forEach((regionObject) {

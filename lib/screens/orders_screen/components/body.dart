@@ -218,98 +218,87 @@ class _BodyState extends State<Body> {
                                                                     context,
                                                                     listen:
                                                                         false)
-                                                                .getOrderDetails(
-                                                                    orders[index]
-                                                                        .serialNumber);
+                                                                .reOrder(orders[
+                                                                        index]
+                                                                    .serialNumber);
 
-                                                        for (int i = 0;
-                                                            i <
-                                                                result['data']
-                                                                    .itemDetails
-                                                                    .length;
-                                                            i++) {
-                                                          CartItemModel
-                                                              cartItem =
-                                                              CartItemModel(
-                                                            //fixed params
-                                                            id: result['data']
-                                                                .itemDetails[i]
-                                                                .id,
-                                                            name: result['data']
-                                                                .itemDetails[i]
-                                                                .product,
-                                                            description: '',
-                                                            photoUrl: '',
-                                                            //selected params
-                                                            price: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .subTotal
-                                                                .toDouble(),
-                                                            quantity: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .quantity,
-                                                            weight: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .size,
-                                                            firstAddonName:
-                                                                result['data']
-                                                                    .itemDetails[
-                                                                        i]
-                                                                    .addition1,
-                                                            secondAddonName:
-                                                                result['data']
-                                                                    .itemDetails[
-                                                                        i]
-                                                                    .addition2,
-                                                            firstAddonPrice:
-                                                                0.0,
-                                                            secondAddonPrice:
-                                                                0.0,
-                                                            weightId: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .sizeId,
-                                                            firstAddId: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .addition1Id,
-                                                            secondAddId: result[
-                                                                    'data']
-                                                                .itemDetails[i]
-                                                                .addition2Id,
-                                                          );
-                                                          print(cartItem.name);
-                                                          print(cartItem
-                                                              .quantity);
-                                                          print(result['data']
-                                                              .restDetails
-                                                              .logo);
-                                                          cartProvider
-                                                              .addItemToCart(
-                                                            cartItem,
-                                                            result['data']
-                                                                .restDetails
-                                                                .id,
-                                                            result['data']
-                                                                .orderDetails
-                                                                .deliveryFee,
-                                                            result['data']
-                                                                .orderDetails
-                                                                .deliveryTime,
-                                                            result['data']
-                                                                .restDetails
-                                                                .name,
-                                                            "https://menuegypt.com//" +
-                                                                result['data']
-                                                                    .restDetails
-                                                                    .logo,
-                                                          );
+                                                        if (result['success']) {
+                                                          for (int i = 0;
+                                                              i <
+                                                                  result['data']
+                                                                      .length;
+                                                              i++) {
+                                                            CartItemModel
+                                                                cartItem =
+                                                                CartItemModel(
+                                                              //fixed params
+                                                              id: result['data']
+                                                                      [i]
+                                                                  .id,
+                                                              name:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .product,
+                                                              description: '',
+                                                              photoUrl: '',
+                                                              //selected params
+                                                              price: result[
+                                                                      'data'][i]
+                                                                  .subTotal
+                                                                  .toDouble(),
+                                                              quantity:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .quantity,
+                                                              weight:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .size,
+                                                              firstAddonName:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .addition1,
+                                                              secondAddonName:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .addition2,
+                                                              firstAddonPrice:
+                                                                  0.0,
+                                                              secondAddonPrice:
+                                                                  0.0,
+                                                              weightId:
+                                                                  result['data']
+                                                                          [i]
+                                                                      .sizeId,
+                                                              firstAddId: result[
+                                                                      'data'][i]
+                                                                  .addition1Id,
+                                                              secondAddId: result[
+                                                                      'data'][i]
+                                                                  .addition2Id,
+                                                            );
+
+                                                            cartProvider
+                                                                .addItemToCart(
+                                                              cartItem,
+                                                              result['restId'],
+                                                              result[
+                                                                  'deliveryFee'],
+                                                              result[
+                                                                  'deliveryTime'],
+                                                              result[
+                                                                  'restName'],
+                                                              "https://menuegypt.com//" +
+                                                                  result[
+                                                                      'restLogo'],
+                                                            );
+                                                          }
+                                                          Get.toNamed(MyBasket
+                                                              .routeName);
+                                                        } else {
+                                                          dialog(
+                                                              result['error']);
                                                         }
-                                                        Get.toNamed(
-                                                            MyBasket.routeName);
                                                       } else {
                                                         dialog(
                                                             'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');

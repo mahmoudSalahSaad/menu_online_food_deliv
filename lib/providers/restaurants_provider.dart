@@ -91,6 +91,7 @@ class RestaurantsProvider extends ChangeNotifier {
     final List<Map<String, dynamic>> restaurantBranches = [];
     final List<String> restaurantImages = [];
     final List<int> regionsResult = [];
+    final List<String> areasResult = [];
     String latestDate = '';
     try {
       //SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -129,6 +130,11 @@ class RestaurantsProvider extends ChangeNotifier {
         if (parsedRegoins.isNotEmpty) {
           parsedRegoins.forEach((restaurantObject) {
             regionsResult.add(restaurantObject['region_id']);
+          });
+          parsedRegoins.forEach((restaurantObject) {
+            areasResult.add(restaurantObject['city_name'] +
+                ' - ' +
+                restaurantObject['region_name']);
           });
         }
         if (parsedRestaurantComment.isNotEmpty) {
@@ -189,7 +195,7 @@ class RestaurantsProvider extends ChangeNotifier {
               ? null
               : parsedRestaurants['category_id'],
           branches: restaurantBranches,
-          areas: [],
+          areas: areasResult,
           regions: regionsResult,
           images: restaurantImages,
           viewTimes: viewsdata,

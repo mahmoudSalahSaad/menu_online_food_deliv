@@ -194,81 +194,61 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  title: Text(
-                    resturantCategoriesModel
-                        .catgeoriesList[i].catgeoryProducts[index].title,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        resturantCategoriesModel
+                            .catgeoriesList[i].catgeoryProducts[index].title,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: resturantCategoriesModel.catgeoriesList[i]
+                                            .catgeoryProducts[index].price !=
+                                        0
+                                    ? resturantCategoriesModel.catgeoriesList[i]
+                                        .catgeoryProducts[index].price
+                                        .toString()
+                                    : resturantCategoriesModel.catgeoriesList[i]
+                                            .catgeoryProducts[index].minPrice
+                                            .toString() +
+                                        ' - ' +
+                                        resturantCategoriesModel
+                                            .catgeoriesList[i]
+                                            .catgeoryProducts[index]
+                                            .maxPrice
+                                            .toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        getProportionateScreenHeight(12))),
+                            TextSpan(
+                              text: ' جم',
+                              style: TextStyle(fontFamily: 'DroidArabic'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  subtitle: Text(
-                    resturantCategoriesModel.catgeoriesList[i]
-                            .catgeoryProducts[index].shortDescription ??
-                        '',
-                    style: TextStyle(color: Colors.grey[300]),
-                  ),
-                  trailing: Column(
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: resturantCategoriesModel
-                                              .catgeoriesList[i]
-                                              .catgeoryProducts[index]
-                                              .price !=
-                                          0
-                                      ? resturantCategoriesModel
-                                          .catgeoriesList[i]
-                                          .catgeoryProducts[index]
-                                          .price
-                                          .toString()
-                                      : resturantCategoriesModel
-                                              .catgeoriesList[i]
-                                              .catgeoryProducts[index]
-                                              .minPrice
-                                              .toString() +
-                                          ' - ' +
-                                          resturantCategoriesModel
-                                              .catgeoriesList[i]
-                                              .catgeoryProducts[index]
-                                              .maxPrice
-                                              .toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          getProportionateScreenHeight(12))),
-                              TextSpan(
-                                text: ' جم',
-                                style: TextStyle(fontFamily: 'DroidArabic'),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        /*
-                        Text(
+                        flex: 2,
+                        child: Text(
                           resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].price !=
-                                  0
-                              ? resturantCategoriesModel.catgeoriesList[i]
-                                  .catgeoryProducts[index].price
-                                  .toString()
-                              : resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].minPrice
-                                      .toString() +
-                                  ' - ' +
-                                  resturantCategoriesModel.catgeoriesList[i]
-                                      .catgeoryProducts[index].maxPrice
-                                      .toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: getProportionateScreenHeight(14)),
+                                  .catgeoryProducts[index].shortDescription ??
+                              '',
+                          style: TextStyle(color: Colors.grey[300]),
                         ),
-                        */
                       ),
-                      //add to cart
                       Expanded(
+                        flex: 1,
                         child: IconButton(
                           onPressed: () {
                             print(resturantCategoriesModel.restId);
@@ -302,7 +282,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                           icon: Icon(Icons.add_box_outlined),
                           color: Colors.white,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

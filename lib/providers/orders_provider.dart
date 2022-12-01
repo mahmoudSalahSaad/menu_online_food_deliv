@@ -107,4 +107,70 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  Future<Map<String, dynamic>> reOrder(String orderSerialNumber) async {
+    Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+      'data': null,
+      'restId': null,
+      'restName': null,
+      'restLogo': null,
+      'deliveryFee': null,
+      'deliveryTime': null
+    };
+    _isLoading = true;
+    notifyListeners();
+    String url = '/re-order-api/$orderSerialNumber';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken');
+      print(token);
+      Response response = await httpService.getRequest(url, token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print(response);
+
+        var parsedCartItems = response.data['data']['cart'] as List;
+        List<ItemDetails> itmes = [];
+        parsedCartItems.forEach((element) {
+          ItemDetails item = ItemDetails(
+            id: element['value']['id'],
+            product: element['value']['name'],
+            sizeId: element['value']['size_id'],
+            size: element['value']['size_name'],
+            addition1Id: element['value']['addition1_id'],
+            addition1: element['value']['addition1_name'],
+            addition2Id: element['value']['addition2_id'],
+            addition2: element['value']['addition2_name'],
+            subTotal: element['value']['price'],
+            quantity: element['value']['quantity'],
+            total: element['value']['total'],
+          );
+          itmes.add(item);
+        });
+
+        print('Success');
+        result['success'] = true;
+        result['data'] = itmes;
+        result['restId'] = response.data['data']['rest']['restId'];
+        result['restName'] = response.data['data']['rest']['restName'];
+        result['restLogo'] = response.data['data']['rest']['restLogo'];
+        result['deliveryFee'] = response.data['data']['rest']['deliveryFee'];
+        result['deliveryTime'] = response.data['data']['rest']['deliveryTime'];
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      print(error);
+      throw result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
 }
