@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
-import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tap/menu_widget_slider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/screens/slider_screen/components/images_sliders.dart';
 import 'package:menu_egypt/screens/slider_screen/components/slider_dots.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'menu_tap/menu_widget.dart';
 
@@ -42,24 +45,50 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
         slivers: [
           SliverList(
               delegate: SliverChildListDelegate([
-            SizedBox(
-              height: 200,
-              child: Stack(
-                children: [
-                  ImagesSlider(
-                    imagesSliders: widget.sliderImages,
-                    pageIndex: _pageIndex,
-                    onPageChange: (index, reason) {
-                      setState(() {
-                        _pageIndex = index;
-                      });
-                    },
-                  ),
-                  SliderDots(
+            GestureDetector(
+              child: SizedBox(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  children: [
+                    ImagesSlider(
                       imagesSliders: widget.sliderImages,
-                      pageIndex: _pageIndex),
-                ],
+                      pageIndex: _pageIndex,
+                      onPageChange: (index, reason) {
+                        setState(() {
+                          _pageIndex = index;
+                        });
+                      },
+                    ),
+                    SliderDots(
+                        imagesSliders: widget.sliderImages,
+                        pageIndex: _pageIndex),
+                  ],
+                ),
               ),
+              onTap: () {
+                if (Platform.isIOS) {
+                  print('ios');
+                  Provider.of<RestaurantsProvider>(context, listen: false)
+                      .detectAddsClick(widget.restId, 'ios')
+                      .then((value) {
+                    if (value['status']) {
+                      _launchUrl();
+                    }
+                  });
+                } else if (Platform.isAndroid) {
+                  print('android');
+                  Provider.of<RestaurantsProvider>(context, listen: false)
+                      .detectAddsClick(widget.restId, 'android')
+                      .then((value) {
+                    if (value['status']) {
+                      _launchUrl();
+                    }
+                  });
+                } else {
+                  print('something else');
+                }
+              },
             ),
             SizedBox(
               height: getProportionateScreenHeight(10),
@@ -127,5 +156,12 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse('${widget.sliderImagesLink}');
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
   }
 }

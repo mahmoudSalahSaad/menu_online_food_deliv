@@ -4,7 +4,6 @@ import 'package:menu_egypt/models/Restaurant.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
-import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantLogos extends StatelessWidget {
@@ -32,18 +31,9 @@ class RestaurantLogos extends StatelessWidget {
                       .fetchRestaurant(restaurants[index].id);
                   Get.toNamed(NewRestaurantScreen.routeName);
                 },
-                child: Container(
-                  height: SizeConfig.screenHeight * 0.15,
-                  width: SizeConfig.screenWidth * 0.15,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image: NetworkImage('${restaurants[index].logoSmall}'),
-                    ),
-                  ),
-                )
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network('${restaurants[index].logoSmall}'))
 
                 /*
               SizedBox(
@@ -63,8 +53,8 @@ class RestaurantLogos extends StatelessWidget {
       }, childCount: 15),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
-          crossAxisSpacing: kDefaultPadding / 8,
-          mainAxisSpacing: kDefaultPadding / 4),
+          crossAxisSpacing: kDefaultPadding / 2,
+          mainAxisSpacing: kDefaultPadding / 2),
     );
   }
 }

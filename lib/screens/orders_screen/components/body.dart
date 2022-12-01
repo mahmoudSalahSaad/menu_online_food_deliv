@@ -179,114 +179,141 @@ class _BodyState extends State<Body> {
                                                           10.0)),
                                               child: Row(
                                                 children: [
-                                                  Text('تفاصيل الطلب '),
+                                                  Text(
+                                                    'تفاصيل الطلب ',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                10),
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                   Icon(
                                                     FontAwesomeIcons.list,
-                                                    size: 10,
+                                                    size:
+                                                        getProportionateScreenHeight(
+                                                            6),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             //re-order btn
                                             orders[index].orderStatus ==
-                                                        'delivered' ||
+                                                        'hold' ||
                                                     orders[index].orderStatus ==
-                                                        'canceled'
+                                                        'hold'
                                                 ? MaterialButton(
                                                     onPressed: () async {
-                                                      Map<String, dynamic>
-                                                          result =
-                                                          await Provider.of<
-                                                                      OrderProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getOrderDetails(
-                                                                  orders[index]
-                                                                      .serialNumber);
+                                                      if (cartProvider.cart
+                                                                  .resturantId ==
+                                                              orders[index]
+                                                                  .restId ||
+                                                          cartProvider.cart
+                                                                  .resturantId ==
+                                                              0) {
+                                                        Map<String, dynamic>
+                                                            result =
+                                                            await Provider.of<
+                                                                        OrderProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .getOrderDetails(
+                                                                    orders[index]
+                                                                        .serialNumber);
 
-                                                      for (int i = 0;
-                                                          i <
-                                                              result['data']
-                                                                  .itemDetails
-                                                                  .length;
-                                                          i++) {
-                                                        CartItemModel cartItem =
-                                                            CartItemModel(
-                                                          //fixed params
-                                                          id: result['data']
-                                                              .itemDetails[i]
-                                                              .id,
-                                                          name: result['data']
-                                                              .itemDetails[i]
-                                                              .product,
-                                                          description: '',
-                                                          photoUrl: '',
-                                                          //selected params
-                                                          price: result['data']
-                                                              .itemDetails[i]
-                                                              .subTotal
-                                                              .toDouble(),
-                                                          quantity: result[
-                                                                  'data']
-                                                              .itemDetails[i]
-                                                              .quantity,
-                                                          weight: result['data']
-                                                              .itemDetails[i]
-                                                              .size,
-                                                          firstAddonName:
-                                                              result['data']
-                                                                  .itemDetails[
-                                                                      i]
-                                                                  .addition1,
-                                                          secondAddonName:
-                                                              result['data']
-                                                                  .itemDetails[
-                                                                      i]
-                                                                  .addition2,
-                                                          firstAddonPrice: 0.0,
-                                                          secondAddonPrice: 0.0,
-                                                          weightId: result[
-                                                                  'data']
-                                                              .itemDetails[i]
-                                                              .sizeId,
-                                                          firstAddId: result[
-                                                                  'data']
-                                                              .itemDetails[i]
-                                                              .addition1Id,
-                                                          secondAddId: result[
-                                                                  'data']
-                                                              .itemDetails[i]
-                                                              .addition2Id,
-                                                        );
-                                                        print(cartItem.name);
-                                                        print(
-                                                            cartItem.quantity);
-                                                        print(result['data']
-                                                            .restDetails
-                                                            .logo);
-                                                        cartProvider
-                                                            .addItemToCart(
-                                                          cartItem,
-                                                          result['data']
+                                                        for (int i = 0;
+                                                            i <
+                                                                result['data']
+                                                                    .itemDetails
+                                                                    .length;
+                                                            i++) {
+                                                          CartItemModel
+                                                              cartItem =
+                                                              CartItemModel(
+                                                            //fixed params
+                                                            id: result['data']
+                                                                .itemDetails[i]
+                                                                .id,
+                                                            name: result['data']
+                                                                .itemDetails[i]
+                                                                .product,
+                                                            description: '',
+                                                            photoUrl: '',
+                                                            //selected params
+                                                            price: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .subTotal
+                                                                .toDouble(),
+                                                            quantity: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .quantity,
+                                                            weight: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .size,
+                                                            firstAddonName:
+                                                                result['data']
+                                                                    .itemDetails[
+                                                                        i]
+                                                                    .addition1,
+                                                            secondAddonName:
+                                                                result['data']
+                                                                    .itemDetails[
+                                                                        i]
+                                                                    .addition2,
+                                                            firstAddonPrice:
+                                                                0.0,
+                                                            secondAddonPrice:
+                                                                0.0,
+                                                            weightId: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .sizeId,
+                                                            firstAddId: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .addition1Id,
+                                                            secondAddId: result[
+                                                                    'data']
+                                                                .itemDetails[i]
+                                                                .addition2Id,
+                                                          );
+                                                          print(cartItem.name);
+                                                          print(cartItem
+                                                              .quantity);
+                                                          print(result['data']
                                                               .restDetails
-                                                              .id,
-                                                          result['data']
-                                                              .orderDetails
-                                                              .deliveryFee,
-                                                          result['data']
-                                                              .orderDetails
-                                                              .deliveryTime,
-                                                          result['data']
-                                                              .restDetails
-                                                              .name,
-                                                          "https://menuegypt.com//" +
-                                                              result['data']
-                                                                  .restDetails
-                                                                  .logo,
-                                                        );
+                                                              .logo);
+                                                          cartProvider
+                                                              .addItemToCart(
+                                                            cartItem,
+                                                            result['data']
+                                                                .restDetails
+                                                                .id,
+                                                            result['data']
+                                                                .orderDetails
+                                                                .deliveryFee,
+                                                            result['data']
+                                                                .orderDetails
+                                                                .deliveryTime,
+                                                            result['data']
+                                                                .restDetails
+                                                                .name,
+                                                            "https://menuegypt.com//" +
+                                                                result['data']
+                                                                    .restDetails
+                                                                    .logo,
+                                                          );
+                                                        }
+                                                        Get.toNamed(
+                                                            MyBasket.routeName);
+                                                      } else {
+                                                        dialog(
+                                                            'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
                                                       }
-                                                      Get.toNamed(
-                                                          MyBasket.routeName);
                                                     },
                                                     color: kAppBarColor,
                                                     shape:
@@ -297,11 +324,22 @@ class _BodyState extends State<Body> {
                                                                         10.0)),
                                                     child: Row(
                                                       children: [
-                                                        Text('إعادة الطلب '),
+                                                        Text(
+                                                          'إعادة الطلب ',
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      10),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                         Icon(
                                                           FontAwesomeIcons
                                                               .arrowsRotate,
-                                                          size: 10,
+                                                          size:
+                                                              getProportionateScreenHeight(
+                                                                  6),
                                                         ),
                                                       ],
                                                     ),
@@ -340,5 +378,14 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+
+  void dialog(String message) {
+    Get.defaultDialog(
+        content: Text(message),
+        textCancel: 'إغلاق',
+        title: 'تحذير',
+        buttonColor: kPrimaryColor,
+        cancelTextColor: kTextColor);
   }
 }

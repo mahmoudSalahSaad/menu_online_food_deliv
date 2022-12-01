@@ -525,4 +525,24 @@ class RestaurantsProvider extends ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  Future<Map<String, dynamic>> detectAddsClick(
+      int restId, String platform) async {
+    final Map<String, dynamic> result = {'status': false, 'errorNumber': null};
+
+    String url = '/save-rest-viewes';
+    httpService.init();
+
+    try {
+      Response response = await httpService.postRequest(
+          url, {'rest_id': restId, 'app_type': platform}, '');
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        result['status'] = true;
+      }
+    } catch (error) {
+      result['errorNumber'] = error;
+    }
+
+    return result;
+  }
 }
