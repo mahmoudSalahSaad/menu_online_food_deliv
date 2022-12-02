@@ -199,9 +199,9 @@ class _BodyState extends State<Body> {
                                             ),
                                             //re-order btn
                                             orders[index].orderStatus ==
-                                                        'hold' ||
+                                                        'delivered' ||
                                                     orders[index].orderStatus ==
-                                                        'hold'
+                                                        'canceled'
                                                 ? MaterialButton(
                                                     onPressed: () async {
                                                       if (cartProvider.cart
