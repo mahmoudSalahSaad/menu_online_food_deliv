@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:menu_egypt/screens/splash_screen/splash_screen.dart';
+import 'package:menu_egypt/services/firebase_dynamic_links.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/provider.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +69,15 @@ class _MyAppState extends State<MyApp> {
   }
 */
   @override
+  void initState() {
+    // TODO: implement initState
+    Timer(Duration(seconds: 4), () {
+      DynamicLink.initializer(context);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: providers(),
@@ -88,8 +100,7 @@ class _MyAppState extends State<MyApp> {
             // onGenerateRoute: (RouteSettings routeSettings) {
             //   final List<String> pathElements = routeSettings.name.split('/');
             //   if (pathElements[0] != '') {
-            //     return null;
-            //   }
+            //     return nColor.fromARGB(255, 212, 171, 171)      //   }
             //   //pathElements[1] == 'restaurant';
             //   if (pathElements[1] == 'new_restaurant') {
             //     final int index = int.parse(pathElements[2]);

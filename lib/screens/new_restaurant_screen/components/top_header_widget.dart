@@ -3,6 +3,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
+import 'package:menu_egypt/services/firebase_dynamic_links.dart';
 
 import '../../../utilities/constants.dart';
 import '../../../utilities/size_config.dart';
@@ -12,6 +13,7 @@ import 'icon_text.dart';
 class TopHeaderWidget extends StatelessWidget {
   const TopHeaderWidget(
       {Key key,
+      @required this.restId,
       @required this.image,
       @required this.name,
       @required this.review,
@@ -21,16 +23,20 @@ class TopHeaderWidget extends StatelessWidget {
       @required this.phone3,
       @required this.userProvider,
       @required this.isFav,
-      @required this.onTap})
+      @required this.onTap,
+      @required this.pathFrom})
       : super(key: key);
 
-  final String image, name, review, viewTime, phone1, phone2, phone3;
+  final String image, name, review, viewTime, phone1, phone2, phone3, pathFrom;
   final UserProvider userProvider;
   final onTap;
   final bool isFav;
+  final int restId;
   @override
   Widget build(BuildContext context) {
     int phoneCount = 0;
+    DynamicLink dynamicLink = DynamicLink();
+
     if (phone1 != null && phone1 != '') {
       phoneCount++;
     }
@@ -82,6 +88,24 @@ class TopHeaderWidget extends StatelessWidget {
                                   : FontAwesomeIcons.heart,
                               onTap: onTap)
                           : Container(),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: getProportionateScreenWidth(10)),
+                        child: InkWell(
+                            onTap: () {
+                              if (pathFrom == 'resturant') {
+                                dynamicLink.createRestruantDynamicLink(
+                                    context, restId, false);
+                              } else if (pathFrom == 'products') {
+                                dynamicLink.createProductsDynamicLink(
+                                    context, restId, false);
+                              }
+                            },
+                            child: Icon(
+                              FontAwesomeIcons.link,
+                              size: getProportionateScreenHeight(20),
+                            )),
+                      ),
                       Container(
                         padding: EdgeInsets.only(
                             left: getProportionateScreenWidth(5)),

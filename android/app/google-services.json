@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "71052481155",
-    "project_id": "menuegypt-772d5",
-    "storage_bucket": "menuegypt-772d5.appspot.com"
+    "project_number": "493844107005",
+    "firebase_url": "https://wasla-cb0d3.firebaseio.com",
+    "project_id": "wasla-cb0d3",
+    "storage_bucket": "wasla-cb0d3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:71052481155:android:69150a21bbf404449b01b6",
+        "mobilesdk_app_id": "1:493844107005:android:229782e11554e31134f894",
         "android_client_info": {
           "package_name": "com.menuegypt.app.menuegyptapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "71052481155-8es8nrmgges6b28gelat83shothhrj4u.apps.googleusercontent.com",
+          "client_id": "493844107005-gu5sadbfdr2v2q0jrg30ldt95hscqut5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcB12eU5nrlolo_U5wJ3isgyfcWgV-gJw"
+          "current_key": "AIzaSyDCpixZ0BSV3MRrqFyEKHWqL5zBFPtETpU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "71052481155-8es8nrmgges6b28gelat83shothhrj4u.apps.googleusercontent.com",
+              "client_id": "493844107005-gu5sadbfdr2v2q0jrg30ldt95hscqut5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.menuEgypt"
+              }
             }
           ]
         }

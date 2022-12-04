@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC9zyircRt1Rkkt12sM96m5wNqkx0lQgZ4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>493844107005</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.menuEgypt</string>
+	<key>PROJECT_ID</key>
+	<string>wasla-cb0d3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wasla-cb0d3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:493844107005:ios:35c8db31941ad66234f894</string>
+	<key>DATABASE_URL</key>
+	<string>https://wasla-cb0d3.firebaseio.com</string>
+</dict>
+</plist>

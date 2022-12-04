@@ -103,6 +103,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                   height: getProportionateScreenHeight(2),
                 ),
                 TopHeaderWidget(
+                  restId: restaurant.id,
                   isFav: isFav,
                   onTap: () => favFunction(userProvider),
                   image: restaurant.logoSmall,
@@ -113,6 +114,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                   phone2: restaurant.phoneNumber2,
                   phone3: restaurant.phoneNumber3,
                   userProvider: userProvider,
+                  pathFrom: 'products',
                 ),
                 Expanded(
                   child: ScrollableListTabView(
