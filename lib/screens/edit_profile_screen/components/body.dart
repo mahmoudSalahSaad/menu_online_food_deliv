@@ -71,6 +71,13 @@ class _BodyState extends State<Body> {
         Provider.of<UserProvider>(context, listen: false).user.gender;
     _formData['birthDate'] =
         Provider.of<UserProvider>(context, listen: false).user.birthDate;
+    _gender =
+        Provider.of<UserProvider>(context, listen: false).user.gender == 'male'
+            ? Gender.male
+            : Gender.female;
+    //birthDate = DateFormat('yyyy-MM-dd').format(DateTime.parse(
+    // Provider.of<UserProvider>(context, listen: false).user.birthDate));
+
     if (_formData['cityId'] != null) {
       city = Provider.of<CityProvider>(context, listen: false)
           .getCityById(_formData['cityId']);

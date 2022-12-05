@@ -3,7 +3,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
-import 'package:menu_egypt/services/firebase_dynamic_links.dart';
+import 'package:menu_egypt/services/create_dynamic_links.dart';
 
 import '../../../utilities/constants.dart';
 import '../../../utilities/size_config.dart';
@@ -35,7 +35,7 @@ class TopHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int phoneCount = 0;
-    DynamicLink dynamicLink = DynamicLink();
+    CreateDynamicLinks dynamicLink = CreateDynamicLinks();
 
     if (phone1 != null && phone1 != '') {
       phoneCount++;
@@ -95,10 +95,10 @@ class TopHeaderWidget extends StatelessWidget {
                             onTap: () {
                               if (pathFrom == 'resturant') {
                                 dynamicLink.createRestruantDynamicLink(
-                                    context, restId, false);
+                                    context, restId, true);
                               } else if (pathFrom == 'products') {
                                 dynamicLink.createProductsDynamicLink(
-                                    context, restId, false);
+                                    context, restId, true);
                               }
                             },
                             child: Icon(

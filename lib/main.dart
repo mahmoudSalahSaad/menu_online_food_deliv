@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:menu_egypt/screens/splash_screen/splash_screen.dart';
-import 'package:menu_egypt/services/firebase_dynamic_links.dart';
+import 'package:menu_egypt/services/fetch_dynamic_Link.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/provider.dart';
 import 'package:provider/provider.dart';
@@ -68,12 +66,9 @@ class _MyAppState extends State<MyApp> {
     return _updateConnectionStatus(result);
   }
 */
+
   @override
   void initState() {
-    // TODO: implement initState
-    Timer(Duration(seconds: 4), () {
-      DynamicLink.initializer(context);
-    });
     super.initState();
   }
 

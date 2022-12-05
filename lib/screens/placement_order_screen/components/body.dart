@@ -83,10 +83,12 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                                 onTap: () {
+                                  /*
                                   Provider.of<ResturantItemsProvider>(context,
                                           listen: false)
                                       .getResturantCategories(cart.resturantId);
                                   Get.offNamed(ResturantScreenNew.routeName);
+                                  */
                                 },
                               ),
                               title: Text(
@@ -107,6 +109,7 @@ class _BodyState extends State<Body> {
                                               getProportionateScreenHeight(20)),
                                     ),
                                     onTap: () {
+                                      /*
                                       Provider.of<ResturantItemsProvider>(
                                               context,
                                               listen: false)
@@ -114,6 +117,7 @@ class _BodyState extends State<Body> {
                                               cart.resturantId);
                                       Get.offNamed(
                                           ResturantScreenNew.routeName);
+                                          */
                                     },
                                   ),
                                   Row(

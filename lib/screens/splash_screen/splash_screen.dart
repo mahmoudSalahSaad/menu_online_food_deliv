@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/screens/slider_screen/slider_screen.dart';
+import 'package:menu_egypt/services/fetch_dynamic_Link.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(milliseconds: 1), () async {
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
+
+      FetchDynamicLink().initDynamicLinks(context);
+
       // final categoryProvider =
       //     Provider.of<CategoriesProvider>(context, listen: false);
       // final cityProvider = Provider.of<CityProvider>(context, listen: false);

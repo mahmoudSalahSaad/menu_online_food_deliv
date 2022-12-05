@@ -91,32 +91,34 @@ class _EditFormState extends State<EditForm> {
                   return null;
                 },
               ),
-              InputTextField(
-                intialValue: user.email != null ? user.email : '',
-                textInputType: TextInputType.emailAddress,
-                labelText: "البريد إلالكترونى",
-                border: false,
-                onSaved: (String newValue) =>
-                    widget.formData['email'] = newValue,
-                onChanged: (String value) {
-                  if (value.isNotEmpty) {
-                    removeError(error: kEmailNullError);
-                    if (emailValidatorRegExp.hasMatch(value)) {
-                      removeError(error: kInvalidEmailError);
+              IgnorePointer(
+                child: InputTextField(
+                  intialValue: user.email != null ? user.email : '',
+                  textInputType: TextInputType.emailAddress,
+                  labelText: "البريد إلالكترونى",
+                  border: false,
+                  onSaved: (String newValue) =>
+                      widget.formData['email'] = newValue,
+                  onChanged: (String value) {
+                    if (value.isNotEmpty) {
+                      removeError(error: kEmailNullError);
+                      if (emailValidatorRegExp.hasMatch(value)) {
+                        removeError(error: kInvalidEmailError);
+                      }
                     }
-                  }
-                  return null;
-                },
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    addError(error: kEmailNullError);
-                    return "";
-                  } else if (!emailValidatorRegExp.hasMatch(value)) {
-                    addError(error: kInvalidEmailError);
-                    return "";
-                  }
-                  return null;
-                },
+                    return null;
+                  },
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      addError(error: kEmailNullError);
+                      return "";
+                    } else if (!emailValidatorRegExp.hasMatch(value)) {
+                      addError(error: kInvalidEmailError);
+                      return "";
+                    }
+                    return null;
+                  },
+                ),
               ),
               InputTextField(
                 intialValue: user.phoneNumber != null ? user.phoneNumber : '',
