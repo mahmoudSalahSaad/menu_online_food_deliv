@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
 import 'package:menu_egypt/models/User.dart';
+import 'package:menu_egypt/models/setting.dart';
 import 'package:menu_egypt/services/http_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -717,6 +718,34 @@ class UserProvider extends ChangeNotifier {
       }
     } catch (error) {
       print('Catch');
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
+
+  Future<Map<String, dynamic>> getAppSetting() async {
+    final Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+      'setting': null
+    };
+    _isLoading = true;
+    notifyListeners();
+    String url = '/api-setting';
+    httpService.init();
+    try {
+      Response response = await httpService.getRequest(url, null);
+      print(response);
+
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        Setting setting = Setting();
+        setting = Setting.fromJson(response.data['setting']);
+        result['setting'] = setting;
+        result['success'] = true;
+      }
+    } catch (error) {
       result['error'] = error;
     }
     _isLoading = false;

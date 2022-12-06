@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,10 +7,12 @@ import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/screens/slider_screen/slider_screen.dart';
 import 'package:menu_egypt/services/fetch_dynamic_Link.dart';
+import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
-
+import 'package:launch_review/launch_review.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'components/body.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
 
-      FetchDynamicLink().initDynamicLinks(context);
+      await FetchDynamicLink().initDynamicLinks(context);
 
       // final categoryProvider =
       //     Provider.of<CategoriesProvider>(context, listen: false);
@@ -62,6 +66,27 @@ class _SplashScreenState extends State<SplashScreen> {
         await Provider.of<UserProvider>(context, listen: false).sliderImages();
         Get.offNamed(SliderScreen.routeName);
       }
+
+      //check for updates
+      Map<String, dynamic> setting = await userProvider.getAppSetting();
+      if (setting['setting'] != null) {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String buildNumber = packageInfo.buildNumber;
+        print(buildNumber);
+        if (Platform.isIOS &&
+            int.parse(buildNumber) <
+                int.parse(setting['setting'].appleBuildNumber)) {
+          print('ios');
+          dialog();
+        } else if (Platform.isAndroid &&
+            int.parse(buildNumber) <
+                int.parse(setting['setting'].androidBuildNumber)) {
+          print('android');
+          dialog();
+        } else {
+          print('something else');
+        }
+      }
     });
     super.initState();
   }
@@ -76,5 +101,20 @@ class _SplashScreenState extends State<SplashScreen> {
     SizeConfig().init(context);
 
     return BaseConnectivity(child: Scaffold(body: Body()));
+  }
+
+  void dialog() {
+    Get.defaultDialog(
+        content: Text('إصدار جديد من التطبيق'),
+        textConfirm: 'تحديث',
+        textCancel: 'تخطى',
+        title: 'تنبيه',
+        buttonColor: Colors.red,
+        onConfirm: () async {
+          LaunchReview.launch();
+        },
+        onCancel: () async {},
+        confirmTextColor: kTextColor,
+        cancelTextColor: kTextColor);
   }
 }
