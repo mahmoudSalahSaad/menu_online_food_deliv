@@ -23,7 +23,6 @@ class FetchDynamicLink {
 
   Future<void> initDynamicLinks(BuildContext context) async {
     //if the app is closed
-    await Future.delayed(Duration(seconds: 3));
     final PendingDynamicLinkData data = await dynamicLinks.getInitialLink();
     if (data != null) {
       print('DYNAMIC DATA');
@@ -52,19 +51,19 @@ class FetchDynamicLink {
       restId = int.parse(dynamicLinkData.link.queryParameters['restId']);
 
       if (dynamicLinkData.link.pathSegments.contains('resturant')) {
-        print("HERE1");
+        print("HERE4");
 
         await restProvider
             .fetchRestaurant(restId)
             .then((value) => Get.toNamed(NewRestaurantScreen.routeName));
       } else if (dynamicLinkData.link.pathSegments.contains('products')) {
-        print("HERE2");
+        print("HERE5");
         await restProvider.fetchRestaurant(restId);
         await restItemsProvider
             .getResturantCategories(restId)
             .then((value) => Get.toNamed(ResturantScreenNew.routeName));
       } else {
-        print("HERE3");
+        print("HERE6");
         Get.toNamed(SplashScreen.routeName);
       }
     }).onError((error) {

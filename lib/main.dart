@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 fontFamily: 'DroidArabic',
                 appBarTheme: appBarTheme()),
             textDirection: TextDirection.rtl,
-            initialRoute: SplashScreen.routeName,
+            initialRoute: '/',
             routes: routes,
             // onGenerateRoute: (RouteSettings routeSettings) {
             //   final List<String> pathElements = routeSettings.name.split('/');

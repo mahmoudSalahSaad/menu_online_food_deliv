@@ -54,4 +54,5 @@ final Map<String, WidgetBuilder> routes = {
   AddressScreen.routeName: (BuildContext context) => AddressScreen(),
   OtpScreen.routeName: (BuildContext context) => OtpScreen(),
   OrderDetails.routeName: (BuildContext context) => OrderDetails(),
+  '/': (BuildContext context) => SplashScreen()
 };
