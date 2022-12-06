@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
 
-      await FetchDynamicLink().initDynamicLinks(context);
+      await FetchDynamicLink(context).initDynamicLinks(context);
 
       // final categoryProvider =
       //     Provider.of<CategoriesProvider>(context, listen: false);
