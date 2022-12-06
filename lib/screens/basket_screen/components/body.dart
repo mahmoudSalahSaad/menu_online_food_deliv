@@ -6,7 +6,6 @@ import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/edit_cart_widget.dart';
-import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/screens/placement_order_screen/placement_order.dart';
 import 'package:menu_egypt/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:menu_egypt/screens/splash_screen/splash_screen.dart';
-import 'package:menu_egypt/services/fetch_dynamic_Link.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/provider.dart';
 import 'package:provider/provider.dart';

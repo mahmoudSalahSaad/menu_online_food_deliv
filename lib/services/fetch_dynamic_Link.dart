@@ -11,27 +11,27 @@ import '../screens/new_restaurant_screen/resturant_screen_new.dart';
 
 class FetchDynamicLink {
   int restId = 0;
-  String initRoute = '';
+  var restProvider;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   Future<void> initDynamicLinks(BuildContext context) async {
     dynamicLinks.onLink.listen((dynamicLinkData) async {
       print('DYNAMIC DATA');
+      restId = int.parse(dynamicLinkData.link.queryParameters['restId']);
+
       if (dynamicLinkData.link.pathSegments.contains('resturant')) {
-        restId = int.parse(dynamicLinkData.link.queryParameters['restId']);
-        initRoute = NewRestaurantScreen.routeName;
         print("HERE1");
-
-        Get.toNamed(NewRestaurantScreen.routeName, arguments: [restId]);
+        final provider =
+            Provider.of<RestaurantsProvider>(context, listen: false);
+        await provider.fetchRestaurant(restId).then((value) =>
+            Get.toNamed(NewRestaurantScreen.routeName, arguments: [restId]));
       } else if (dynamicLinkData.link.pathSegments.contains('products')) {
-        restId = int.parse(dynamicLinkData.link.queryParameters['restId']);
-        initRoute = ResturantScreenNew.routeName;
         print("HERE2");
-
-        Get.toNamed(ResturantScreenNew.routeName, arguments: [restId]);
+        final provider =
+            Provider.of<ResturantItemsProvider>(context, listen: false);
+        await provider.getResturantCategories(restId).then((value) =>
+            Get.toNamed(ResturantScreenNew.routeName, arguments: [restId]));
       } else {
-        restId = 0;
-        initRoute = SplashScreen.routeName;
         print("HERE3");
         Get.toNamed(SplashScreen.routeName);
       }

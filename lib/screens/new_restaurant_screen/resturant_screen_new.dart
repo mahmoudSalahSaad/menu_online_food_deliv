@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:menu_egypt/components/bottom_nav_bar_widget_new.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
@@ -10,13 +9,13 @@ import 'package:provider/provider.dart';
 
 class ResturantScreenNew extends StatelessWidget {
   static String routeName = '/restaurant_new';
-  int restId = Get.arguments[0];
+  //int restId = Get.arguments[0];
   @override
   Widget build(BuildContext context) {
     final restaurantProvider =
         Provider.of<ResturantItemsProvider>(context, listen: true);
-    Provider.of<ResturantItemsProvider>(context, listen: false)
-        .getResturantCategories(restId);
+    //restaurantProvider.getResturantCategories(restId);
+
     return Container(
       decoration: BoxDecoration(gradient: kBackgroundColor),
       child: BaseConnectivity(
