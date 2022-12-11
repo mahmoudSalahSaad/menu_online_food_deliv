@@ -87,7 +87,7 @@ class _BodyState extends State<Body> {
     return Get.defaultDialog(
         content: Text(message),
         textCancel: checkError ? 'إغلاق' : 'استمرار',
-        title: checkError ? 'تحذير' : '',
+        title: checkError ? 'تنبيه' : '',
         buttonColor: checkError ? kPrimaryColor : Colors.green,
         cancelTextColor: kTextColor);
   }

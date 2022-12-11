@@ -214,7 +214,7 @@ class _BodyState extends State<Body> {
     Get.defaultDialog(
         content: Text(message),
         textCancel: 'إغلاق',
-        title: 'تحذير',
+        title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
   }

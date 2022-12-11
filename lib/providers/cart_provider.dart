@@ -123,7 +123,28 @@ class CartProvider extends ChangeNotifier {
   }
 
   editCartItem(CartItemModel item, int itemIndex) async {
-    _cart.cartItems[itemIndex] = item;
+    //if the same item is found in cart .. update it's quantity
+    bool theSameItemExistsInCart = false;
+
+    for (CartItemModel i in _cart.cartItems) {
+      if (item.id == i.id &&
+          item.weightId == i.weightId &&
+          item.firstAddId == i.firstAddId &&
+          item.secondAddId == i.secondAddId) {
+        theSameItemExistsInCart = true;
+        if (itemIndex != _cart.cartItems.indexOf(i)) {
+          i.quantity += item.quantity;
+          _cart.cartItems.removeAt(itemIndex);
+        } else {
+          i.quantity = item.quantity;
+        }
+        break;
+      }
+    }
+    //The item is a new item to edit
+    if (!theSameItemExistsInCart) {
+      _cart.cartItems[itemIndex] = item;
+    }
     _cart.subTotalPrice = calculateCartSubtotal();
     _cart.totalPrice = calculateCartTotal();
     await updateCartToSharedPref();

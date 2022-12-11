@@ -40,7 +40,7 @@ class _BodyState extends State<Body> {
       } else if (!result['success'] &&
           result['verified'] == 0 &&
           result['error'].toString().contains('رمز')) {
-        Get.offAllNamed(OtpScreen.routeName);
+        Get.toNamed(OtpScreen.routeName);
       } else {
         dialog(result['error'].toString());
       }
@@ -149,7 +149,7 @@ class _BodyState extends State<Body> {
     Get.defaultDialog(
         content: Text(message),
         textCancel: 'إغلاق',
-        title: 'تحذير',
+        title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
   }

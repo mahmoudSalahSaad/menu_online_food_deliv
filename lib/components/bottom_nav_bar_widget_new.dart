@@ -129,11 +129,12 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 if (user == null) {
                   Get.toNamed(SignInScreen.routeName);
                 } else {
+                  /*
                   var userFavorites =
                       Provider.of<UserProvider>(context, listen: false)
                           .user
                           .favorites;
-
+                  */
                   List<String> savedFavsStrList =
                       prefs.getStringList('favList');
                   List<int> intFavList =

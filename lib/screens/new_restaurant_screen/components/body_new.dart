@@ -36,12 +36,13 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
   RestaurantModel restaurant;
   List<String> areas = [];
   ResturantCategoriesModel resturantCategoriesModel;
-
+  ResturantItemsProvider resturantItemsProvider;
   @override
   void initState() {
-    resturantCategoriesModel =
-        Provider.of<ResturantItemsProvider>(context, listen: false)
-            .resturantCategoriesModel;
+    resturantItemsProvider =
+        Provider.of<ResturantItemsProvider>(context, listen: false);
+
+    resturantCategoriesModel = resturantItemsProvider.resturantCategoriesModel;
 
     Provider.of<CartProvider>(context, listen: false);
     final restaurantProvider =
@@ -118,7 +119,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                 ),
                 Expanded(
                   child: ScrollableListTabView(
-                    tabHeight: getProportionateScreenHeight(30),
+                    tabHeight: getProportionateScreenHeight(40),
                     bodyAnimationDuration: const Duration(milliseconds: 500),
                     tabAnimationCurve: Curves.easeOut,
                     tabAnimationDuration: const Duration(milliseconds: 500),
@@ -241,7 +242,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        flex: 2,
+                        flex: 9,
                         child: Text(
                           resturantCategoriesModel.catgeoriesList[i]
                                   .catgeoryProducts[index].shortDescription ??
@@ -268,12 +269,9 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                                         .cart
                                         .resturantId ==
                                     0) {
-                              Provider.of<ResturantItemsProvider>(context,
-                                      listen: false)
-                                  .getResturantProduct(resturantCategoriesModel
-                                      .catgeoriesList[i]
-                                      .catgeoryProducts[index]
-                                      .id);
+                              resturantItemsProvider.getResturantProduct(
+                                  resturantCategoriesModel.catgeoriesList[i]
+                                      .catgeoryProducts[index].id);
                               addToCartBottomSheet(context, restaurant.nameAr,
                                   restaurant.logoSmall);
                             } else {
@@ -301,8 +299,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                               .cart
                               .resturantId ==
                           0) {
-                    Provider.of<ResturantItemsProvider>(context, listen: false)
-                        .getResturantProduct(resturantCategoriesModel
+                    resturantItemsProvider.getResturantProduct(
+                        resturantCategoriesModel
                             .catgeoriesList[i].catgeoryProducts[index].id);
                     addToCartBottomSheet(
                         context, restaurant.nameAr, restaurant.logoSmall);
@@ -388,7 +386,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
     Get.defaultDialog(
         content: Text(message),
         textCancel: 'إغلاق',
-        title: 'تحذير',
+        title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
   }

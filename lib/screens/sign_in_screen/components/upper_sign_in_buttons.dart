@@ -69,6 +69,6 @@ class UpperSignInButtons extends StatelessWidget {
 
   void dialog(String message) {
     Get.defaultDialog(
-        content: Text(message), textCancel: 'إغلاق', title: 'تحذير');
+        content: Text(message), textCancel: 'إغلاق', title: 'تنبيه');
   }
 }

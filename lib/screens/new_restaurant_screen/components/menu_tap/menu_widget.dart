@@ -13,6 +13,28 @@ class MenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /*
+    return SingleChildScrollView(
+      child: ListView.separated(
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                imageDialog(images, index, context);
+              },
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Image.network('${images[index]}'),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              height: SizeConfig.screenHeight * 0.02,
+            );
+          },
+          itemCount: images.length),
+    );
+  */
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, index) {
         return Column(
@@ -26,21 +48,7 @@ class MenuWidget extends StatelessWidget {
                     onTap: () {
                       imageDialog(images, index, context);
                     },
-                    child: Container(
-                      height: 400,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage('${images[index]}'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-
-                    /*FadeInImage.assetNetwork(
-                        fit: BoxFit.cover,
-                        placeholder: 'assets/images/01-Splash-Screen.png',
-                        image: images[index]),*/
+                    child: Image.network(images[index]),
                   ),
                 )),
             SizedBox(

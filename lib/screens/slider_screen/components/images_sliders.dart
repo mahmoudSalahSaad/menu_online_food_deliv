@@ -18,6 +18,8 @@ class ImagesSlider extends StatelessWidget {
       child: Container(
         child: CarouselSlider(
           options: CarouselOptions(
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 2),
               height: double.infinity,
               viewportFraction: 1.0,
               initialPage: pageIndex,
@@ -32,10 +34,7 @@ class ImagesSlider extends StatelessWidget {
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(),
-                  child: FadeInImage.assetNetwork(
-                      fit: BoxFit.fill,
-                      placeholder: 'assets/images/01-Splash-Screen.png',
-                      image: image),
+                  child: Image.network(image),
                 );
               },
             );

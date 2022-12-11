@@ -76,7 +76,7 @@ class _VerificationPasswordScreenState
                 child: Column(
                   children: [
                     AppBarWidget(
-                      title: 'إرسال رمز التحقق الى البريد الإلكترونى',
+                      title: 'إرسال رمز التحقق الى الاميل',
                       withBack: true,
                     ),
                     SizedBox(
@@ -144,7 +144,7 @@ class _VerificationPasswordScreenState
     Get.defaultDialog(
         content: Text(message),
         textCancel: checkError ? 'إغلاق' : 'استمرار',
-        title: checkError ? 'تحذير' : '',
+        title: checkError ? 'تنبيه' : '',
         buttonColor: checkError ? kPrimaryColor : Colors.green,
         cancelTextColor: kTextColor);
   }

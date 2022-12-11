@@ -46,7 +46,7 @@ class _BodyState extends State<Body> {
     var result = await Provider.of<UserProvider>(context, listen: false)
         .signUp(_formData);
     if (result['success']) {
-      Get.offAllNamed(OtpScreen.routeName);
+      Get.toNamed(OtpScreen.routeName);
     } else {
       dialog(result['error'].toString());
     }
@@ -194,7 +194,7 @@ class _BodyState extends State<Body> {
     return Get.defaultDialog(
         content: Text(message),
         textCancel: 'إغلاق',
-        title: 'تحذير',
+        title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
   }

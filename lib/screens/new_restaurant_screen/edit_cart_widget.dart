@@ -137,11 +137,12 @@ void editCartBottomSheet(
             }
             //UI
             return Container(
-              height: buttonsListWeight.isEmpty &&
+              height: /*buttonsListWeight.isEmpty &&
                       buttonsListFirstAddon.isEmpty &&
                       buttonsListSeccondAddon.isEmpty
                   ? MediaQuery.of(context).size.height * 0.54
-                  : MediaQuery.of(context).size.height * 0.90,
+                  :*/
+                  MediaQuery.of(context).size.height * 0.90,
               color: Colors.transparent,
               child: Container(
                 decoration: BoxDecoration(
@@ -158,8 +159,22 @@ void editCartBottomSheet(
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: IconButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              icon: Icon(
+                                Icons.cancel_outlined,
+                                color: kAppBarColor,
+                                size: getProportionateScreenHeight(25),
+                              ),
+                            ),
+                          ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.20,
                             child: ListTile(
                               //img
                               leading: Container(
@@ -271,7 +286,7 @@ void editCartBottomSheet(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.12,
+                                        0.15,
                                     color: Colors.white,
                                     child: GridView.count(
                                       primary: true,
@@ -382,7 +397,7 @@ void editCartBottomSheet(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.12,
+                                        0.15,
                                     color: Colors.white,
                                     child: GridView.count(
                                       primary: true,
@@ -473,7 +488,7 @@ void editCartBottomSheet(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.12,
+                                        0.15,
                                     color: Colors.white,
                                     child: GridView.count(
                                       primary: true,

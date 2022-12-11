@@ -47,8 +47,8 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
               delegate: SliverChildListDelegate([
             GestureDetector(
               child: SizedBox(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
+                height: 400,
+                width: 400,
                 child: Stack(
                   children: [
                     ImagesSlider(
@@ -106,7 +106,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                           Provider.of<ResturantItemsProvider>(context,
                                   listen: false)
                               .getResturantCategories(widget.restId);
-                          Get.offNamed(ResturantScreenNew.routeName);
+                          Get.toNamed(ResturantScreenNew.routeName);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -123,7 +123,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                         ? IgnorePointer(
                             child: MaterialButton(
                               onPressed: () {
-                                Get.offNamed(ResturantScreenNew.routeName);
+                                Get.toNamed(ResturantScreenNew.routeName);
                               },
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),

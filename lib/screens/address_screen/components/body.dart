@@ -97,40 +97,68 @@ class _BodyState extends State<Body> {
                                                       ],
                                                     ),
                                                   ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      editAddressBottomSheet(
-                                                          context,
-                                                          addresses[index]);
-                                                    },
-                                                    child: Text(
-                                                      'تعديل العنوان',
-                                                      style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      print(
-                                                          addresses[index].id);
-                                                      Provider.of<AddressProvider>(
+                                                  Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          editAddressBottomSheet(
                                                               context,
-                                                              listen: false)
-                                                          .deleteAdress(
-                                                              addresses[index]
-                                                                  .id);
-                                                    },
-                                                    child: Text(
-                                                      'حذف العنوان',
-                                                      style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                              addresses[index]);
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              20))),
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
+                                                      SizedBox(
+                                                        width:
+                                                            getProportionateScreenWidth(
+                                                                10),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          print(addresses[index]
+                                                              .id);
+                                                          Provider.of<AddressProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .deleteAdress(
+                                                                  addresses[
+                                                                          index]
+                                                                      .id);
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              20))),
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   )
                                                 ],
                                               ),

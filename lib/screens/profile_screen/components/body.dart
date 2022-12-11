@@ -31,7 +31,7 @@ class _BodyState extends State<Body> {
     if (result['success']) {
       Get.offAllNamed(SignInScreen.routeName);
     } else {
-      dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.', 'تحذير');
+      dialog('حدث خطأ ما حاول مرة اخرى لاحقاً.', 'تنبيه');
     }
   }
 
