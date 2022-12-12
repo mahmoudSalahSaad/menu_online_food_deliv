@@ -156,8 +156,13 @@ class _BodyState extends State<Body> {
                                                               )
                                                             : Text(''),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: orders[index]
+                                                          .orderStatus ==
+                                                      'delivered' ||
+                                                  orders[index].orderStatus ==
+                                                      'canceled'
+                                              ? MainAxisAlignment.spaceAround
+                                              : MainAxisAlignment.center,
                                           children: [
                                             //order details btn
                                             MaterialButton(

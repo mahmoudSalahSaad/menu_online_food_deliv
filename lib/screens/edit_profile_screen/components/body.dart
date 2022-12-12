@@ -24,7 +24,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   Gender _gender = Gender.male;
-  String birthDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String birthDate;
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'fullName': null,
@@ -75,9 +75,14 @@ class _BodyState extends State<Body> {
         Provider.of<UserProvider>(context, listen: false).user.gender == 'male'
             ? Gender.male
             : Gender.female;
-    //birthDate = DateFormat('yyyy-MM-dd').format(DateTime.parse(
-    // Provider.of<UserProvider>(context, listen: false).user.birthDate));
-
+    birthDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    print(Provider.of<UserProvider>(context, listen: false).user.birthDate);
+/*
+DateFormat('yyyy-MM-dd').format(DateTime.parse(
+            Provider.of<UserProvider>(context, listen: false)
+                .user
+                .birthDate)) 
+ */
     if (_formData['cityId'] != null) {
       city = Provider.of<CityProvider>(context, listen: false)
           .getCityById(_formData['cityId']);

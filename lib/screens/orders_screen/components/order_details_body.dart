@@ -68,7 +68,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                     //order status
                     !cancelled
                         ? SizedBox(
-                            height: getProportionateScreenHeight(150),
+                            height: getProportionateScreenHeight(200),
                             width: MediaQuery.of(context).size.width,
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),

@@ -9,6 +9,7 @@ import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/edit_profile_screen/components/city_drop_down_field.dart';
 import 'package:menu_egypt/screens/edit_profile_screen/components/region_drop_down_field.dart';
 import 'package:menu_egypt/utilities/constants.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -64,6 +65,10 @@ class _EditFormState extends State<EditForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              FormErrors(errors: errors),
+              SizedBox(
+                height: getProportionateScreenHeight(5),
+              ),
               InputTextField(
                 intialValue: user.fullName != null ? user.fullName : '',
                 textInputType: TextInputType.name,
@@ -174,7 +179,6 @@ class _EditFormState extends State<EditForm> {
                   });
                 },
               ),
-              FormErrors(errors: errors),
             ],
           ),
         ));

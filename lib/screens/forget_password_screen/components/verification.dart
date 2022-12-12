@@ -4,6 +4,8 @@ import 'package:menu_egypt/screens/forget_password_screen/components/change_pass
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../components/app_bar.dart';
 import '../../../components/default_button.dart';
@@ -27,7 +29,9 @@ class _VerificationPasswordScreenState
   String code;
   String email = Get.arguments as String;
   final List<String> errors = [];
-
+  String message = '';
+  final CountdownController timerController =
+      CountdownController(autoStart: true);
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -121,6 +125,21 @@ class _VerificationPasswordScreenState
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Countdown(
+                        controller: timerController,
+                        seconds: 60,
+                        build: (BuildContext context, double time) {
+                          return Text(time.toString());
+                        },
+                        onFinished: () {
+                          setState(() {
+                            message = 'إضغط هنا لإعادة إرسال الرمز';
+                          });
+                        },
+                      ),
+                    ),
                     userProvider.isLoading
                         ? LoadingCircle()
                         : DefaultButton(
@@ -130,6 +149,25 @@ class _VerificationPasswordScreenState
                             color: kPrimaryColor,
                             minWidth: 0.0,
                             height: getProportionateScreenHeight(45)),
+                    //resend
+                    TextButton(
+                      child: Text(
+                        message,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        setState(() {
+                          message = '';
+                          timerController.restart();
+                        });
+                        final result = await userProvider.forgetPassword(email);
+                        if (result['success']) {
+                          dialog(false, "قم بفحص البريد الخاص بك.");
+                        } else {
+                          dialog(true, result['error']);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
