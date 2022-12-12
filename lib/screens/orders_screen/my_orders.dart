@@ -12,7 +12,7 @@ class MyOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ordersProvider = Provider.of<OrderProvider>(context, listen: true);
+    final ordersProvider = Provider.of<OrderProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(gradient: kBackgroundColor),
       child: BaseConnectivity(

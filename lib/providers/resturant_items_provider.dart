@@ -60,7 +60,7 @@ class ResturantItemsProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getResturantProduct(int productId) async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    notifyListeners();
+    //notifyListeners();
     String url = '/view-resturant-product/$productId';
     httpService.init();
     try {

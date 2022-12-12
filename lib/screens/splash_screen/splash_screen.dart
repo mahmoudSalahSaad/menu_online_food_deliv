@@ -74,12 +74,12 @@ class _SplashScreenState extends State<SplashScreen> {
         String buildNumber = packageInfo.buildNumber;
         print(buildNumber);
         if (Platform.isIOS &&
-            int.parse(buildNumber) <
+            int.parse(buildNumber) !=
                 int.parse(setting['setting'].appleBuildNumber)) {
           print('ios');
           dialog();
         } else if (Platform.isAndroid &&
-            int.parse(buildNumber) <
+            int.parse(buildNumber) !=
                 int.parse(setting['setting'].androidBuildNumber)) {
           print('android');
           dialog();
