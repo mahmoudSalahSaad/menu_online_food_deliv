@@ -58,6 +58,7 @@ dependencies:
   firebase_dynamic_links: ^5.0.7
   launch_review: ^3.0.1
   package_info_plus: ^3.0.2
+  dropdown_search: ^2.0.1
   
 dev_dependencies:
   flutter_native_splash: ^2.1.6

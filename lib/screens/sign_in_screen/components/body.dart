@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/default_button.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/categories_provider.dart';
@@ -78,6 +79,13 @@ class _BodyState extends State<Body> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: AppBarWidget(
+                    title: 'تسجيل الدخول',
+                    withBack: true,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.all(getProportionateScreenWidth(20.0)),
                   child: Image.asset('assets/images/menu-egypt-logo.png'),

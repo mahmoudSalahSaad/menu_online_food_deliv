@@ -78,7 +78,7 @@ class _BodyState extends State<Body> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBarWidget(
-                  title: 'التسجيل',
+                  title: 'انشاء حساب',
                   withBack: true,
                 ),
                 Padding(

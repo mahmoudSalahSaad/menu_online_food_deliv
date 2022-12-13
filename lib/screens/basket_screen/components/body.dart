@@ -349,12 +349,9 @@ class _BodyState extends State<Body> {
                                                               GestureDetector(
                                                             //delete cart item
                                                             onTap: () {
-                                                              Provider.of<CartProvider>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .removeItemFromCart(
-                                                                      index);
+                                                              deleteDialog(
+                                                                  context,
+                                                                  index);
                                                             },
                                                             child: Icon(
                                                               Icons.delete,
@@ -499,6 +496,24 @@ class _BodyState extends State<Body> {
                 );
         },
       ),
+    );
+  }
+
+  void deleteDialog(BuildContext context, int item) {
+    Get.defaultDialog(
+      content: Text('هل تريد الحذف ؟'),
+      textConfirm: 'حذف',
+      title: 'حذف المنتج',
+      buttonColor: Colors.red,
+      onConfirm: () async {
+        Get.back();
+        Provider.of<CartProvider>(context, listen: false)
+            .removeItemFromCart(item);
+      },
+      confirmTextColor: kTextColor,
+      onCancel: () async {},
+      textCancel: 'رجوع',
+      cancelTextColor: kTextColor,
     );
   }
 }

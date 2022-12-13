@@ -30,6 +30,7 @@ class _BodyState extends State<Body> {
   int addressId = 0;
   List<AddressModel> addresses = [];
   OrderProvider orderProvider = OrderProvider();
+
   @override
   void initState() {
     addresses = Provider.of<AddressProvider>(context, listen: false).addresses;

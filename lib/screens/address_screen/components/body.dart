@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
@@ -17,19 +18,18 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<AddressModel> addresses = [];
-  @override
-  void initState() {
-    addresses = Provider.of<AddressProvider>(context, listen: false).addresses;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureProvider<Map<String, dynamic>>(
         initialData: null,
-        create: (_) =>
-            Provider.of<AddressProvider>(context, listen: true).getAddresses(),
+        create: (_) {
+          addresses =
+              Provider.of<AddressProvider>(context, listen: false).addresses;
+          return Provider.of<AddressProvider>(context, listen: true)
+              .getAddresses();
+        },
         child: Consumer<Map<String, dynamic>>(builder: (_, value, __) {
           if (value != null) {
             return addresses.isNotEmpty
@@ -130,15 +130,10 @@ class _BodyState extends State<Body> {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          print(addresses[index]
-                                                              .id);
-                                                          Provider.of<AddressProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .deleteAdress(
-                                                                  addresses[
-                                                                          index]
-                                                                      .id);
+                                                          deleteDialog(
+                                                              context,
+                                                              addresses[index]
+                                                                  .id);
                                                         },
                                                         child: Container(
                                                           decoration:
@@ -281,6 +276,25 @@ class _BodyState extends State<Body> {
           }
         }),
       ),
+    );
+  }
+
+  void deleteDialog(BuildContext context, int addressId) {
+    Get.defaultDialog(
+      content: Text('هل تريد حذف العنوان؟'),
+      textConfirm: 'حذف',
+      title: 'حذف العنوان',
+      buttonColor: Colors.red,
+      onConfirm: () async {
+        print(addressId);
+        Get.back();
+        Provider.of<AddressProvider>(context, listen: false)
+            .deleteAdress(addressId);
+      },
+      confirmTextColor: kTextColor,
+      onCancel: () async {},
+      textCancel: 'رجوع',
+      cancelTextColor: kTextColor,
     );
   }
 }

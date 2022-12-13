@@ -98,7 +98,7 @@ class _VerificationPasswordScreenState
                       child: Column(
                         children: [
                           InputTextField(
-                            textInputType: TextInputType.emailAddress,
+                            textInputType: TextInputType.number,
                             labelText: "رمز التحقق",
                             border: false,
                             onChanged: (String value) {

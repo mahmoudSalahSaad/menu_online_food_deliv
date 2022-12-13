@@ -89,16 +89,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 child: Column(
                   children: [
                     AppBarWidget(
-                      title: 'كود التحقيق',
+                      title: 'تغيير الرقم السرى',
                       withBack: true,
                     ),
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
-                    Text('من فضلك قم بإدخال كود التحقيق.',
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: getProportionateScreenHeight(14.0))),
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),

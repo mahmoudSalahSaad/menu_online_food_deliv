@@ -166,6 +166,33 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,
                 ),
+                /*
+                GestureDetector(
+                  child: TextFormField(
+                    initialValue: birthDate,
+                    enabled: false,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.all(getProportionateScreenHeight(5)),
+                      labelText: 'تاريخ الميلاد',
+                      focusColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  onTap: () async {
+                    DateTime selected = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                    );
+                    if (selected == null) return;
+                    setState(() {
+                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
+                    });
+                  },
+                ),
+                */
                 TextButton(
                   onPressed: () async {
                     DateTime selected = await showDatePicker(

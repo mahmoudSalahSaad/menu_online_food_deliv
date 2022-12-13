@@ -163,7 +163,8 @@ class _EditFormState extends State<EditForm> {
                     widget.regions =
                         Provider.of<RegionProvider>(context, listen: false)
                             .regionsOfCity(widget.city.cityId);
-                    widget.formData['regionId'] = null;
+                    widget.formData['regionId'] = widget.regions[0].regionId;
+                    widget.region = widget.regions[0];
                   });
                 },
               ),
