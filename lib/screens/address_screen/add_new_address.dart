@@ -40,7 +40,7 @@ void addNewAddressBottomSheet(BuildContext context) {
   region = regions[15];
   showModalBottomSheet(
     context: context,
-    //isScrollControlled: true,
+    isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {
@@ -48,7 +48,7 @@ void addNewAddressBottomSheet(BuildContext context) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.80,
+              height: MediaQuery.of(context).size.height * 0.60,
               color:
                   Colors.transparent, //could change this to Color(0xFF737373),
               //so you don't have to change MaterialApp canvasColor
@@ -186,6 +186,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: streetController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -212,6 +213,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: buildingController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -238,6 +240,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: roundController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -264,6 +267,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: apartmentController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -290,6 +294,7 @@ void addNewAddressBottomSheet(BuildContext context) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: descriptionController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -393,7 +398,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
 
   showModalBottomSheet(
     context: context,
-    //isScrollControlled: true,
+    isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {
@@ -401,7 +406,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.80,
+              height: MediaQuery.of(context).size.height * 0.60,
               color:
                   Colors.transparent, //could change this to Color(0xFF737373),
               //so you don't have to change MaterialApp canvasColor
@@ -500,6 +505,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: streetController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -526,6 +532,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: buildingController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -552,6 +559,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: roundController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -578,6 +586,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: apartmentController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -604,6 +613,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: descriptionController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
