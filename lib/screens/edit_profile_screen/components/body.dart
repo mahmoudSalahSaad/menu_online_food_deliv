@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
     'cityId': null,
     'regionId': null,
     'gender': null,
-    'birthDate': null
+    'birth_date': null
   };
   CityModel city;
   RegionModel region;
@@ -69,13 +69,15 @@ class _BodyState extends State<Body> {
         Provider.of<UserProvider>(context, listen: false).user.phoneNumber;
     _formData['gender'] =
         Provider.of<UserProvider>(context, listen: false).user.gender;
-    _formData['birthDate'] =
+    _formData['birth_date'] =
         Provider.of<UserProvider>(context, listen: false).user.birthDate;
     _gender =
         Provider.of<UserProvider>(context, listen: false).user.gender == 'male'
             ? Gender.male
             : Gender.female;
-    birthDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    birthDate =
+        Provider.of<UserProvider>(context, listen: false).user.birthDate;
+
     print(Provider.of<UserProvider>(context, listen: false).user.birthDate);
 /*
 DateFormat('yyyy-MM-dd').format(DateTime.parse(
@@ -133,6 +135,37 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
                       : regionProvider
                           .regionsOfCity(cityProvider.cities[0].cityId)[0],
                 ),
+                SizedBox(
+                  height: SizeConfig.screenHeight * 0.02,
+                ),
+                GestureDetector(
+                  child: TextFormField(
+                    initialValue: 'اختر تاريخ الميلاد',
+                    enabled: false,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.all(getProportionateScreenHeight(5)),
+                      labelText: birthDate,
+                      focusColor: Colors.white,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  onTap: () async {
+                    DateTime selected = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                    );
+                    if (selected == null) return;
+                    setState(() {
+                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: SizeConfig.screenHeight * 0.02,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -162,58 +195,6 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
                       ),
                     )
                   ],
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
-                ),
-                /*
-                GestureDetector(
-                  child: TextFormField(
-                    initialValue: birthDate,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.all(getProportionateScreenHeight(5)),
-                      labelText: 'تاريخ الميلاد',
-                      focusColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  onTap: () async {
-                    DateTime selected = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
-                    );
-                    if (selected == null) return;
-                    setState(() {
-                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
-                    });
-                  },
-                ),
-                */
-                TextButton(
-                  onPressed: () async {
-                    DateTime selected = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
-                    );
-                    if (selected == null) return;
-                    setState(() {
-                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
-                    });
-                  },
-                  child: Text(
-                    'اختر تاريخ الميلاد ' + birthDate,
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.white,
-                      fontSize: getProportionateScreenHeight(15),
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: SizeConfig.screenHeight * 0.02,

@@ -19,8 +19,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     favorites: (json['favorites'] as List)?.map((e) => e as int)?.toList(),
     authType: json['authType'] as String,
     gender: json['gender'] as String,
-    birthDate: json['birth_date'] as String,
-    apiToken: json['api_token'] as String,
+    birthDate: json['birthDate'] as String,
+    apiToken: json['apiToken'] as String,
   );
 }
 

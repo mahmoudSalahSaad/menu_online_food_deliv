@@ -154,6 +154,7 @@ class OrderProvider extends ChangeNotifier {
 
         print('Success');
         result['success'] = true;
+        result['error'] = response.data['message'];
         result['data'] = itmes;
         result['restId'] = response.data['data']['rest']['restId'];
         result['restName'] = response.data['data']['rest']['restName'];

@@ -80,7 +80,7 @@ class _BodyState extends State<Body> {
                                                       children: [
                                                         Icon(
                                                           FontAwesomeIcons
-                                                              .house,
+                                                              .locationPin,
                                                           size:
                                                               getProportionateScreenHeight(
                                                                   15),
@@ -160,11 +160,10 @@ class _BodyState extends State<Body> {
                                               Row(
                                                 children: [
                                                   Icon(
-                                                    FontAwesomeIcons
-                                                        .locationPin,
+                                                    FontAwesomeIcons.streetView,
                                                     size:
                                                         getProportionateScreenHeight(
-                                                            10),
+                                                            15),
                                                   ),
                                                   SizedBox(
                                                       width:
@@ -177,11 +176,10 @@ class _BodyState extends State<Body> {
                                               Row(
                                                 children: [
                                                   Icon(
-                                                    FontAwesomeIcons
-                                                        .locationPin,
+                                                    FontAwesomeIcons.building,
                                                     size:
                                                         getProportionateScreenHeight(
-                                                            10),
+                                                            15),
                                                   ),
                                                   SizedBox(
                                                       width:
@@ -197,10 +195,10 @@ class _BodyState extends State<Body> {
                                                       children: [
                                                         Icon(
                                                           FontAwesomeIcons
-                                                              .locationPin,
+                                                              .noteSticky,
                                                           size:
                                                               getProportionateScreenHeight(
-                                                                  10),
+                                                                  15),
                                                         ),
                                                         SizedBox(
                                                             width:

@@ -127,7 +127,6 @@ class AddressProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> addAdress(AddressModel addressModel) async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    notifyListeners();
     String url = '/add-new-address';
     httpService.init();
     try {
@@ -140,7 +139,9 @@ class AddressProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
-        _addresses.add(addressModel);
+        //_addresses.add(addressModel);
+        _addresses.clear();
+        getAddresses();
         result['success'] = true;
       } else {
         print('Failed');

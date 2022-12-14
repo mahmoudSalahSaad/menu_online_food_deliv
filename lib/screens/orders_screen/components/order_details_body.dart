@@ -178,9 +178,9 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text('عنوان التوصيل'),
+                              Text('تفاصيل الطلب'),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -189,22 +189,18 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                     child: Row(
                                       children: [
                                         Icon(
-                                          FontAwesomeIcons.house,
+                                          FontAwesomeIcons.locationPin,
                                           size:
-                                              getProportionateScreenHeight(10),
+                                              getProportionateScreenHeight(15),
                                         ),
                                         SizedBox(
                                             width:
                                                 getProportionateScreenWidth(5)),
-                                        Text(
+                                        Text(orderDetailsModel.orderDetails
+                                                .address.cityIName +
+                                            ',' +
                                             orderDetailsModel.orderDetails
-                                                    .address.cityIName +
-                                                ',' +
-                                                orderDetailsModel.orderDetails
-                                                    .address.regionName +
-                                                ',' +
-                                                orderDetailsModel.orderDetails
-                                                    .address.neighborhood)
+                                                .address.regionName)
                                       ],
                                     ),
                                   ),
@@ -213,18 +209,25 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                               Row(
                                 children: [
                                   Icon(
-                                    FontAwesomeIcons.locationPin,
-                                    size: getProportionateScreenHeight(10),
+                                    FontAwesomeIcons.streetView,
+                                    size: getProportionateScreenHeight(15),
                                   ),
                                   SizedBox(
                                       width: getProportionateScreenWidth(5)),
-                                  Expanded(
-                                    child: Text(
-                                      'شارع ${orderDetailsModel.orderDetails.address.street} عمارة رقم ${orderDetailsModel.orderDetails.address.building} شقة رقم ${orderDetailsModel.orderDetails.address.apartmentNumber}',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  )
+                                  Text(
+                                      'شارع: ${orderDetailsModel.orderDetails.address.street}')
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.building,
+                                    size: getProportionateScreenHeight(15),
+                                  ),
+                                  SizedBox(
+                                      width: getProportionateScreenWidth(5)),
+                                  Text(
+                                      'عمارة: ${orderDetailsModel.orderDetails.address.building} شقة: ${orderDetailsModel.orderDetails.address.apartmentNumber}')
                                 ],
                               ),
                             ],

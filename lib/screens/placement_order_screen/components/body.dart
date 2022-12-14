@@ -5,10 +5,12 @@ import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/orders_provider.dart';
+import 'package:menu_egypt/providers/restaurants_provider.dart';
 //import 'package:menu_egypt/providers/orders_provider.dart';
 import 'package:menu_egypt/screens/address_screen/add_new_address.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/screens/basket_screen/basket_screen.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/screens/otp_screen/otp_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
@@ -67,11 +69,11 @@ class _BodyState extends State<Body> {
                               ),
                             ),
                             //resturant
-                            ListTile(
-                              leading: GestureDetector(
-                                child: Container(
-                                  height: getProportionateScreenHeight(50),
-                                  width: getProportionateScreenWidth(50),
+                            GestureDetector(
+                              child: ListTile(
+                                leading: Container(
+                                  height: 50,
+                                  width: 50,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5.0),
@@ -81,65 +83,52 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                 ),
-                                onTap: () {
-                                  /*
-                                  Provider.of<ResturantItemsProvider>(context,
-                                          listen: false)
-                                      .getResturantCategories(cart.resturantId);
-                                  Get.offNamed(ResturantScreenNew.routeName);
-                                  */
-                                },
-                              ),
-                              title: Text(
-                                "طلبك من مطعم",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: getProportionateScreenHeight(10)),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    child: Text(
+                                title: Text(
+                                  "طلبك من مطعم",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          getProportionateScreenHeight(10)),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       cart.resturantName,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize:
                                               getProportionateScreenHeight(20)),
                                     ),
-                                    onTap: () {
-                                      /*
-                                      Provider.of<ResturantItemsProvider>(
-                                              context,
-                                              listen: false)
-                                          .getResturantCategories(
-                                              cart.resturantId);
-                                      Get.offNamed(
-                                          ResturantScreenNew.routeName);
-                                          */
-                                    },
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.motorcycle,
-                                        size: getProportionateScreenHeight(10),
-                                      ),
-                                      SizedBox(
-                                          width:
-                                              getProportionateScreenWidth(5)),
-                                      Text(
-                                        "التوصيل خلال ${cart.deliveryTime} دقيقة",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    10)),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.motorcycle,
+                                          size:
+                                              getProportionateScreenHeight(10),
+                                        ),
+                                        SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(5)),
+                                        Text(
+                                          "التوصيل خلال ${cart.deliveryTime} دقيقة",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      10)),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
+                              onTap: () {
+                                Provider.of<RestaurantsProvider>(context,
+                                        listen: false)
+                                    .fetchRestaurant(cart.resturantId);
+                                Get.offNamed(NewRestaurantScreen.routeName);
+                              },
                             ),
                             //address
                             FutureProvider(
@@ -193,9 +182,9 @@ class _BodyState extends State<Body> {
                                                                       children: [
                                                                         Icon(
                                                                           FontAwesomeIcons
-                                                                              .house,
+                                                                              .locationPin,
                                                                           size:
-                                                                              getProportionateScreenHeight(10),
+                                                                              getProportionateScreenHeight(15),
                                                                         ),
                                                                         SizedBox(
                                                                             width:
@@ -212,10 +201,10 @@ class _BodyState extends State<Body> {
                                                                 children: [
                                                                   Icon(
                                                                     FontAwesomeIcons
-                                                                        .locationPin,
+                                                                        .streetView,
                                                                     size:
                                                                         getProportionateScreenHeight(
-                                                                            10),
+                                                                            15),
                                                                   ),
                                                                   SizedBox(
                                                                       width:
@@ -229,10 +218,10 @@ class _BodyState extends State<Body> {
                                                                 children: [
                                                                   Icon(
                                                                     FontAwesomeIcons
-                                                                        .locationPin,
+                                                                        .building,
                                                                     size:
                                                                         getProportionateScreenHeight(
-                                                                            10),
+                                                                            15),
                                                                   ),
                                                                   SizedBox(
                                                                       width:

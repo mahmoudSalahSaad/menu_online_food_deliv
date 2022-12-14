@@ -489,6 +489,7 @@ class UserProvider extends ChangeNotifier {
         : isAuthenticated = false;
     if (isAuthenticated) {
       var user = preferences.getString('user');
+      print("USER::: " + user.toString());
       if (user != null) {
         _user = UserModel.fromJson(json.decode(user));
         _isAuthenticated = true;

@@ -3,9 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
+import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/edit_cart_widget.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
 import 'package:menu_egypt/screens/placement_order_screen/placement_order.dart';
 import 'package:menu_egypt/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
@@ -54,11 +56,11 @@ class _BodyState extends State<Body> {
                             ),
                             //resturant info
                             //resturant
-                            ListTile(
-                              leading: GestureDetector(
-                                child: Container(
-                                  height: getProportionateScreenHeight(50),
-                                  width: getProportionateScreenWidth(50),
+                            GestureDetector(
+                              child: ListTile(
+                                leading: Container(
+                                  height: 50,
+                                  width: 50,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5.0),
@@ -68,65 +70,52 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                 ),
-                                onTap: () {
-                                  /*
-                                  Provider.of<ResturantItemsProvider>(context,
-                                          listen: false)
-                                      .getResturantCategories(cart.resturantId);
-                                  Get.offNamed(ResturantScreenNew.routeName);
-                                  */
-                                },
-                              ),
-                              title: Text(
-                                "طلبك من مطعم",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: getProportionateScreenHeight(10)),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    child: Text(
+                                title: Text(
+                                  "طلبك من مطعم",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          getProportionateScreenHeight(10)),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       cart.resturantName,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize:
                                               getProportionateScreenHeight(20)),
                                     ),
-                                    onTap: () {
-                                      /*
-                                      Provider.of<ResturantItemsProvider>(
-                                              context,
-                                              listen: false)
-                                          .getResturantCategories(
-                                              cart.resturantId);
-                                      Get.offNamed(
-                                          ResturantScreenNew.routeName);
-                                          */
-                                    },
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.motorcycle,
-                                        size: getProportionateScreenHeight(10),
-                                      ),
-                                      SizedBox(
-                                          width:
-                                              getProportionateScreenWidth(5)),
-                                      Text(
-                                        "التوصيل خلال ${cart.deliveryTime} دقيقة",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    10)),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.motorcycle,
+                                          size:
+                                              getProportionateScreenHeight(10),
+                                        ),
+                                        SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(5)),
+                                        Text(
+                                          "التوصيل خلال ${cart.deliveryTime} دقيقة",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      10)),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
+                              onTap: () {
+                                Provider.of<RestaurantsProvider>(context,
+                                        listen: false)
+                                    .fetchRestaurant(cart.resturantId);
+                                Get.offNamed(NewRestaurantScreen.routeName);
+                              },
                             ),
 
                             //cart info
@@ -156,9 +145,7 @@ class _BodyState extends State<Body> {
                                           //clear cart
                                           MaterialButton(
                                             onPressed: () {
-                                              Provider.of<CartProvider>(context,
-                                                      listen: false)
-                                                  .clearCart();
+                                              clearCartDialog(context);
                                             },
                                             color: kAppBarColor,
                                             shape: RoundedRectangleBorder(
@@ -509,6 +496,23 @@ class _BodyState extends State<Body> {
         Get.back();
         Provider.of<CartProvider>(context, listen: false)
             .removeItemFromCart(item);
+      },
+      confirmTextColor: kTextColor,
+      onCancel: () async {},
+      textCancel: 'رجوع',
+      cancelTextColor: kTextColor,
+    );
+  }
+
+  void clearCartDialog(BuildContext context) {
+    Get.defaultDialog(
+      content: Text('هل تريد الحذف ؟'),
+      textConfirm: 'حذف',
+      title: 'حذف السلة',
+      buttonColor: Colors.red,
+      onConfirm: () async {
+        Get.back();
+        Provider.of<CartProvider>(context, listen: false).clearCart();
       },
       confirmTextColor: kTextColor,
       onCancel: () async {},

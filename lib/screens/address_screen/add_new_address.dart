@@ -190,9 +190,9 @@ void addNewAddressBottomSheet(BuildContext context) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.streetView,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               hintText: 'الشارع',
                               hintStyle: TextStyle(color: Colors.grey),
@@ -216,9 +216,9 @@ void addNewAddressBottomSheet(BuildContext context) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.building,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               hintText: 'رقم العمارة',
                               hintStyle: TextStyle(color: Colors.grey),
@@ -242,9 +242,9 @@ void addNewAddressBottomSheet(BuildContext context) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.stairs,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               hintText: 'الدور',
                               hintStyle: TextStyle(color: Colors.grey),
@@ -268,9 +268,9 @@ void addNewAddressBottomSheet(BuildContext context) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.house,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               hintText: 'رقم الشقة',
                               hintStyle: TextStyle(color: Colors.grey),
@@ -294,9 +294,9 @@ void addNewAddressBottomSheet(BuildContext context) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.noteSticky,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               hintText: 'وصف',
                               hintStyle: TextStyle(color: Colors.grey),
@@ -504,9 +504,9 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.streetView,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               prefix: Text('شارع'),
                               hintStyle: TextStyle(color: Colors.grey),
@@ -530,9 +530,9 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.building,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               prefix: Text('عمارة'),
                               hintStyle: TextStyle(color: Colors.grey),
@@ -556,9 +556,9 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.stairs,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               prefix: Text('الدور'),
                               hintStyle: TextStyle(color: Colors.grey),
@@ -582,9 +582,9 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.house,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               prefix: Text('شقة'),
                               hintStyle: TextStyle(color: Colors.grey),
@@ -608,9 +608,9 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
-                                FontAwesomeIcons.solidCircle,
+                                FontAwesomeIcons.noteSticky,
                                 color: kAppBarColor,
-                                size: getProportionateScreenHeight(5),
+                                size: getProportionateScreenHeight(20),
                               ),
                               prefix: Text('وصف'),
                               hintText: addressModel.description,

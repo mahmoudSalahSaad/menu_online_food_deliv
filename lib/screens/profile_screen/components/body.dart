@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
@@ -24,8 +25,11 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   String city;
   String region;
-
   void onSubmit() async {
+    Get.defaultDialog(
+      title: 'تسجيل الخروج',
+      content: LoadingCircle(),
+    );
     var result =
         await Provider.of<UserProvider>(context, listen: false).signOut();
     if (result['success']) {

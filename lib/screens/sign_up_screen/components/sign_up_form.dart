@@ -55,6 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              FormErrors(errors: errors),
               InputTextField(
                 textInputType: TextInputType.name,
                 labelText: "الأسم",
@@ -186,7 +187,6 @@ class _SignUpFormState extends State<SignUpForm> {
                   });
                 },
               ),
-              FormErrors(errors: errors),
             ],
           ),
         ));

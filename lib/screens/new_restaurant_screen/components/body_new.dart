@@ -164,8 +164,8 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
               return GestureDetector(
                 child: ListTile(
                   leading: Container(
-                    height: getProportionateScreenHeight(50),
-                    width: getProportionateScreenWidth(50),
+                    height: 50,
+                    width: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
@@ -275,8 +275,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                               addToCartBottomSheet(context, restaurant.nameAr,
                                   restaurant.logoSmall);
                             } else {
-                              dialog(
-                                  'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                              deleteDialog(context);
                             }
                           },
                           icon: Icon(Icons.add_box_outlined),
@@ -305,8 +304,7 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                     addToCartBottomSheet(
                         context, restaurant.nameAr, restaurant.logoSmall);
                   } else {
-                    dialog(
-                        'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                    deleteDialog(context);
                   }
                 },
               );
@@ -389,6 +387,23 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
         title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
+  }
+
+  void deleteDialog(BuildContext context) {
+    Get.defaultDialog(
+      content: Text('هل تريد حذف السلة؟'),
+      textConfirm: 'حذف',
+      title: 'لديك طلب من مطعم اخر',
+      buttonColor: Colors.red,
+      onConfirm: () async {
+        Get.back();
+        Provider.of<CartProvider>(context, listen: false).clearCart();
+      },
+      confirmTextColor: kTextColor,
+      onCancel: () async {},
+      textCancel: 'رجوع',
+      cancelTextColor: kTextColor,
+    );
   }
 
   void imageDialog(List<String> menus, index, context) {

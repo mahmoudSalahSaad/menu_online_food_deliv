@@ -72,8 +72,8 @@ class _BodyState extends State<Body> {
                                   },
                                   child: ListTile(
                                     leading: Container(
-                                      height: getProportionateScreenHeight(50),
-                                      width: getProportionateScreenWidth(50),
+                                      height: 50,
+                                      width: 50,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius:
@@ -156,13 +156,8 @@ class _BodyState extends State<Body> {
                                                               )
                                                             : Text(''),
                                         Row(
-                                          mainAxisAlignment: orders[index]
-                                                          .orderStatus ==
-                                                      'delivered' ||
-                                                  orders[index].orderStatus ==
-                                                      'canceled'
-                                              ? MainAxisAlignment.spaceAround
-                                              : MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             //order details btn
                                             MaterialButton(
@@ -197,10 +192,15 @@ class _BodyState extends State<Body> {
                                                     FontAwesomeIcons.list,
                                                     size:
                                                         getProportionateScreenHeight(
-                                                            6),
+                                                            10),
                                                   ),
                                                 ],
                                               ),
+                                            ),
+                                            SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      10),
                                             ),
                                             //re-order btn
                                             orders[index].orderStatus ==
@@ -298,6 +298,30 @@ class _BodyState extends State<Body> {
                                                                       'restLogo'],
                                                             );
                                                           }
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              backgroundColor:
+                                                                  kAppBarColor,
+                                                              content: Text(
+                                                                result['error'],
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontFamily:
+                                                                      'DroidArabic',
+                                                                  fontSize:
+                                                                      getProportionateScreenHeight(
+                                                                          15),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
                                                           Get.toNamed(MyBasket
                                                               .routeName);
                                                         } else {
@@ -305,8 +329,7 @@ class _BodyState extends State<Body> {
                                                               result['error']);
                                                         }
                                                       } else {
-                                                        dialog(
-                                                            'لديك طلب من مطعم اخر من فضلك قم بإتمام الطلب لتتمكن من عمل طلب جديد.');
+                                                        deleteDialog(context);
                                                       }
                                                     },
                                                     color: kAppBarColor,
@@ -333,7 +356,7 @@ class _BodyState extends State<Body> {
                                                               .arrowsRotate,
                                                           size:
                                                               getProportionateScreenHeight(
-                                                                  6),
+                                                                  10),
                                                         ),
                                                       ],
                                                     ),
@@ -381,5 +404,22 @@ class _BodyState extends State<Body> {
         title: 'تنبيه',
         buttonColor: kPrimaryColor,
         cancelTextColor: kTextColor);
+  }
+
+  void deleteDialog(BuildContext context) {
+    Get.defaultDialog(
+      content: Text('هل تريد حذف السلة؟'),
+      textConfirm: 'حذف',
+      title: 'لديك طلب من مطعم اخر',
+      buttonColor: Colors.red,
+      onConfirm: () async {
+        Get.back();
+        Provider.of<CartProvider>(context, listen: false).clearCart();
+      },
+      confirmTextColor: kTextColor,
+      onCancel: () async {},
+      textCancel: 'رجوع',
+      cancelTextColor: kTextColor,
+    );
   }
 }

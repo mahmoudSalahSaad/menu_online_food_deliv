@@ -137,12 +137,6 @@ void editCartBottomSheet(
             }
             //UI
             return Container(
-              height: /*buttonsListWeight.isEmpty &&
-                      buttonsListFirstAddon.isEmpty &&
-                      buttonsListSeccondAddon.isEmpty
-                  ? MediaQuery.of(context).size.height * 0.54
-                  :*/
-                  MediaQuery.of(context).size.height * 0.90,
               color: Colors.transparent,
               child: Container(
                 decoration: BoxDecoration(
@@ -152,460 +146,473 @@ void editCartBottomSheet(
                         topRight: Radius.circular(10.0))),
                 child: restaurantItemsProvider.isLoading
                     ? LoadingCircle()
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: IconButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              icon: Icon(
-                                Icons.cancel_outlined,
-                                color: kAppBarColor,
-                                size: getProportionateScreenHeight(25),
-                              ),
+                    : SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.01,
                             ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.20,
-                            child: ListTile(
-                              //img
-                              leading: Container(
-                                height: getProportionateScreenHeight(50),
-                                width: getProportionateScreenWidth(50),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: restaurantItemsProvider
-                                                .resturantProductModel
-                                                .product
-                                                .image ==
-                                            null
-                                        ? AssetImage('assets/icons/menu.png')
-                                        : NetworkImage(
-                                            'https://menuegypt.com/order_online/product_images/' +
-                                                restaurantItemsProvider
-                                                    .resturantProductModel
-                                                    .product
-                                                    .image),
-                                  ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(
+                                  Icons.cancel_outlined,
+                                  color: kAppBarColor,
+                                  size: getProportionateScreenHeight(25),
                                 ),
                               ),
-                              //name , price
-                              title: Row(
+                            ),
+                            Container(
+                              child: ListTile(
+                                //img
+                                leading: Container(
+                                  height: 50,
+                                  width: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: restaurantItemsProvider
+                                                  .resturantProductModel
+                                                  .product
+                                                  .image ==
+                                              null
+                                          ? AssetImage('assets/icons/menu.png')
+                                          : NetworkImage(
+                                              'https://menuegypt.com/order_online/product_images/' +
+                                                  restaurantItemsProvider
+                                                      .resturantProductModel
+                                                      .product
+                                                      .image),
+                                    ),
+                                  ),
+                                ),
+                                //name , price
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      restaurantItemsProvider
+                                              .resturantProductModel
+                                              .product
+                                              .title +
+                                          "    ",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Text(
+                                      price.toString() + ' جم',
+                                      style: TextStyle(color: kAppBarColor),
+                                    )
+                                  ],
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //description
+                                    Text(
+                                      restaurantItemsProvider
+                                              .resturantProductModel
+                                              .product
+                                              .shortDescription ??
+                                          '',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    // incr , decr quantity
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            setBottomSheetState(() {
+                                              quantity++;
+                                            });
+                                          },
+                                          icon: Icon(Icons.add_circle_outline),
+                                          color: Colors.red,
+                                        ),
+                                        Text(
+                                          quantity.toString(),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    13),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            if (quantity != 1) {
+                                              setBottomSheetState(() {
+                                                quantity--;
+                                              });
+                                            }
+                                          },
+                                          icon:
+                                              Icon(Icons.remove_circle_outline),
+                                          color: Colors.red,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            //weight
+                            buttonsListWeight.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'مقاسات',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            buttonsListWeight.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.15,
+                                      color: Colors.white,
+                                      child: GridView.count(
+                                        primary: true,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 5,
+                                        mainAxisSpacing: 5,
+                                        childAspectRatio: 4,
+                                        children: List.generate(
+                                          isSelectedWeight.length,
+                                          (index) {
+                                            return InkWell(
+                                              onTap: () {
+                                                setBottomSheetState(
+                                                  () {
+                                                    weightId =
+                                                        buttonsListWeight[index]
+                                                            .id;
+                                                    weight =
+                                                        buttonsListWeight[index]
+                                                            .title;
+                                                    price =
+                                                        buttonsListWeight[index]
+                                                            .price
+                                                            .toDouble();
+                                                    for (int indexBtn = 0;
+                                                        indexBtn <
+                                                            isSelectedWeight
+                                                                .length;
+                                                        indexBtn++) {
+                                                      if (indexBtn == index) {
+                                                        isSelectedWeight[
+                                                            indexBtn] = true;
+                                                      } else {
+                                                        isSelectedWeight[
+                                                            indexBtn] = false;
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: isSelectedWeight[index]
+                                                      ? kAppBarColor
+                                                      : Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: kAppBarColor),
+                                                ),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        buttonsListWeight[index]
+                                                            .title,
+                                                        style: TextStyle(
+                                                          color:
+                                                              isSelectedWeight[
+                                                                      index]
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        buttonsListWeight[index]
+                                                                .price
+                                                                .toString() +
+                                                            ' جم',
+                                                        style: TextStyle(
+                                                          color:
+                                                              isSelectedWeight[
+                                                                      index]
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            //first addon
+                            buttonsListFirstAddon.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      restaurantItemsProvider
+                                          .resturantProductModel
+                                          .firstAdditionTitle,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            buttonsListFirstAddon.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.15,
+                                      color: Colors.white,
+                                      child: GridView.count(
+                                        primary: true,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 5,
+                                        mainAxisSpacing: 5,
+                                        childAspectRatio: 4,
+                                        children: List.generate(
+                                          isSelectedFirstAddon.length,
+                                          (index) {
+                                            return InkWell(
+                                              onTap: () {
+                                                setBottomSheetState(
+                                                  () {
+                                                    firstAddId =
+                                                        buttonsListFirstAddon[
+                                                                index]
+                                                            .id;
+                                                    firstAddonName =
+                                                        buttonsListFirstAddon[
+                                                                index]
+                                                            .title;
+                                                    for (int indexBtn = 0;
+                                                        indexBtn <
+                                                            isSelectedFirstAddon
+                                                                .length;
+                                                        indexBtn++) {
+                                                      if (indexBtn == index) {
+                                                        isSelectedFirstAddon[
+                                                            indexBtn] = true;
+                                                      } else {
+                                                        isSelectedFirstAddon[
+                                                            indexBtn] = false;
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: isSelectedFirstAddon[
+                                                          index]
+                                                      ? kAppBarColor
+                                                      : Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: kAppBarColor),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    buttonsListFirstAddon[index]
+                                                        .title,
+                                                    style: TextStyle(
+                                                      color:
+                                                          isSelectedFirstAddon[
+                                                                  index]
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            //second addon
+                            buttonsListSeccondAddon.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      restaurantItemsProvider
+                                          .resturantProductModel
+                                          .secondAdditionTitle,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            buttonsListSeccondAddon.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.15,
+                                      color: Colors.white,
+                                      child: GridView.count(
+                                        primary: true,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 5,
+                                        mainAxisSpacing: 5,
+                                        childAspectRatio: 4,
+                                        children: List.generate(
+                                          isSelectedSecondAddon.length,
+                                          (index) {
+                                            return InkWell(
+                                              onTap: () {
+                                                setBottomSheetState(
+                                                  () {
+                                                    secondAddId =
+                                                        buttonsListSeccondAddon[
+                                                                index]
+                                                            .id;
+                                                    secondAddonName =
+                                                        buttonsListSeccondAddon[
+                                                                index]
+                                                            .title;
+                                                    for (int indexBtn = 0;
+                                                        indexBtn <
+                                                            isSelectedSecondAddon
+                                                                .length;
+                                                        indexBtn++) {
+                                                      if (indexBtn == index) {
+                                                        isSelectedSecondAddon[
+                                                            indexBtn] = true;
+                                                      } else {
+                                                        isSelectedSecondAddon[
+                                                            indexBtn] = false;
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: isSelectedSecondAddon[
+                                                          index]
+                                                      ? kAppBarColor
+                                                      : Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: kAppBarColor),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    buttonsListSeccondAddon[
+                                                            index]
+                                                        .title,
+                                                    style: TextStyle(
+                                                      color:
+                                                          isSelectedSecondAddon[
+                                                                  index]
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                  ),
+                            //total
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    restaurantItemsProvider
-                                            .resturantProductModel
-                                            .product
-                                            .title +
-                                        "    ",
-                                    style: TextStyle(color: Colors.black),
+                                    'المبلغ الإجمالى',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
                                   ),
                                   Text(
-                                    price.toString() + ' جم',
-                                    style: TextStyle(color: kAppBarColor),
-                                  )
-                                ],
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //description
-                                  Text(
-                                    restaurantItemsProvider
-                                            .resturantProductModel
-                                            .product
-                                            .shortDescription ??
-                                        '',
-                                    style: TextStyle(color: Colors.black),
+                                    (price * quantity).toString() + ' جم',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            getProportionateScreenHeight(20)),
                                   ),
-                                  // incr , decr quantity
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          setBottomSheetState(() {
-                                            quantity++;
-                                          });
-                                        },
-                                        icon: Icon(Icons.add_circle_outline),
-                                        color: Colors.red,
-                                      ),
-                                      Text(
-                                        quantity.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenHeight(13),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          if (quantity != 1) {
-                                            setBottomSheetState(() {
-                                              quantity--;
-                                            });
-                                          }
-                                        },
-                                        icon: Icon(Icons.remove_circle_outline),
-                                        color: Colors.red,
-                                      ),
-                                    ],
-                                  )
                                 ],
                               ),
                             ),
-                          ),
-                          //weight
-                          buttonsListWeight.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'مقاسات',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                            //add to cart
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: MaterialButton(
+                                minWidth: MediaQuery.of(context).size.width,
+                                onPressed: () {
+                                  Provider.of<CartProvider>(context,
+                                          listen: false)
+                                      .editCartItem(cartItem, itemIndex);
+                                  Get.back();
+                                },
+                                color: kAppBarColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                          buttonsListWeight.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    color: Colors.white,
-                                    child: GridView.count(
-                                      primary: true,
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 5,
-                                      mainAxisSpacing: 5,
-                                      childAspectRatio: 4,
-                                      children: List.generate(
-                                        isSelectedWeight.length,
-                                        (index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              setBottomSheetState(
-                                                () {
-                                                  weightId =
-                                                      buttonsListWeight[index]
-                                                          .id;
-                                                  weight =
-                                                      buttonsListWeight[index]
-                                                          .title;
-                                                  price =
-                                                      buttonsListWeight[index]
-                                                          .price
-                                                          .toDouble();
-                                                  for (int indexBtn = 0;
-                                                      indexBtn <
-                                                          isSelectedWeight
-                                                              .length;
-                                                      indexBtn++) {
-                                                    if (indexBtn == index) {
-                                                      isSelectedWeight[
-                                                          indexBtn] = true;
-                                                    } else {
-                                                      isSelectedWeight[
-                                                          indexBtn] = false;
-                                                    }
-                                                  }
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: isSelectedWeight[index]
-                                                    ? kAppBarColor
-                                                    : Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                    color: kAppBarColor),
-                                              ),
-                                              child: Center(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(
-                                                      buttonsListWeight[index]
-                                                          .title,
-                                                      style: TextStyle(
-                                                        color: isSelectedWeight[
-                                                                index]
-                                                            ? Colors.white
-                                                            : Colors.black,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      buttonsListWeight[index]
-                                                              .price
-                                                              .toString() +
-                                                          ' جم',
-                                                      style: TextStyle(
-                                                        color: isSelectedWeight[
-                                                                index]
-                                                            ? Colors.white
-                                                            : Colors.black,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                child: Text(
+                                  'تعديل السلة',
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                          //first addon
-                          buttonsListFirstAddon.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    restaurantItemsProvider
-                                        .resturantProductModel
-                                        .firstAdditionTitle,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                ),
-                          buttonsListFirstAddon.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    color: Colors.white,
-                                    child: GridView.count(
-                                      primary: true,
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 5,
-                                      mainAxisSpacing: 5,
-                                      childAspectRatio: 4,
-                                      children: List.generate(
-                                        isSelectedFirstAddon.length,
-                                        (index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              setBottomSheetState(
-                                                () {
-                                                  firstAddId =
-                                                      buttonsListFirstAddon[
-                                                              index]
-                                                          .id;
-                                                  firstAddonName =
-                                                      buttonsListFirstAddon[
-                                                              index]
-                                                          .title;
-                                                  for (int indexBtn = 0;
-                                                      indexBtn <
-                                                          isSelectedFirstAddon
-                                                              .length;
-                                                      indexBtn++) {
-                                                    if (indexBtn == index) {
-                                                      isSelectedFirstAddon[
-                                                          indexBtn] = true;
-                                                    } else {
-                                                      isSelectedFirstAddon[
-                                                          indexBtn] = false;
-                                                    }
-                                                  }
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    isSelectedFirstAddon[index]
-                                                        ? kAppBarColor
-                                                        : Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                    color: kAppBarColor),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  buttonsListFirstAddon[index]
-                                                      .title,
-                                                  style: TextStyle(
-                                                    color: isSelectedFirstAddon[
-                                                            index]
-                                                        ? Colors.white
-                                                        : Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                ),
-                          //second addon
-                          buttonsListSeccondAddon.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    restaurantItemsProvider
-                                        .resturantProductModel
-                                        .secondAdditionTitle,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                ),
-                          buttonsListSeccondAddon.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    color: Colors.white,
-                                    child: GridView.count(
-                                      primary: true,
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 5,
-                                      mainAxisSpacing: 5,
-                                      childAspectRatio: 4,
-                                      children: List.generate(
-                                        isSelectedSecondAddon.length,
-                                        (index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              setBottomSheetState(
-                                                () {
-                                                  secondAddId =
-                                                      buttonsListSeccondAddon[
-                                                              index]
-                                                          .id;
-                                                  secondAddonName =
-                                                      buttonsListSeccondAddon[
-                                                              index]
-                                                          .title;
-                                                  for (int indexBtn = 0;
-                                                      indexBtn <
-                                                          isSelectedSecondAddon
-                                                              .length;
-                                                      indexBtn++) {
-                                                    if (indexBtn == index) {
-                                                      isSelectedSecondAddon[
-                                                          indexBtn] = true;
-                                                    } else {
-                                                      isSelectedSecondAddon[
-                                                          indexBtn] = false;
-                                                    }
-                                                  }
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    isSelectedSecondAddon[index]
-                                                        ? kAppBarColor
-                                                        : Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                    color: kAppBarColor),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  buttonsListSeccondAddon[index]
-                                                      .title,
-                                                  style: TextStyle(
-                                                    color:
-                                                        isSelectedSecondAddon[
-                                                                index]
-                                                            ? Colors.white
-                                                            : Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                ),
-                          //total
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'المبلغ الإجمالى',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          getProportionateScreenHeight(20)),
-                                ),
-                                Text(
-                                  (price * quantity).toString() + ' جم',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          getProportionateScreenHeight(20)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          //add to cart
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MaterialButton(
-                              minWidth: MediaQuery.of(context).size.width,
-                              onPressed: () {
-                                Provider.of<CartProvider>(context,
-                                        listen: false)
-                                    .editCartItem(cartItem, itemIndex);
-                                Get.back();
-                              },
-                              color: kAppBarColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'تعديل السلة',
-                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
               ),
             );
