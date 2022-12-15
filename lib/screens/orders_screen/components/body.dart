@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/order.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
@@ -64,11 +65,15 @@ class _BodyState extends State<Body> {
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () async {
+                                    Get.defaultDialog(
+                                      title: 'تفاصيل الطلب',
+                                      content: LoadingCircle(),
+                                    );
                                     await Provider.of<OrderProvider>(context,
                                             listen: false)
                                         .getOrderDetails(
                                             orders[index].serialNumber);
-                                    Get.toNamed(OrderDetails.routeName);
+                                    Get.offNamed(OrderDetails.routeName);
                                   },
                                   child: ListTile(
                                     leading: Container(
@@ -162,6 +167,10 @@ class _BodyState extends State<Body> {
                                             //order details btn
                                             MaterialButton(
                                               onPressed: () async {
+                                                Get.defaultDialog(
+                                                  title: 'تفاصيل الطلب',
+                                                  content: LoadingCircle(),
+                                                );
                                                 await Provider.of<
                                                             OrderProvider>(
                                                         context,
@@ -169,7 +178,7 @@ class _BodyState extends State<Body> {
                                                     .getOrderDetails(
                                                         orders[index]
                                                             .serialNumber);
-                                                Get.toNamed(
+                                                Get.offNamed(
                                                     OrderDetails.routeName);
                                               },
                                               color: kAppBarColor,
@@ -192,7 +201,7 @@ class _BodyState extends State<Body> {
                                                     FontAwesomeIcons.list,
                                                     size:
                                                         getProportionateScreenHeight(
-                                                            10),
+                                                            7),
                                                   ),
                                                 ],
                                               ),
@@ -216,6 +225,11 @@ class _BodyState extends State<Body> {
                                                           cartProvider.cart
                                                                   .resturantId ==
                                                               0) {
+                                                        Get.defaultDialog(
+                                                          title: 'اعادة الطلب',
+                                                          content:
+                                                              LoadingCircle(),
+                                                        );
                                                         Map<String, dynamic>
                                                             result =
                                                             await Provider.of<
@@ -322,7 +336,7 @@ class _BodyState extends State<Body> {
                                                               ),
                                                             ),
                                                           );
-                                                          Get.toNamed(MyBasket
+                                                          Get.offNamed(MyBasket
                                                               .routeName);
                                                         } else {
                                                           dialog(
@@ -356,7 +370,7 @@ class _BodyState extends State<Body> {
                                                               .arrowsRotate,
                                                           size:
                                                               getProportionateScreenHeight(
-                                                                  10),
+                                                                  7),
                                                         ),
                                                       ],
                                                     ),

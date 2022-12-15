@@ -75,9 +75,11 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
         providers: providers(),
         child: Listener(
+          /*
           onPointerDown: (_) {
             WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
           },
+          */
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

@@ -40,7 +40,7 @@ void addNewAddressBottomSheet(BuildContext context) {
   region = regions[15];
   showModalBottomSheet(
     context: context,
-    isScrollControlled: true,
+    //isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {
@@ -398,7 +398,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
 
   showModalBottomSheet(
     context: context,
-    isScrollControlled: true,
+    //isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {
@@ -406,7 +406,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.80,
               color:
                   Colors.transparent, //could change this to Color(0xFF737373),
               //so you don't have to change MaterialApp canvasColor
