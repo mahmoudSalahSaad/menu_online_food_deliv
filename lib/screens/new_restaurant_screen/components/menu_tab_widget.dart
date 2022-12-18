@@ -152,7 +152,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                       child: Container(
                           child: Text('لا يوجد قوائم طعام لهذا المطعم')))
                 ]))
-              : MenuWidget(images: widget.images)
+              : SliverToBoxAdapter(child: MenuWidget(images: widget.images))
         ],
       ),
     );
@@ -160,7 +160,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
 
   Future<void> _launchUrl() async {
     final Uri _url = Uri.parse('${widget.sliderImagesLink}');
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $_url';
     }
   }

@@ -180,7 +180,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text('تفاصيل الطلب'),
+                              Text('عنوان الطلب'),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

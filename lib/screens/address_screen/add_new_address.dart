@@ -40,7 +40,7 @@ void addNewAddressBottomSheet(BuildContext context) {
   region = regions[15];
   showModalBottomSheet(
     context: context,
-    //isScrollControlled: true,
+    isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {
@@ -398,7 +398,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
 
   showModalBottomSheet(
     context: context,
-    //isScrollControlled: true,
+    isScrollControlled: true,
     builder: (builder) {
       return StatefulBuilder(
         builder: (context, setBottomSheetState) {

@@ -116,7 +116,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           padding: EdgeInsets.zero,
           labelPadding: EdgeInsets.zero,
           indicatorSize: TabBarIndicatorSize.tab,
-          indicatorWeight: 3.0,
+          indicatorWeight: 0.000001,
           indicatorColor: kPrimaryColor,
           tabs: tabs.map(
             (tab) {

@@ -1,8 +1,9 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:menu_egypt/utilities/constants.dart';
-import 'package:menu_egypt/utilities/size_config.dart';
+//import 'package:flutter/services.dart';
+//import 'package:menu_egypt/utilities/constants.dart';
+//import 'package:menu_egypt/utilities/size_config.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CreateDynamicLinks {
   String _linkMessage;
@@ -33,8 +34,11 @@ class CreateDynamicLinks {
 
     _linkMessage = url.toString();
 
-    Clipboard.setData(ClipboardData(text: _linkMessage));
+    Share.share(_linkMessage);
 
+    //Clipboard.setData(ClipboardData(text: _linkMessage));
+
+    /*
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: kAppBarColor,
@@ -49,6 +53,7 @@ class CreateDynamicLinks {
         ),
       ),
     );
+    */
   }
 
   Future<void> createProductsDynamicLink(
@@ -75,8 +80,11 @@ class CreateDynamicLinks {
 
     _linkMessage = url.toString();
 
-    Clipboard.setData(ClipboardData(text: _linkMessage));
+    Share.share(_linkMessage);
 
+    //Clipboard.setData(ClipboardData(text: _linkMessage));
+
+    /*
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: kAppBarColor,
@@ -91,5 +99,6 @@ class CreateDynamicLinks {
         ),
       ),
     );
+    */
   }
 }

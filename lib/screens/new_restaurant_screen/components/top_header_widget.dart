@@ -102,7 +102,7 @@ class TopHeaderWidget extends StatelessWidget {
                               }
                             },
                             child: Icon(
-                              FontAwesomeIcons.link,
+                              FontAwesomeIcons.share,
                               size: getProportionateScreenHeight(20),
                             )),
                       ),
@@ -148,7 +148,7 @@ class TopHeaderWidget extends StatelessWidget {
                         } else {
                           bool result =
                               await FlutterPhoneDirectCaller.callNumber(
-                                  '+2$phone1');
+                                  '$phone1');
                           if (result) {
                             print('call');
                           }
@@ -194,7 +194,7 @@ class TopHeaderWidget extends StatelessWidget {
                 return GestureDetector(
                   onTap: () async {
                     bool result = await FlutterPhoneDirectCaller.callNumber(
-                        '+2${list[index]}');
+                        '${list[index]}');
                     if (result) {
                       print('call');
                     }
