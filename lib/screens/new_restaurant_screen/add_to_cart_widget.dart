@@ -282,6 +282,7 @@ void addToCartBottomSheet(
                                               0.15,
                                       color: Colors.white,
                                       child: GridView.count(
+                                        physics: NeverScrollableScrollPhysics(),
                                         primary: true,
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 5,
@@ -399,6 +400,7 @@ void addToCartBottomSheet(
                                               0.15,
                                       color: Colors.white,
                                       child: GridView.count(
+                                        physics: NeverScrollableScrollPhysics(),
                                         primary: true,
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 5,
@@ -494,6 +496,7 @@ void addToCartBottomSheet(
                                               0.15,
                                       color: Colors.white,
                                       child: GridView.count(
+                                        physics: NeverScrollableScrollPhysics(),
                                         primary: true,
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 5,

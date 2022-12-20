@@ -19,7 +19,7 @@ class CreateDynamicLinks {
         packageName: 'com.menuegypt.app.menuegyptapp',
       ),
       iosParameters: const IOSParameters(
-        bundleId: 'com.example.menuEgypt',
+        bundleId: 'com.menuegypt.menuegupt',
       ),
     );
 
@@ -65,7 +65,7 @@ class CreateDynamicLinks {
         packageName: 'com.menuegypt.app.menuegyptapp',
       ),
       iosParameters: const IOSParameters(
-        bundleId: 'com.example.menuEgypt',
+        bundleId: 'com.menuegypt.menuegupt',
       ),
     );
 
