@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/provider.dart';
+import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
 
 import 'package:menu_egypt/utilities/routes.dart';
@@ -16,7 +17,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((value) {
-    runApp(MyApp());
+    runApp(BaseConnectivity(child: MyApp()));
   });
 }
 
