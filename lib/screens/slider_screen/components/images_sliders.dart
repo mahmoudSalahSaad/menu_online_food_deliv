@@ -35,7 +35,7 @@ class ImagesSlider extends StatelessWidget {
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(),
-                  child: CachedNetworkImage(key: UniqueKey(), imageUrl: image),
+                  child: CachedNetworkImage(key: UniqueKey(), imageUrl: image , width: 1000,fit: BoxFit.fill,),
                 );
               },
             );
