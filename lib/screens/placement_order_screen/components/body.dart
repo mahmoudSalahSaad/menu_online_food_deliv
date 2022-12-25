@@ -46,7 +46,7 @@ class _BodyState extends State<Body> {
     orderProvider = Provider.of<OrderProvider>(context, listen: false);
     return SafeArea(
       child: Consumer<CartProvider>(
-        builder: (context, value, child) {
+        builder: (context, cartProvider, child) {
           return cart == null || cart.cartItems.isEmpty
               ? Center(child: Text('لا يوجد منتجات فى السلة'))
               : Stack(
@@ -707,17 +707,18 @@ class _BodyState extends State<Body> {
                           if (addressId == 0) {
                             dialog('برجاء اختيار عنوان التوصيل');
                           } else {
-                            final result = await Provider.of<CartProvider>(
-                                    context,
-                                    listen: false)
-                                .checkOut(addressId, notesController.text);
+                            final result = await cartProvider.checkOut(
+                                addressId, notesController.text);
                             if (result['success'] &&
                                 !result['error']
                                     .toString()
                                     .contains('عضويتك')) {
+                              print("USER IS VERIFIED");
                               successDialog(context, 'جار ارسال طلبك للمطعم',
                                   result['orderSerialNumber']);
+                              cartProvider.clearCart();
                             } else {
+                              print("USER IS NOT VERIFIED");
                               dialog(result['error']);
                               Get.toNamed(OtpScreen.routeName);
                             }
@@ -735,7 +736,7 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              'تأكيد الدفع',
+                              'تأكيد الطلب',
                               style: TextStyle(color: Colors.white),
                             ),
                             CircleAvatar(

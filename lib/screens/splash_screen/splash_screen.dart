@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/screens/slider_screen/slider_screen.dart';
@@ -24,6 +24,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isAuthenticated = false;
+  String firstUseApp = '';
 
   @override
   void initState() {
@@ -31,40 +32,32 @@ class _SplashScreenState extends State<SplashScreen> {
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
 
+      //FetchDynamicLink
       await FetchDynamicLink(context).initDynamicLinks(context);
 
-      // final categoryProvider =
-      //     Provider.of<CategoriesProvider>(context, listen: false);
-      // final cityProvider = Provider.of<CityProvider>(context, listen: false);
-      // final regionProvider =
-      //     Provider.of<RegionProvider>(context, listen: false);
-      // final resturantProvider =
-      //     Provider.of<RestaurantsProvider>(context, listen: false);
-      // if (categoryProvider.categories.length < 1) {
-      //   await categoryProvider.fetchCategories('guest');
-      // }
-      // if (cityProvider.cities.length < 1) {
-      //   await cityProvider.fetchCities();
-      // }
-      // if (regionProvider.regions.length < 1) {
-      //   await regionProvider.fetchRegions();
-      // }
+      //firstUseApp
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      firstUseApp = prefs.getString("firstuseapp") ?? '';
+      await prefs.setString("firstuseapp", "1");
 
+      //autoAuthenticated
       await Provider.of<UserProvider>(context, listen: false)
           .autoAuthenticated();
       _isAuthenticated = userProvider.isAuthenticated;
 
+      /*
+      //navigate HomeScreen
       if (_isAuthenticated) {
-        // if (resturantProvider.mostViewRestaurants.length < 1) {
-        //   await resturantProvider.fetchMostViewsRestaurants('guest');
-        // }
-        if (userProvider.user != null) {
-          //userProvider.getUser();
-        }
         Get.offNamed(HomeScreen.routeName);
-      } else {
+      }
+      */
+
+      //navigate SliderScreen
+      if (firstUseApp.isEmpty) {
         await Provider.of<UserProvider>(context, listen: false).sliderImages();
         Get.offNamed(SliderScreen.routeName);
+      } else {
+        Get.offNamed(HomeScreen.routeName);
       }
 
       //check for updates
@@ -99,7 +92,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
     return BaseConnectivity(child: Scaffold(body: Body()));
   }
 

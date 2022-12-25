@@ -102,7 +102,7 @@ class TopHeaderWidget extends StatelessWidget {
                               }
                             },
                             child: Icon(
-                              FontAwesomeIcons.share,
+                              FontAwesomeIcons.shareNodes,
                               size: getProportionateScreenHeight(20),
                             )),
                       ),

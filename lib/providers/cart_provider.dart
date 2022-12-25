@@ -163,7 +163,7 @@ class CartProvider extends ChangeNotifier {
     preferences.remove('cart');
   }
 
-  checkOut(int addressId, String notes) async {
+  Future<Map<String, dynamic>> checkOut(int addressId, String notes) async {
     Map<String, dynamic> result = {
       'success': false,
       'error': null,
@@ -266,7 +266,6 @@ class CartProvider extends ChangeNotifier {
         print('Success');
         result['error'] = response.data['message'];
         result['success'] = true;
-        clearCart();
       } else {
         print('Failed');
         result['error'] = response.data['message'];

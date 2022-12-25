@@ -41,7 +41,7 @@ class BranchesWidget extends StatelessWidget {
                                           bool result =
                                               await FlutterPhoneDirectCaller
                                                   .callNumber(
-                                                      '${resturant.branches[index]['numtwo']}');
+                                                      '${resturant.branches[index]['numone']}');
                                           if (result) {
                                             print('call');
                                           }
