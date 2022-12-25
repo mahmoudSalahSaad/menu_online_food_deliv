@@ -18,9 +18,11 @@ class CreateDynamicLinks {
       androidParameters: const AndroidParameters(
         packageName: 'com.menuegypt.app.menuegyptapp',
       ),
-      iosParameters: const IOSParameters(
-        bundleId: 'com.menuegypt.menuegupt',
-      ),
+      iosParameters: IOSParameters(
+          bundleId: 'com.menuegypt.menuegupt',
+          appStoreId: "1630657799",
+          fallbackUrl: Uri.parse(
+              'https://apps.apple.com/eg/app/menu-egypt/id1630657799')),
     );
 
     Uri url;
@@ -64,8 +66,11 @@ class CreateDynamicLinks {
       androidParameters: const AndroidParameters(
         packageName: 'com.menuegypt.app.menuegyptapp',
       ),
-      iosParameters: const IOSParameters(
+      iosParameters: IOSParameters(
         bundleId: 'com.menuegypt.menuegupt',
+        appStoreId: "1630657799",
+        fallbackUrl:
+            Uri.parse('https://apps.apple.com/eg/app/menu-egypt/id1630657799'),
       ),
     );
 
