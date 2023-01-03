@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/resturant_product.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
+import 'package:menu_egypt/screens/new_restaurant_screen/components/bottom_sheet_loading.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +145,7 @@ void editCartBottomSheet(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0))),
                 child: restaurantItemsProvider.isLoading
-                    ? LoadingCircle()
+                    ? BottomSheetLoading()
                     : SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

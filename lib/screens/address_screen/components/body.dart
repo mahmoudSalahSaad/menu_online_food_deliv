@@ -93,7 +93,10 @@ class _BodyState extends State<Body> {
                                                                 .cityName +
                                                             ',' +
                                                             addresses[index]
-                                                                .regionName)
+                                                                .regionName +
+                                                            ',' +
+                                                            addresses[index]
+                                                                .neighborhood)
                                                       ],
                                                     ),
                                                   ),

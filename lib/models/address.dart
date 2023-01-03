@@ -7,36 +7,37 @@ class AddressModel {
       regionName,
       cityName,
       type,
-      description;
+      description,
+      neighborhood;
 
-  AddressModel({
-    this.id,
-    this.regionId,
-    this.cityId,
-    this.round,
-    this.apartment,
-    this.street,
-    this.building,
-    this.regionName,
-    this.cityName,
-    this.type,
-    this.description,
-  });
+  AddressModel(
+      {this.id,
+      this.regionId,
+      this.cityId,
+      this.round,
+      this.apartment,
+      this.street,
+      this.building,
+      this.regionName,
+      this.cityName,
+      this.type,
+      this.description,
+      this.neighborhood});
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
-      id: json['id'],
-      regionId: json['region_id'],
-      cityId: json['city_id'],
-      round: json['round'],
-      apartment: json['apartment_number'],
-      street: json['street'],
-      building: json['building'],
-      regionName: json['regionName'],
-      cityName: json['cityName'],
-      type: json['type'],
-      description: json['description'],
-    );
+        id: json['id'],
+        regionId: json['region_id'],
+        cityId: json['city_id'],
+        round: json['round'],
+        apartment: json['apartment_number'],
+        street: json['street'],
+        building: json['building'],
+        regionName: json['regionName'],
+        cityName: json['cityName'],
+        type: json['type'],
+        description: json['description'],
+        neighborhood: json['neighborhood']);
   }
 
   Map<String, dynamic> toJson() {
@@ -52,6 +53,7 @@ class AddressModel {
     data['cityName'] = this.cityName;
     data['type'] = this.type;
     data['description'] = this.description;
+    data['neighborhood'] = this.neighborhood;
     return data;
   }
 }

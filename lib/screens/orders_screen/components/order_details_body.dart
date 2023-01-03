@@ -196,11 +196,15 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                         SizedBox(
                                             width:
                                                 getProportionateScreenWidth(5)),
-                                        Text(orderDetailsModel.orderDetails
-                                                .address.cityIName +
-                                            ',' +
+                                        Text(
                                             orderDetailsModel.orderDetails
-                                                .address.regionName)
+                                                    .address.cityIName +
+                                                ',' +
+                                                orderDetailsModel.orderDetails
+                                                    .address.regionName +
+                                                ',' +
+                                                orderDetailsModel.orderDetails
+                                                    .address.neighborhood)
                                       ],
                                     ),
                                   ),

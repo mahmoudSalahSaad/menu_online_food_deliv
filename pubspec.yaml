@@ -61,6 +61,7 @@ dependencies:
   dropdown_search: ^2.0.1
   share_plus: ^6.3.0
   cached_network_image: ^3.2.3
+  card_loading: ^0.2.2
   
 dev_dependencies:
   flutter_native_splash: ^2.1.6

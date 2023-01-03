@@ -155,6 +155,7 @@ class _BodyState extends State<Body> {
                           region = regions[0];
                         }
                         _formData['cityId'] = city.cityId;
+                        _formData['regionId'] = regions[0].regionId;
                       });
                     }),
                 SizedBox(

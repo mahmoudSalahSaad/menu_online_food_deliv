@@ -23,6 +23,8 @@ void addNewAddressBottomSheet(BuildContext context) {
   TextEditingController roundController = TextEditingController();
   TextEditingController apartmentController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController neighborhoodController = TextEditingController();
+
   List<CityModel> cities;
   List<RegionModel> regions;
   CityModel city;
@@ -187,6 +189,33 @@ void addNewAddressBottomSheet(BuildContext context) {
                                   BorderRadius.all(Radius.circular(20))),
                           child: TextFormField(
                             textInputAction: TextInputAction.next,
+                            controller: neighborhoodController,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.circle,
+                                color: kAppBarColor,
+                                size: getProportionateScreenHeight(20),
+                              ),
+                              hintText: 'الحى',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(4),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: kAppBarColor,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
                             controller: streetController,
                             style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
@@ -327,13 +356,15 @@ void addNewAddressBottomSheet(BuildContext context) {
                                   ? 0
                                   : int.parse(regionIdController.text),
                               type: 'work',
+                              neighborhood: neighborhoodController.text,
                             );
                             if (cityIdController.text.isEmpty ||
                                 regionIdController.text.isEmpty ||
                                 streetController.text.isEmpty ||
                                 buildingController.text.isEmpty ||
                                 apartmentController.text.isEmpty ||
-                                roundController.text.isEmpty) {
+                                roundController.text.isEmpty ||
+                                neighborhoodController.text.isEmpty) {
                               dialog('من فضلك أدخل العنوان كاملا');
                             } else {
                               Provider.of<AddressProvider>(context,
@@ -379,6 +410,8 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
       TextEditingController(text: addressModel.description);
   TextEditingController roundController =
       TextEditingController(text: addressModel.round);
+  TextEditingController neighborhoodController =
+      TextEditingController(text: addressModel.neighborhood);
   List<CityModel> cities;
   List<RegionModel> regions;
   CityModel city;
@@ -491,6 +524,33 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                                 print(regionIdController.text);
                               });
                             },
+                          ),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenHeight(4),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: kAppBarColor,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: neighborhoodController,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.circle,
+                                color: kAppBarColor,
+                                size: getProportionateScreenHeight(20),
+                              ),
+                              prefix: Text('حى'),
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -644,10 +704,13 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                             addressModel.description =
                                 descriptionController.text;
                             addressModel.round = roundController.text;
+                            addressModel.neighborhood =
+                                neighborhoodController.text;
                             if (streetController.text.isEmpty ||
                                 buildingController.text.isEmpty ||
                                 apartmentController.text.isEmpty ||
-                                roundController.text.isEmpty) {
+                                roundController.text.isEmpty ||
+                                neighborhoodController.text.isEmpty) {
                               dialog('من فضلك أدخل العنوان كاملا');
                             } else {
                               Provider.of<AddressProvider>(context,

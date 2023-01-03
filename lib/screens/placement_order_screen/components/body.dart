@@ -191,7 +191,9 @@ class _BodyState extends State<Body> {
                                                                                 getProportionateScreenWidth(5)),
                                                                         Text(addresses[index].cityName +
                                                                             ',' +
-                                                                            addresses[index].regionName)
+                                                                            addresses[index].regionName +
+                                                                            ',' +
+                                                                            addresses[index].neighborhood)
                                                                       ],
                                                                     ),
                                                                   ),

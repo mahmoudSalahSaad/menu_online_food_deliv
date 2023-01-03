@@ -45,6 +45,7 @@ class AddressProvider extends ChangeNotifier {
             type: parsedAddresses[i]['type'],
             regionName: parsedAddresses[i]['region']['name'],
             cityName: parsedAddresses[i]['city']['name'],
+            neighborhood: parsedAddresses[i]['neighborhood'],
           );
           _addresses.add(addressModel);
         }
