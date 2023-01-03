@@ -10,8 +10,8 @@ class CreateDynamicLinks {
 
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
-  Future<void> createRestruantDynamicLink(
-      BuildContext context, int restId, bool short) async {
+  Future<void> createRestruantDynamicLink(BuildContext context, int restId,
+      String restName, String restImg, bool short) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://menuegypt.page.link',
       link: Uri.parse('https://menuegypt.page.link/resturant?restId=$restId'),
@@ -23,6 +23,11 @@ class CreateDynamicLinks {
           appStoreId: "1630657799",
           fallbackUrl: Uri.parse(
               'https://apps.apple.com/eg/app/menu-egypt/id1630657799')),
+      socialMetaTagParameters: SocialMetaTagParameters(
+        title: "Menu Egypt - " + restName,
+        description: "منيو و رقم دليفرى مطعم $restName فى مصر",
+        imageUrl: Uri.parse(restImg),
+      ),
     );
 
     Uri url;
@@ -58,8 +63,8 @@ class CreateDynamicLinks {
     */
   }
 
-  Future<void> createProductsDynamicLink(
-      BuildContext context, int restId, bool short) async {
+  Future<void> createProductsDynamicLink(BuildContext context, int restId,
+      String restName, String restImg, bool short) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://menuegypt.page.link',
       link: Uri.parse('https://menuegypt.page.link/products?restId=$restId'),
@@ -71,6 +76,11 @@ class CreateDynamicLinks {
         appStoreId: "1630657799",
         fallbackUrl:
             Uri.parse('https://apps.apple.com/eg/app/menu-egypt/id1630657799'),
+      ),
+      socialMetaTagParameters: SocialMetaTagParameters(
+        title: "Menu Egypt - " + restName,
+        description: "منيو و رقم دليفرى مطعم $restName فى مصر",
+        imageUrl: Uri.parse(restImg),
       ),
     );
 

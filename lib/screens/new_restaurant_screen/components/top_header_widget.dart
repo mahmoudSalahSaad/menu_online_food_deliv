@@ -95,10 +95,10 @@ class TopHeaderWidget extends StatelessWidget {
                             onTap: () {
                               if (pathFrom == 'resturant') {
                                 dynamicLink.createRestruantDynamicLink(
-                                    context, restId, true);
+                                    context, restId, name, image, true);
                               } else if (pathFrom == 'products') {
                                 dynamicLink.createProductsDynamicLink(
-                                    context, restId, true);
+                                    context, restId, name, image, true);
                               }
                             },
                             child: Icon(
