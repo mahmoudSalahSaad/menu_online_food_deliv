@@ -295,6 +295,9 @@ class _BodyState extends State<Body> {
                                                               secondAddId: result[
                                                                       'data'][i]
                                                                   .addition2Id,
+                                                              product: result[
+                                                                      'data'][i]
+                                                                  .productInfo,
                                                             );
 
                                                             cartProvider

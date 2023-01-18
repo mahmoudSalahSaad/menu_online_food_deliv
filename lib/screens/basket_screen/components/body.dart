@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
-import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/edit_cart_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/new_restaurant_screen.dart';
@@ -290,6 +289,7 @@ class _BodyState extends State<Body> {
                                                               GestureDetector(
                                                             //edit cart item
                                                             onTap: () {
+                                                              /*
                                                               Provider.of<ResturantItemsProvider>(
                                                                       context,
                                                                       listen:
@@ -298,6 +298,7 @@ class _BodyState extends State<Body> {
                                                                       .cartItems[
                                                                           index]
                                                                       .id);
+                                                              */
                                                               editCartBottomSheet(
                                                                   context,
                                                                   cart.cartItems[

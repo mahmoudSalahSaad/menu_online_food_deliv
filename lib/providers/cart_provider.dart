@@ -29,7 +29,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final json = preferences.getString('cart') ?? '';
-    print('json::: ' + json);
+    print('cart::: ' + json);
     if (json.isNotEmpty) {
       Map<String, dynamic> map = jsonDecode(json);
       _cart = CartModel.fromJson(map);
@@ -144,6 +144,7 @@ class CartProvider extends ChangeNotifier {
     //The item is a new item to edit
     if (!theSameItemExistsInCart) {
       _cart.cartItems[itemIndex] = item;
+      print(_cart.cartItems[itemIndex].product.product.title);
     }
     _cart.subTotalPrice = calculateCartSubtotal();
     _cart.totalPrice = calculateCartTotal();

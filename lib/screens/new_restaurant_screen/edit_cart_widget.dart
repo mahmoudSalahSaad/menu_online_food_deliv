@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/cart_item.dart';
-import 'package:menu_egypt/models/resturant_product.dart';
+import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
@@ -41,52 +41,37 @@ void editCartBottomSheet(
             if (!restaurantItemsProvider.isLoading) {
               //main product price
               if (price == 0.0) {
-                price = restaurantItemsProvider
-                    .resturantProductModel.product.price
-                    .toDouble();
+                price = itemToEdit.product.product.price.toDouble();
               }
               //weight selections
-              buttonsListWeight =
-                  restaurantItemsProvider.resturantProductModel.sizes != null
-                      ? restaurantItemsProvider.resturantProductModel.sizes
+              buttonsListWeight = itemToEdit.product.sizes != null
+                  ? itemToEdit.product.sizes
+                  : [];
+              isSelectedWeight = itemToEdit.product.sizes != null
+                  ? List.generate(itemToEdit.product.sizes.length, (_) => false)
+                  : List.generate(0, (_) => false);
+              //first add selections
+              buttonsListFirstAddon =
+                  itemToEdit.product.firstAdditionsData != null
+                      ? itemToEdit.product.firstAdditionsData
                       : [];
-              isSelectedWeight =
-                  restaurantItemsProvider.resturantProductModel.sizes != null
+              isSelectedFirstAddon =
+                  itemToEdit.product.firstAdditionsData != null
                       ? List.generate(
-                          restaurantItemsProvider
-                              .resturantProductModel.sizes.length,
+                          itemToEdit.product.firstAdditionsData.length,
                           (_) => false)
                       : List.generate(0, (_) => false);
-              //first add selections
-              buttonsListFirstAddon = restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData !=
-                      null
-                  ? restaurantItemsProvider
-                      .resturantProductModel.firstAdditionsData
-                  : [];
-              isSelectedFirstAddon = restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData !=
-                      null
-                  ? List.generate(
-                      restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData.length,
-                      (_) => false)
-                  : List.generate(0, (_) => false);
               //second add selections
-              buttonsListSeccondAddon = restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData !=
-                      null
-                  ? restaurantItemsProvider
-                      .resturantProductModel.secondAdditionsData
-                  : [];
-              isSelectedSecondAddon = restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData !=
-                      null
-                  ? List.generate(
-                      restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData.length,
-                      (_) => false)
-                  : List.generate(0, (_) => false);
+              buttonsListSeccondAddon =
+                  itemToEdit.product.secondAdditionsData != null
+                      ? itemToEdit.product.secondAdditionsData
+                      : [];
+              isSelectedSecondAddon =
+                  itemToEdit.product.secondAdditionsData != null
+                      ? List.generate(
+                          itemToEdit.product.secondAdditionsData.length,
+                          (_) => false)
+                      : List.generate(0, (_) => false);
 
               //mark selected weight
 
@@ -115,13 +100,10 @@ void editCartBottomSheet(
               //cart model
               cartItem = CartItemModel(
                 //fixed params
-                id: restaurantItemsProvider.resturantProductModel.product.id,
-                name:
-                    restaurantItemsProvider.resturantProductModel.product.title,
-                description: restaurantItemsProvider
-                    .resturantProductModel.product.shortDescription,
-                photoUrl:
-                    restaurantItemsProvider.resturantProductModel.product.image,
+                id: itemToEdit.product.product.id,
+                name: itemToEdit.product.product.title,
+                description: itemToEdit.product.product.shortDescription,
+                photoUrl: itemToEdit.product.product.image,
                 //selected params
                 price: price,
                 quantity: quantity,
@@ -133,6 +115,7 @@ void editCartBottomSheet(
                 weightId: weightId,
                 firstAddId: firstAddId,
                 secondAddId: secondAddId,
+                product: itemToEdit.product,
               );
             }
             //UI
@@ -179,18 +162,13 @@ void editCartBottomSheet(
                                     borderRadius: BorderRadius.circular(5.0),
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: restaurantItemsProvider
-                                                  .resturantProductModel
-                                                  .product
-                                                  .image ==
+                                      image: itemToEdit.product.product.image ==
                                               null
                                           ? AssetImage('assets/icons/menu.png')
                                           : NetworkImage(
                                               'https://menuegypt.com/order_online/product_images/' +
-                                                  restaurantItemsProvider
-                                                      .resturantProductModel
-                                                      .product
-                                                      .image),
+                                                  itemToEdit
+                                                      .product.product.image),
                                     ),
                                   ),
                                 ),
@@ -200,11 +178,7 @@ void editCartBottomSheet(
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      restaurantItemsProvider
-                                              .resturantProductModel
-                                              .product
-                                              .title +
-                                          "    ",
+                                      itemToEdit.product.product.title + "    ",
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     Text(
@@ -218,9 +192,7 @@ void editCartBottomSheet(
                                   children: [
                                     //description
                                     Text(
-                                      restaurantItemsProvider
-                                              .resturantProductModel
-                                              .product
+                                      itemToEdit.product.product
                                               .shortDescription ??
                                           '',
                                       style: TextStyle(color: Colors.black),
@@ -385,9 +357,7 @@ void editCartBottomSheet(
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      restaurantItemsProvider
-                                          .resturantProductModel
-                                          .firstAdditionTitle,
+                                      itemToEdit.product.firstAdditionTitle,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   )
@@ -479,9 +449,7 @@ void editCartBottomSheet(
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      restaurantItemsProvider
-                                          .resturantProductModel
-                                          .secondAdditionTitle,
+                                      itemToEdit.product.secondAdditionTitle,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   )

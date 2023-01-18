@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_egypt/models/order.dart';
 import 'package:menu_egypt/models/order_details.dart';
+import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 import 'package:menu_egypt/services/http_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -117,7 +118,8 @@ class OrderProvider extends ChangeNotifier {
       'restName': null,
       'restLogo': null,
       'deliveryFee': null,
-      'deliveryTime': null
+      'deliveryTime': null,
+      'product_info': null,
     };
     _isLoading = true;
     notifyListeners();
@@ -134,9 +136,9 @@ class OrderProvider extends ChangeNotifier {
         print(response);
 
         var parsedCartItems = response.data['data']['cart'] as List;
-        List<ItemDetails> itmes = [];
+        List<ReOrderItemDetails> itmes = [];
         parsedCartItems.forEach((element) {
-          ItemDetails item = ItemDetails(
+          ReOrderItemDetails item = ReOrderItemDetails(
             id: element['value']['id'],
             product: element['value']['name'],
             sizeId: element['value']['size_id'],
@@ -148,6 +150,7 @@ class OrderProvider extends ChangeNotifier {
             subTotal: element['value']['price'],
             quantity: element['value']['quantity'],
             total: element['value']['total'],
+            productInfo: CatgeoryProduct.fromJson(element['product_info']),
           );
           itmes.add(item);
         });

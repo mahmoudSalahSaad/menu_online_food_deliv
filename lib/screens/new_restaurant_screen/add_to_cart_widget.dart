@@ -104,6 +104,8 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                 weightId: weightId,
                 firstAddId: firstAddId,
                 secondAddId: secondAddId,
+                //the product itself
+                product: product,
               );
             }
             //UI
