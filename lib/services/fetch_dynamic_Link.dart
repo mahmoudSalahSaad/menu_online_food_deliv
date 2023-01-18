@@ -37,7 +37,7 @@ class FetchDynamicLink {
         print("HERE2");
         await restProvider.fetchRestaurant(restId);
         await restItemsProvider
-            .getResturantCategories(restId)
+            .getResturantCategoriesAndProducts(restId)
             .then((value) => Get.toNamed(ResturantScreenNew.routeName));
       } else {
         print("HERE3");
@@ -60,7 +60,7 @@ class FetchDynamicLink {
         print("HERE5");
         await restProvider.fetchRestaurant(restId);
         await restItemsProvider
-            .getResturantCategories(restId)
+            .getResturantCategoriesAndProducts(restId)
             .then((value) => Get.toNamed(ResturantScreenNew.routeName));
       } else {
         print("HERE6");

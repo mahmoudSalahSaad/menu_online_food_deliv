@@ -402,7 +402,7 @@ class _BodyState extends State<Body> {
                         child: Center(child: Text('لا يوجد لديك طلبات')),
                       );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: LoadingCircle());
               }
             },
           ),

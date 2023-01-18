@@ -105,7 +105,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                           print('RESTURANT ID ' + widget.restId.toString());
                           Provider.of<ResturantItemsProvider>(context,
                                   listen: false)
-                              .getResturantCategories(widget.restId);
+                              .getResturantCategoriesAndProducts(widget.restId);
                           Get.toNamed(ResturantScreenNew.routeName);
                         },
                         shape: RoundedRectangleBorder(

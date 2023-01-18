@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
@@ -337,8 +338,7 @@ class _BodyState extends State<Body> {
                                             ),
                                           );
                                   } else {
-                                    return Center(
-                                        child: CircularProgressIndicator());
+                                    return Center(child: LoadingCircle());
                                   }
                                 },
                               ),

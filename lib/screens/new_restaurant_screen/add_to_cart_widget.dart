@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/cart_item.dart';
-import 'package:menu_egypt/models/resturant_product.dart';
+import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
-import 'package:menu_egypt/screens/new_restaurant_screen/components/bottom_sheet_loading.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
-void addToCartBottomSheet(
-    BuildContext context, String resturantName, String resturantLogo) {
+void addToCartBottomSheet(BuildContext context, String resturantName,
+    String resturantLogo, CatgeoryProduct product) {
   CartItemModel cartItem;
 
   int quantity = 1;
@@ -42,40 +42,25 @@ void addToCartBottomSheet(
             if (!restaurantItemsProvider.isLoading) {
               //main product price
               if (price == 0.0) {
-                price = restaurantItemsProvider
-                    .resturantProductModel.product.price
-                    .toDouble();
+                price = product.product.price.toDouble();
               }
               //weight selections
-              buttonsListWeight =
-                  restaurantItemsProvider.resturantProductModel.sizes != null
-                      ? restaurantItemsProvider.resturantProductModel.sizes
-                      : [];
-              isSelectedWeight =
-                  restaurantItemsProvider.resturantProductModel.sizes != null
-                      ? List.generate(
-                          restaurantItemsProvider
-                              .resturantProductModel.sizes.length, (index) {
-                          if (index == selectedWeightIndex) {
-                            return true;
-                          }
-                          return false;
-                        })
-                      : List.generate(0, (_) => false);
+              buttonsListWeight = product.sizes != null ? product.sizes : [];
+              isSelectedWeight = product.sizes != null
+                  ? List.generate(product.sizes.length, (index) {
+                      if (index == selectedWeightIndex) {
+                        return true;
+                      }
+                      return false;
+                    })
+                  : List.generate(0, (_) => false);
               //first add selections
-              buttonsListFirstAddon = restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData !=
-                      null
-                  ? restaurantItemsProvider
-                      .resturantProductModel.firstAdditionsData
+              buttonsListFirstAddon = product.firstAdditionsData != null
+                  ? product.firstAdditionsData
                   : [];
 
-              isSelectedFirstAddon = restaurantItemsProvider
-                          .resturantProductModel.firstAdditionsData !=
-                      null
-                  ? List.generate(
-                      restaurantItemsProvider.resturantProductModel
-                          .firstAdditionsData.length, (index) {
+              isSelectedFirstAddon = product.firstAdditionsData != null
+                  ? List.generate(product.firstAdditionsData.length, (index) {
                       if (index == selectedFirstAddIndex) {
                         return true;
                       }
@@ -83,18 +68,11 @@ void addToCartBottomSheet(
                     })
                   : List.generate(0, (_) => false);
               //second add selections
-              buttonsListSeccondAddon = restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData !=
-                      null
-                  ? restaurantItemsProvider
-                      .resturantProductModel.secondAdditionsData
+              buttonsListSeccondAddon = product.secondAdditionsData != null
+                  ? product.secondAdditionsData
                   : [];
-              isSelectedSecondAddon = restaurantItemsProvider
-                          .resturantProductModel.secondAdditionsData !=
-                      null
-                  ? List.generate(
-                      restaurantItemsProvider.resturantProductModel
-                          .secondAdditionsData.length, (index) {
+              isSelectedSecondAddon = product.secondAdditionsData != null
+                  ? List.generate(product.secondAdditionsData.length, (index) {
                       if (index == selectedSecondAddIndex) {
                         return true;
                       }
@@ -111,13 +89,10 @@ void addToCartBottomSheet(
               //cart model
               cartItem = CartItemModel(
                 //fixed params
-                id: restaurantItemsProvider.resturantProductModel.product.id,
-                name:
-                    restaurantItemsProvider.resturantProductModel.product.title,
-                description: restaurantItemsProvider
-                    .resturantProductModel.product.shortDescription,
-                photoUrl:
-                    restaurantItemsProvider.resturantProductModel.product.image,
+                id: product.product.id,
+                name: product.product.title,
+                description: product.product.shortDescription,
+                photoUrl: product.product.image,
                 //selected params
                 price: price,
                 quantity: quantity,
@@ -141,7 +116,7 @@ void addToCartBottomSheet(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0))),
                 child: restaurantItemsProvider.isLoading
-                    ? BottomSheetLoading()
+                    ? LoadingCircle()
                     : SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -175,18 +150,11 @@ void addToCartBottomSheet(
                                     borderRadius: BorderRadius.circular(5.0),
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: restaurantItemsProvider
-                                                  .resturantProductModel
-                                                  .product
-                                                  .image ==
-                                              null
+                                      image: product.product.image == null
                                           ? AssetImage('assets/icons/menu.png')
                                           : NetworkImage(
                                               'https://menuegypt.com/order_online/product_images/' +
-                                                  restaurantItemsProvider
-                                                      .resturantProductModel
-                                                      .product
-                                                      .image),
+                                                  product.product.image),
                                     ),
                                   ),
                                 ),
@@ -196,11 +164,7 @@ void addToCartBottomSheet(
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      restaurantItemsProvider
-                                              .resturantProductModel
-                                              .product
-                                              .title +
-                                          "    ",
+                                      product.product.title + "    ",
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     Text(
@@ -214,11 +178,7 @@ void addToCartBottomSheet(
                                   children: [
                                     //description
                                     Text(
-                                      restaurantItemsProvider
-                                              .resturantProductModel
-                                              .product
-                                              .shortDescription ??
-                                          '',
+                                      product.product.shortDescription ?? '',
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     // incr , decr quantity
@@ -382,9 +342,7 @@ void addToCartBottomSheet(
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      restaurantItemsProvider
-                                          .resturantProductModel
-                                          .firstAdditionTitle,
+                                      product.firstAdditionTitle,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   )
@@ -478,9 +436,7 @@ void addToCartBottomSheet(
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      restaurantItemsProvider
-                                          .resturantProductModel
-                                          .secondAdditionTitle,
+                                      product.secondAdditionTitle,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   )
@@ -605,13 +561,17 @@ void addToCartBottomSheet(
                                       .addItemToCart(
                                           cartItem,
                                           restaurantItemsProvider
-                                              .resturantCategoriesModel.restId,
+                                              .resturantCategoriesAndProducts
+                                              .resturantData
+                                              .restId,
                                           restaurantItemsProvider
-                                              .resturantCategoriesModel
+                                              .resturantCategoriesAndProducts
+                                              .resturantData
                                               .deliveryFee
                                               .toDouble(),
                                           restaurantItemsProvider
-                                              .resturantCategoriesModel
+                                              .resturantCategoriesAndProducts
+                                              .resturantData
                                               .deliveryTime,
                                           resturantName,
                                           resturantLogo);
