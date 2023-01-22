@@ -384,7 +384,7 @@ class _BodyState extends State<Body> {
                                       ],
                                     ),
                                     trailing: Text(
-                                      '${orders[index].total} جم',
+                                      '${orders[index].total.toStringAsFixed(2)} جم',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

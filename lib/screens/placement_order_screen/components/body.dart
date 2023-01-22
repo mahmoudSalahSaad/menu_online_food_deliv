@@ -499,7 +499,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                                 Text(
                                                   cart.cartItems[index].price
-                                                          .toString() +
+                                                          .toStringAsFixed(2) +
                                                       'X' +
                                                       cart.cartItems[index]
                                                           .quantity
@@ -630,7 +630,8 @@ class _BodyState extends State<Body> {
                                             'مجموع الطلب',
                                           ),
                                           Text(
-                                            cart.subTotalPrice.toString() +
+                                            cart.subTotalPrice
+                                                    .toStringAsFixed(2) +
                                                 ' جم',
                                           ),
                                         ],
@@ -645,7 +646,8 @@ class _BodyState extends State<Body> {
                                                 TextStyle(color: Colors.white),
                                           ),
                                           Text(
-                                            cart.deliveryPrice.toString() +
+                                            cart.deliveryPrice
+                                                    .toStringAsFixed(2) +
                                                 ' جم',
                                             style:
                                                 TextStyle(color: Colors.white),
@@ -662,7 +664,8 @@ class _BodyState extends State<Body> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            cart.totalPrice.toString() + ' جم',
+                                            cart.totalPrice.toStringAsFixed(2) +
+                                                ' جم',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -734,7 +737,7 @@ class _BodyState extends State<Body> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              cart.totalPrice.toString() + ' جم',
+                              cart.totalPrice.toStringAsFixed(2) + ' جم',
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(

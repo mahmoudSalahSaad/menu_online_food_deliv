@@ -64,9 +64,9 @@ class OrderDetails {
   String date;
   String serialNumber;
   int countItems;
-  int subTotal;
+  num subTotal;
   num deliveryFee;
-  int total;
+  num total;
   int deliveryTime;
   String orderStatus;
   String notes;
@@ -182,8 +182,8 @@ class ItemDetails {
   int addition1Id;
   int addition2Id;
   int quantity;
-  int subTotal;
-  int total;
+  num subTotal;
+  num total;
 
   ItemDetails({
     this.id,
@@ -240,8 +240,8 @@ class ReOrderItemDetails {
   int addition1Id;
   int addition2Id;
   int quantity;
-  int subTotal;
-  int total;
+  num subTotal;
+  num total;
   CatgeoryProduct productInfo;
 
   ReOrderItemDetails({

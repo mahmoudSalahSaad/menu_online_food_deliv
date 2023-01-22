@@ -170,7 +170,7 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     Text(
-                                      price.toString() + ' جم',
+                                      price.toStringAsFixed(2) + ' جم',
                                       style: TextStyle(color: kAppBarColor),
                                     )
                                   ],
@@ -315,7 +315,8 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                                                       Text(
                                                         buttonsListWeight[index]
                                                                 .price
-                                                                .toString() +
+                                                                .toStringAsFixed(
+                                                                    2) +
                                                             ' جم',
                                                         style: TextStyle(
                                                           color:
@@ -543,7 +544,8 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                                             getProportionateScreenHeight(20)),
                                   ),
                                   Text(
-                                    (price * quantity).toString() + ' جم',
+                                    (price * quantity).toStringAsFixed(2) +
+                                        ' جم',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize:

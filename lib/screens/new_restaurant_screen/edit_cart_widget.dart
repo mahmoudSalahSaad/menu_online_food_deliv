@@ -182,7 +182,7 @@ void editCartBottomSheet(
                                       style: TextStyle(color: Colors.black),
                                     ),
                                     Text(
-                                      price.toString() + ' جم',
+                                      price.toStringAsFixed(2) + ' جم',
                                       style: TextStyle(color: kAppBarColor),
                                     )
                                   ],
@@ -552,7 +552,8 @@ void editCartBottomSheet(
                                             getProportionateScreenHeight(20)),
                                   ),
                                   Text(
-                                    (price * quantity).toString() + ' جم',
+                                    (price * quantity).toStringAsFixed(2) +
+                                        ' جم',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize:

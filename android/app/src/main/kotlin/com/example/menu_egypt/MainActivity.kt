@@ -1,4 +1,4 @@
-package com.menuegypt.app.menuegyptapp
+package com.menuegypt.menuegupt
 
 import io.flutter.embedding.android.FlutterActivity
 

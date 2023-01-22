@@ -231,20 +231,20 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                                                     .catgeoryProducts[index]
                                                     .product
                                                     .price
-                                                    .toString()
+                                                    .toStringAsFixed(2)
                                                 : resturantData
                                                         .catgeoriesList[i]
                                                         .catgeoryProducts[index]
                                                         .product
                                                         .min
-                                                        .toString() +
+                                                        .toStringAsFixed(2) +
                                                     ' - ' +
                                                     resturantData
                                                         .catgeoriesList[i]
                                                         .catgeoryProducts[index]
                                                         .product
                                                         .max
-                                                        .toString(),
+                                                        .toStringAsFixed(2),
                                             style: TextStyle(
                                                 height: 1.2,
                                                 fontWeight: FontWeight.bold,

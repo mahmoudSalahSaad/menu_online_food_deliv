@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:493844107005:android:229782e11554e31134f894",
+        "mobilesdk_app_id": "1:493844107005:android:5bbee7d73c30a12334f894",
         "android_client_info": {
-          "package_name": "com.menuegypt.app.menuegyptapp"
+          "package_name": "com.menuegypt.menuegupt"
         }
       },
       "oauth_client": [
@@ -32,10 +32,11 @@
               "client_type": 3
             },
             {
-              "client_id": "493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8.apps.googleusercontent.com",
+              "client_id": "493844107005-j36s1o8srfqb6u29amehgitoi6e31bgj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.menuEgypt"
+                "bundle_id": "com.menuegypt.menuegupt",
+                "app_store_id": "1630657799"
               }
             }
           ]

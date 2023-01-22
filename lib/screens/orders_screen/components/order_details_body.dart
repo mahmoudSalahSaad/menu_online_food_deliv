@@ -293,7 +293,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                           Text(
                                             orderDetailsModel
                                                     .itemDetails[index].subTotal
-                                                    .toString() +
+                                                    .toStringAsFixed(2) +
                                                 'X' +
                                                 orderDetailsModel
                                                     .itemDetails[index].quantity
@@ -381,7 +381,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                     'مجموع الطلب',
                                   ),
                                   Text(
-                                    '${orderDetailsModel.orderDetails.subTotal.toString()} جم',
+                                    '${orderDetailsModel.orderDetails.subTotal.toStringAsFixed(2)} جم',
                                   ),
                                 ],
                               ),
@@ -394,7 +394,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
-                                    '${orderDetailsModel.orderDetails.deliveryFee.toString()} جم',
+                                    '${orderDetailsModel.orderDetails.deliveryFee.toStringAsFixed(2)} جم',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ],
@@ -409,7 +409,7 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '${orderDetailsModel.orderDetails.total.toString()} جم',
+                                    '${orderDetailsModel.orderDetails.total.toStringAsFixed(2)} جم',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),

@@ -6,7 +6,7 @@ class OrderModel {
   String operationDate;
   String serialNumber;
   int countItems;
-  int total;
+  num total;
   String orderStatus;
 
   OrderModel(

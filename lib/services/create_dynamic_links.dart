@@ -16,7 +16,7 @@ class CreateDynamicLinks {
       uriPrefix: 'https://menuegypt.page.link',
       link: Uri.parse('https://menuegypt.page.link/resturant?restId=$restId'),
       androidParameters: const AndroidParameters(
-        packageName: 'com.menuegypt.app.menuegyptapp',
+        packageName: 'com.menuegypt.menuegupt',
       ),
       iosParameters: IOSParameters(
           bundleId: 'com.menuegypt.menuegupt',
@@ -69,7 +69,7 @@ class CreateDynamicLinks {
       uriPrefix: 'https://menuegypt.page.link',
       link: Uri.parse('https://menuegypt.page.link/products?restId=$restId'),
       androidParameters: const AndroidParameters(
-        packageName: 'com.menuegypt.app.menuegyptapp',
+        packageName: 'com.menuegypt.menuegupt',
       ),
       iosParameters: IOSParameters(
         bundleId: 'com.menuegypt.menuegupt',
