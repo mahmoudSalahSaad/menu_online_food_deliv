@@ -24,7 +24,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Gender _gender = Gender.male;
   String birthDate =
-      DateFormat('yyyy-MM-dd').format(DateTime.parse('1980-01-01'));
+      DateFormat('yyyy-MM-dd').format(DateTime.parse('1988-08-08'));
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'fullName': null,
@@ -115,7 +115,7 @@ class _BodyState extends State<Body> {
                   onTap: () async {
                     DateTime selected = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: DateTime.parse(birthDate),
                       firstDate: DateTime(1900),
                       lastDate: DateTime(2100),
                     );

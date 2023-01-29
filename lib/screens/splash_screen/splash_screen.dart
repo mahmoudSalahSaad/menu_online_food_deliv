@@ -103,7 +103,12 @@ class _SplashScreenState extends State<SplashScreen> {
         title: 'تنبيه',
         buttonColor: Colors.red,
         onConfirm: () async {
-          LaunchReview.launch();
+          //LaunchReview.launch();
+          LaunchReview.launch(
+            androidAppId: 'com.menuegypt.menuegupt',
+            iOSAppId: '1630657799',
+            writeReview: false,
+          );
         },
         onCancel: () async {},
         confirmTextColor: kTextColor,

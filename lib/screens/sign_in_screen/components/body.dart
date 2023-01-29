@@ -130,19 +130,18 @@ class _BodyState extends State<Body> {
                 ),
                 //UpperSignInButtons(),
                 SizedBox(height: SizeConfig.screenHeight * 0.12),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(' ليس لديك حساب؟ '),
-                    GestureDetector(
-                      onTap: () {
-                        Get.toNamed(SignUpScreen.routeName);
-                      },
-                      child: Text(
-                        ' اشتراك ',
-                        style: TextStyle(color: kPrimaryColor),
-                      ),
-                    ),
+                    SizedBox(height: SizeConfig.screenHeight * 0.02),
+                    DefaultButton(
+                        textColor: Colors.white,
+                        onPressed: () => Get.toNamed(SignUpScreen.routeName),
+                        child: Text('تسجيل اشتراك جديد'),
+                        color: kPrimaryColor,
+                        minWidth: 0.0,
+                        height: getProportionateScreenHeight(45)),
                   ],
                 ),
               ],

@@ -37,6 +37,11 @@ class _SignUpFormState extends State<SignUpForm> {
     if (!errors.contains(error))
       setState(() {
         errors.add(error);
+        _scrollController.animateTo(
+          0.0,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 300),
+        );
       });
   }
 
@@ -47,11 +52,15 @@ class _SignUpFormState extends State<SignUpForm> {
       });
   }
 
+  ScrollController _scrollController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
         key: widget.formKey,
         child: SingleChildScrollView(
+          controller: _scrollController,
+          reverse: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

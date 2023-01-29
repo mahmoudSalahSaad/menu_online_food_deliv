@@ -10,10 +10,11 @@ import 'package:menu_egypt/providers/address_provider.dart';
 import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/home_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
+import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+//import 'package:dropdown_search/dropdown_search.dart';
 
 void addNewAddressBottomSheet(BuildContext context) {
   TextEditingController cityIdController = TextEditingController();
@@ -30,16 +31,24 @@ void addNewAddressBottomSheet(BuildContext context) {
   CityModel city;
   RegionModel region;
   final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+  final user = Provider.of<UserProvider>(context, listen: false);
+
   //city dropdown
   final cityProvider = Provider.of<CityProvider>(context, listen: false);
   cityProvider.setCities(homeProvider.cities);
   cities = cityProvider.cities;
-  city = cities[0];
+  city = user.user != null
+      ? cityProvider.getCityById(user.user.cityId)
+      : cities[0];
+  cityIdController.text = city.cityId.toString();
   //region dropdown
   final regionProvider = Provider.of<RegionProvider>(context, listen: false);
   regionProvider.setRegions(homeProvider.regions);
   regions = regionProvider.regionsOfCity(city.cityId);
-  region = regions[15];
+  region = user.user != null
+      ? regionProvider.getRegionById(user.user.regionId)
+      : regions[15];
+  regionIdController.text = region.regionId.toString();
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -50,7 +59,7 @@ void addNewAddressBottomSheet(BuildContext context) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height * 0.70,
               color:
                   Colors.transparent, //could change this to Color(0xFF737373),
               //so you don't have to change MaterialApp canvasColor
@@ -80,15 +89,15 @@ void addNewAddressBottomSheet(BuildContext context) {
                           height: getProportionateScreenHeight(4),
                         ),
                         Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: kAppBarColor,
+                              border: Border.all(
                                 color: kAppBarColor,
-                                border: Border.all(
-                                  color: kAppBarColor,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: DropdownSearch<CityModel>(
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: /* DropdownSearch<CityModel>(
                               items: cities,
                               itemAsString: (CityModel c) => c.nameAr,
                               onChanged: (CityModel cityModel) {
@@ -113,39 +122,42 @@ void addNewAddressBottomSheet(BuildContext context) {
                                 border: InputBorder.none,
                                 enabledBorder: InputBorder.none,
                               ),
-                            )
-                            /*CityDropDownField(
-                              items: cities,
-                              value: city,
-                              onChanged: (CityModel cityModel) {
-                                setBottomSheetState(() {
-                                  city = cityModel;
-                                  regions = Provider.of<RegionProvider>(context,
-                                          listen: false)
-                                      .regionsOfCity(city.cityId);
-                                  if (cityModel.cityId == cities[18].cityId) {
-                                    region = regions[24];
-                                  } else {
-                                    region = regions[0];
-                                  }
-                                  cityIdController.text = city.cityId.toString();
-                                  print(cityIdController.text);
-                                });
-                              }),*/
-                            ),
+                            )*/
+                              CityDropDownField(
+                                  items: cities,
+                                  value: city,
+                                  onChanged: (CityModel cityModel) {
+                                    setBottomSheetState(() {
+                                      city = cityModel;
+                                      regions = Provider.of<RegionProvider>(
+                                              context,
+                                              listen: false)
+                                          .regionsOfCity(city.cityId);
+                                      if (cityModel.cityId ==
+                                          cities[18].cityId) {
+                                        region = regions[24];
+                                      } else {
+                                        region = regions[0];
+                                      }
+                                      cityIdController.text =
+                                          city.cityId.toString();
+                                      print(cityIdController.text);
+                                    });
+                                  }),
+                        ),
                         SizedBox(
                           height: getProportionateScreenHeight(4),
                         ),
                         Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: kAppBarColor,
+                              border: Border.all(
                                 color: kAppBarColor,
-                                border: Border.all(
-                                  color: kAppBarColor,
-                                ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: DropdownSearch<RegionModel>(
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: /*DropdownSearch<RegionModel>(
                               items: regions,
                               itemAsString: (RegionModel c) => c.nameAr,
                               onChanged: (RegionModel regionModel) {
@@ -162,8 +174,8 @@ void addNewAddressBottomSheet(BuildContext context) {
                                 border: InputBorder.none,
                                 enabledBorder: InputBorder.none,
                               ),
-                            )
-                            /*RegionDropDownField(
+                            )*/
+                              RegionDropDownField(
                             items: regions,
                             value: region,
                             onChanged: (RegionModel regionModel) {
@@ -174,8 +186,8 @@ void addNewAddressBottomSheet(BuildContext context) {
                                 print(regionIdController.text);
                               });
                             },
-                          ),*/
-                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: getProportionateScreenHeight(4),
                         ),
@@ -358,13 +370,13 @@ void addNewAddressBottomSheet(BuildContext context) {
                               type: 'work',
                               neighborhood: neighborhoodController.text,
                             );
-                            if (cityIdController.text.isEmpty ||
-                                regionIdController.text.isEmpty ||
+                            if (/*cityIdController.text.isEmpty ||
+                                regionIdController.text.isEmpty ||*/
                                 streetController.text.isEmpty ||
-                                buildingController.text.isEmpty ||
-                                apartmentController.text.isEmpty ||
-                                roundController.text.isEmpty ||
-                                neighborhoodController.text.isEmpty) {
+                                    buildingController.text.isEmpty ||
+                                    apartmentController.text.isEmpty ||
+                                    roundController.text.isEmpty ||
+                                    neighborhoodController.text.isEmpty) {
                               dialog('من فضلك أدخل العنوان كاملا');
                             } else {
                               Provider.of<AddressProvider>(context,
@@ -439,7 +451,7 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.80,
+              height: MediaQuery.of(context).size.height * 0.70,
               color:
                   Colors.transparent, //could change this to Color(0xFF737373),
               //so you don't have to change MaterialApp canvasColor
