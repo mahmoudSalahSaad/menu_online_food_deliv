@@ -48,5 +48,9 @@
 				<string>itms-beta</string>
 				<string>itms</string>
 		</array>
+		<key>FirebaseDynamicLinksCustomDomains</key>
+		<array>
+   			 <string>https://menuegupt.page.link</string>
+		</array>
 	</dict>
 </plist>

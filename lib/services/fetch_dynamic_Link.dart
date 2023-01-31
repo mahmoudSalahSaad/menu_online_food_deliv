@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../screens/new_restaurant_screen/resturant_screen_new.dart';
 
 class FetchDynamicLink {
-  int restId = 0;
   RestaurantsProvider restProvider;
   ResturantItemsProvider restItemsProvider;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
@@ -25,45 +24,72 @@ class FetchDynamicLink {
     //if the app is closed
     final PendingDynamicLinkData data = await dynamicLinks.getInitialLink();
     if (data != null) {
-      print('DYNAMIC DATA');
-      restId = int.parse(data.link.queryParameters['restId']);
-
-      if (data.link.pathSegments.contains('resturant')) {
-        print("HERE1");
+      print("APP IS CLOSED");
+      if (data.link.pathSegments.contains('ar')) {
+        print("RESTURANT");
         await restProvider
-            .fetchRestaurant(restId)
-            .then((value) => Get.toNamed(NewRestaurantScreen.routeName));
-      } else if (data.link.pathSegments.contains('products')) {
-        print("HERE2");
-        await restProvider.fetchRestaurant(restId);
+            .fetchRestaurantByUrl(
+              Uri.decodeComponent(
+                data.link.toString().split('ar/')[1],
+              ),
+            )
+            .then(
+              (value) => Get.toNamed(NewRestaurantScreen.routeName),
+            );
+      } else if (data.link.pathSegments.contains('order')) {
+        print("ORDER");
+        await restProvider.fetchRestaurantByUrl(
+          Uri.decodeComponent(
+            data.link.toString().split('order/')[1],
+          ),
+        );
         await restItemsProvider
-            .getResturantCategoriesAndProducts(restId)
-            .then((value) => Get.toNamed(ResturantScreenNew.routeName));
+            .getResturantCategoriesAndProductsByUrl(
+              Uri.decodeComponent(
+                data.link.toString().split('order/')[1],
+              ),
+            )
+            .then(
+              (value) => Get.toNamed(ResturantScreenNew.routeName),
+            );
       } else {
-        print("HERE3");
         Get.toNamed(SplashScreen.routeName);
       }
     }
 
     //if the app is opened
     dynamicLinks.onLink.listen((dynamicLinkData) async {
-      print('DYNAMIC DATA');
-      restId = int.parse(dynamicLinkData.link.queryParameters['restId']);
-
-      if (dynamicLinkData.link.pathSegments.contains('resturant')) {
-        print("HERE4");
-
+      print("APP IS OPENED");
+      if (dynamicLinkData.link.pathSegments.contains('ar')) {
+        print("RESTURANT ${Uri.decodeComponent(
+          dynamicLinkData.link.toString().split('ar/')[1],
+        )}");
         await restProvider
-            .fetchRestaurant(restId)
-            .then((value) => Get.toNamed(NewRestaurantScreen.routeName));
-      } else if (dynamicLinkData.link.pathSegments.contains('products')) {
-        print("HERE5");
-        await restProvider.fetchRestaurant(restId);
+            .fetchRestaurantByUrl(
+              Uri.decodeComponent(
+                dynamicLinkData.link.toString().split('ar/')[1],
+              ),
+            )
+            .then(
+              (value) => Get.toNamed(NewRestaurantScreen.routeName),
+            );
+      } else if (dynamicLinkData.link.pathSegments.contains('order')) {
+        print("ORDER");
+        await restProvider.fetchRestaurantByUrl(
+          Uri.decodeComponent(
+            dynamicLinkData.link.toString().split('order/')[1],
+          ),
+        );
         await restItemsProvider
-            .getResturantCategoriesAndProducts(restId)
-            .then((value) => Get.toNamed(ResturantScreenNew.routeName));
+            .getResturantCategoriesAndProductsByUrl(
+              Uri.decodeComponent(
+                dynamicLinkData.link.toString().split('order/')[1],
+              ),
+            )
+            .then(
+              (value) => Get.toNamed(ResturantScreenNew.routeName),
+            );
       } else {
-        print("HERE6");
         Get.toNamed(SplashScreen.routeName);
       }
     }).onError((error) {

@@ -551,4 +551,147 @@ class RestaurantsProvider extends ChangeNotifier {
 
     return result;
   }
+
+  Future<Map<String, dynamic>> fetchRestaurantByUrl(String restUrl) async {
+    _isLoading = true;
+    notifyListeners();
+    final Map<String, dynamic> result = {'success': false, 'error': null};
+    String url = '/restaurant-v2';
+    httpService.init();
+    //final List<RestaurantModel> restaurants = [];
+    _comments.clear();
+    final List<Map<String, dynamic>> restaurantBranches = [];
+    final List<String> restaurantImages = [];
+    final List<int> regionsResult = [];
+    final List<String> areasResult = [];
+    String latestDate = '';
+    try {
+      //SharedPreferences preferences = await SharedPreferences.getInstance();
+      //String accessToken = preferences.getString('accessToken');
+      Response response =
+          await httpService.postRequest(url, {'url': restUrl}, '');
+      if (response.statusCode == 200 && response.data['status_code'] == 201) {
+        print(response);
+        var parsedRestaurants = response.data['data']['restaurant'];
+        var parsedRegoins = response.data['data']['regoins'] as List;
+        var parsedrbanches = response.data['data']['branches'] as List;
+        var parsedRestaurantImages = response.data['data']['images'] as List;
+        var parsedRestaurantComment = response.data['data']['comments'] as List;
+        var parsedSliderImages = response.data['data']['slider_images'] as List;
+        var parsedSliderImagesLink =
+            response.data['data']['slider_images_link'];
+
+        if (parsedrbanches.isNotEmpty) {
+          parsedrbanches.forEach((restaurantObject) {
+            restaurantBranches.add({
+              'name': restaurantObject['name_ar'],
+              'numone': restaurantObject['numone'],
+              'numtwo': restaurantObject['numtow'],
+              'address': restaurantObject['address_ar']
+            });
+          });
+        }
+
+        if (parsedRestaurantImages.isNotEmpty) {
+          parsedRestaurantImages.forEach((restaurantObject) {
+            restaurantImages
+                .add('https://menuegypt.com/' + restaurantObject['pic']);
+            latestDate = restaurantObject['updated_at'];
+          });
+        }
+
+        if (parsedRegoins.isNotEmpty) {
+          parsedRegoins.forEach((restaurantObject) {
+            regionsResult.add(restaurantObject['region_id']);
+          });
+          parsedRegoins.forEach((restaurantObject) {
+            areasResult.add(restaurantObject['city_name'] +
+                ' - ' +
+                restaurantObject['region_name']);
+          });
+        }
+        if (parsedRestaurantComment.isNotEmpty) {
+          parsedRestaurantComment.forEach((commentObject) {
+            Comment comment = Comment(
+                email: commentObject['email'],
+                name: commentObject['name'],
+                date: commentObject['date'],
+                comment: commentObject['comment'],
+                review: commentObject['review']);
+            _comments.add(comment);
+          });
+        }
+
+        if (parsedSliderImages.isNotEmpty) {
+          _sliderImages.clear();
+          parsedSliderImages.forEach((element) {
+            _sliderImages.add(element['image']);
+          });
+          _sliderImagesLink = parsedSliderImagesLink;
+        }
+
+        double views = parsedRestaurants['view_times'] / 1.5;
+        String viewsdata;
+        if (views < 1000) {
+          views = num.parse(views.toStringAsFixed(1));
+
+          viewsdata = ((views / 10).ceil() * 10).toString();
+        } else if (views >= 1000 && views < 1000000) {
+          var viewsCount = views * (1 / 1000);
+          var viewsK = (viewsCount).round();
+
+          viewsdata = viewsK.toString() + 'K';
+        } else if (views >= 1000000) {
+          var viewsCount = views * (1 / 1000000);
+
+          viewsCount = num.parse(viewsCount.toStringAsFixed(1));
+
+          viewsdata = viewsCount.toString() + 'M';
+        }
+        final RestaurantModel restaurant = RestaurantModel(
+          id: parsedRestaurants['id'],
+          nameAr: parsedRestaurants['name_ar'],
+          nameEn: parsedRestaurants['name_en'],
+          logoSmall: parsedRestaurants['logo_small'] == null
+              ? ""
+              : "https://menuegypt.com/${parsedRestaurants['logo_small']}",
+          phoneNumber1: parsedRestaurants['phone'] == null
+              ? ""
+              : parsedRestaurants['phone'],
+          phoneNumber2: parsedRestaurants['phones_html1'] == null
+              ? ""
+              : parsedRestaurants['phones_html1'],
+          phoneNumber3: parsedRestaurants['phones_html2'] == null
+              ? ""
+              : parsedRestaurants['phones_html2'],
+          categoryId: parsedRestaurants['category_id'] == null
+              ? null
+              : parsedRestaurants['category_id'],
+          branches: restaurantBranches,
+          areas: areasResult,
+          regions: regionsResult,
+          images: restaurantImages,
+          viewTimes: viewsdata,
+          review: response.data['data']['review'] > 0
+              ? response.data['data']['review']
+              : 5,
+          date: latestDate.isNotEmpty
+              ? DateFormat('dd/MM/yyyy').format(
+                  DateTime.parse(latestDate),
+                )
+              : '',
+          isOnline: response.data['data']['is_online'],
+          isOutOfTime: response.data['data']['is_out_of_time'],
+        );
+        _restaurant = restaurant;
+
+        result['success'] = true;
+      }
+    } catch (error) {
+      throw result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
 }

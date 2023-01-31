@@ -1,43 +1,42 @@
 {
   "project_info": {
-    "project_number": "493844107005",
-    "firebase_url": "https://wasla-cb0d3.firebaseio.com",
-    "project_id": "wasla-cb0d3",
-    "storage_bucket": "wasla-cb0d3.appspot.com"
+    "project_number": "774830526707",
+    "project_id": "menuegypt-bdec9",
+    "storage_bucket": "menuegypt-bdec9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:493844107005:android:5bbee7d73c30a12334f894",
+        "mobilesdk_app_id": "1:774830526707:android:4d389a1ebb8ede32fa2786",
         "android_client_info": {
           "package_name": "com.menuegypt.menuegupt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "493844107005-gu5sadbfdr2v2q0jrg30ldt95hscqut5.apps.googleusercontent.com",
+          "client_id": "774830526707-mj3pm8cjtj597dblmfeoa59tmn0b8do3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.menuegypt.menuegupt",
+            "certificate_hash": "eec2f0b063d6202440900752f963b035eaa2dd97"
+          }
+        },
+        {
+          "client_id": "774830526707-c0p97k0dg2ekbdqgg7fqmg8jqhkghmql.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDCpixZ0BSV3MRrqFyEKHWqL5zBFPtETpU"
+          "current_key": "AIzaSyDURbTPSkrTrTjTkfyEtphsXsdO2bsqBqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "493844107005-gu5sadbfdr2v2q0jrg30ldt95hscqut5.apps.googleusercontent.com",
+              "client_id": "774830526707-c0p97k0dg2ekbdqgg7fqmg8jqhkghmql.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "493844107005-j36s1o8srfqb6u29amehgitoi6e31bgj.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.menuegypt.menuegupt",
-                "app_store_id": "1630657799"
-              }
             }
           ]
         }

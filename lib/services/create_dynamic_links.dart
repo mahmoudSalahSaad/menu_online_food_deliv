@@ -12,21 +12,30 @@ class CreateDynamicLinks {
 
   Future<void> createRestruantDynamicLink(BuildContext context, int restId,
       String restName, String restImg, bool short) async {
+    String dashSeparateRestName = restName.replaceAll(' ', '-');
+    print(dashSeparateRestName);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://menuegypt.page.link',
-      link: Uri.parse('https://menuegypt.page.link/resturant?restId=$restId'),
+      uriPrefix: 'https://menuegupt.page.link',
+      link: Uri.parse('https://menuegypt.com/ar/$dashSeparateRestName'),
       androidParameters: const AndroidParameters(
         packageName: 'com.menuegypt.menuegupt',
       ),
       iosParameters: IOSParameters(
-          bundleId: 'com.menuegypt.menuegupt',
-          appStoreId: "1630657799",
-          fallbackUrl: Uri.parse(
-              'https://apps.apple.com/eg/app/menu-egypt/id1630657799')),
+        bundleId: 'com.menuegypt.menuegupt',
+        appStoreId: "1630657799",
+        minimumVersion: "0",
+        /*
+        fallbackUrl:
+            Uri.parse('https://apps.apple.com/eg/app/menu-egypt/id1630657799'),
+        */
+      ),
       socialMetaTagParameters: SocialMetaTagParameters(
         title: "Menu Egypt - " + restName,
         description: "منيو و رقم دليفرى مطعم $restName فى مصر",
         imageUrl: Uri.parse(restImg),
+      ),
+      navigationInfoParameters: NavigationInfoParameters(
+        forcedRedirectEnabled: true,
       ),
     );
 
@@ -65,17 +74,22 @@ class CreateDynamicLinks {
 
   Future<void> createProductsDynamicLink(BuildContext context, int restId,
       String restName, String restImg, bool short) async {
+    String dashSeparateRestName = restName.replaceAll(' ', '-');
+    print(dashSeparateRestName);
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://menuegypt.page.link',
-      link: Uri.parse('https://menuegypt.page.link/products?restId=$restId'),
+      uriPrefix: 'https://menuegupt.page.link',
+      link: Uri.parse('https://menuegypt.com/order/$dashSeparateRestName'),
       androidParameters: const AndroidParameters(
         packageName: 'com.menuegypt.menuegupt',
       ),
       iosParameters: IOSParameters(
         bundleId: 'com.menuegypt.menuegupt',
         appStoreId: "1630657799",
+        minimumVersion: "0",
+        /*
         fallbackUrl:
             Uri.parse('https://apps.apple.com/eg/app/menu-egypt/id1630657799'),
+        */
       ),
       socialMetaTagParameters: SocialMetaTagParameters(
         title: "Menu Egypt - " + restName,

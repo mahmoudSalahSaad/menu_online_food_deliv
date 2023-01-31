@@ -134,4 +134,41 @@ class ResturantItemsProvider extends ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  Future<Map<String, dynamic>> getResturantCategoriesAndProductsByUrl(
+      String restUrl) async {
+    Map<String, dynamic> result = {'success': false, 'error': null};
+    _isLoading = true;
+    notifyListeners();
+    String url = '/view-full-resturant-v2/$restUrl';
+    httpService.init();
+    try {
+      Response response = await httpService.getRequest(url, null);
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+        print(response);
+
+        var parsedCategoriesAndProducts = response.data;
+
+        ResturantCategoriesAndProducts resturantCategoriesAndProducts =
+            ResturantCategoriesAndProducts.fromJson(
+                parsedCategoriesAndProducts);
+        _resturantCategoriesAndProducts = resturantCategoriesAndProducts;
+
+        print('Successss');
+        result['success'] = true;
+      } else {
+        print('Failed');
+        _resturantCategoriesModel = null;
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      print(error);
+      throw result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
 }

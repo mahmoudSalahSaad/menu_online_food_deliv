@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8.apps.googleusercontent.com</string>
+	<string>774830526707-0c72d9tg3778u7ft678sh533bsrp19su.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.493844107005-vkbgh886kubefativ0cl7ns9ebb57nd8</string>
+	<string>com.googleusercontent.apps.774830526707-0c72d9tg3778u7ft678sh533bsrp19su</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>774830526707-mj3pm8cjtj597dblmfeoa59tmn0b8do3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC9zyircRt1Rkkt12sM96m5wNqkx0lQgZ4</string>
+	<string>AIzaSyBh3xEZbVPcYrE6idYb-di2m6rlvJ3Lv7Y</string>
 	<key>GCM_SENDER_ID</key>
-	<string>493844107005</string>
+	<string>774830526707</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.menuegypt.menuegupt</string>
 	<key>PROJECT_ID</key>
-	<string>wasla-cb0d3</string>
+	<string>menuegypt-bdec9</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wasla-cb0d3.appspot.com</string>
+	<string>menuegypt-bdec9.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:493844107005:ios:35c8db31941ad66234f894</string>
-	<key>DATABASE_URL</key>
-	<string>https://wasla-cb0d3.firebaseio.com</string>
+	<string>1:774830526707:ios:a0f5ec32fffcd45ffa2786</string>
 </dict>
 </plist>
