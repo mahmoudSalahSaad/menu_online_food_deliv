@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
@@ -173,37 +174,46 @@ class _BodyState extends State<Body> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      cart.cartItems[index]
-                                                          .quantity
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                SizedBox(
+                                                  width: getProportionateScreenWidth(160),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        cart.cartItems[index]
+                                                            .quantity
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          fontSize: getProportionateScreenHeight(12)
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      'x ',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
+                                                      Text(
+                                                        'x ',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: getProportionateScreenHeight(12)
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      cart.cartItems[index]
-                                                              .name +
-                                                          ' ' +
+                                                      SizedBox(
+                                                        width: getProportionateScreenWidth(130),
+                                                        child: Text(
                                                           cart.cartItems[index]
-                                                              .weight,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    )
-                                                  ],
+                                                              .name +
+                                                              ' ' +
+                                                              cart.cartItems[index]
+                                                                  .weight,
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                              fontSize: getProportionateScreenHeight(12)
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                                 Text(
                                                   cart.cartItems[index].price
@@ -491,37 +501,31 @@ class _BodyState extends State<Body> {
   }
 
   void deleteDialog(BuildContext context, int item) {
-    Get.defaultDialog(
-      content: Text('هل تريد الحذف ؟'),
-      textConfirm: 'حذف',
+    AppDialog.confirmDialog(
+      context: context,
       title: 'حذف المنتج',
-      buttonColor: Colors.red,
+      message: 'هل تريد الحذف ؟',
+      confirmBtnTxt: 'حذف',
+      cancelBtnTxt: 'رجوع',
       onConfirm: () async {
         Get.back();
         Provider.of<CartProvider>(context, listen: false)
             .removeItemFromCart(item);
       },
-      confirmTextColor: kTextColor,
-      onCancel: () async {},
-      textCancel: 'رجوع',
-      cancelTextColor: kTextColor,
     );
   }
 
   void clearCartDialog(BuildContext context) {
-    Get.defaultDialog(
-      content: Text('هل تريد الحذف ؟'),
-      textConfirm: 'حذف',
+    AppDialog.confirmDialog(
+      context: context,
       title: 'حذف السلة',
-      buttonColor: Colors.red,
+      message: 'هل تريد الحذف ؟',
+      confirmBtnTxt: 'حذف',
+      cancelBtnTxt: 'رجوع',
       onConfirm: () async {
         Get.back();
         Provider.of<CartProvider>(context, listen: false).clearCart();
       },
-      confirmTextColor: kTextColor,
-      onCancel: () async {},
-      textCancel: 'رجوع',
-      cancelTextColor: kTextColor,
     );
   }
 }

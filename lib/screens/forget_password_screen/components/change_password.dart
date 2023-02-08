@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
@@ -53,21 +54,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     final result = await Provider.of<UserProvider>(context, listen: false)
         .changePassword(userId, userToken, password);
     if (result['success']) {
-      await dialog(false, 'تم تغيير كلمة المرور بنجاح');
+      await AppDialog.infoDialog(message: 'تم تغيير كلمة المرور بنجاح' , btnTxt: "استمر" ,context: context , title: "نجاح");
       Get.offAllNamed(HomeScreen.routeName);
     } else {
       if (result['error'].toString().contains('برجاء أختيار مستخدم')) {
-        dialog(true, 'برجاء أختيار مستخدم');
+        AppDialog.infoDialog(context: context , title: "تنبية",message: 'برجاء أختيار مستخدم' , btnTxt: "أغلاق") ;
       } else if (result['error']
           .toString()
           .contains('برجاء أختيار  كلمة المرور')) {
-        dialog(true, 'برجاء أختيار  كلمة المرور');
+        AppDialog.infoDialog(context: context , title: "تنبية",message: 'برجاء أختيار  كلمة المرور' , btnTxt: "أغلاق") ;
+
       } else if (result['error']
           .toString()
           .contains('هذا المستخدم غير موجود')) {
-        dialog(true, 'هذا المستخدم غير موجود');
+        AppDialog.infoDialog(context: context , title: "تنبية",message: 'هذا المستخدم غير موجود' , btnTxt: "أغلاق") ;
+
       } else {
-        dialog(true, 'حدث خطا ما ');
+        AppDialog.infoDialog(context: context , title: "تنبية",message: 'حدث خطا ما ' , btnTxt: "أغلاق") ;
+
       }
     }
   }
@@ -183,12 +187,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Future<void> dialog(bool checkError, String message) {
-    return Get.defaultDialog(
-        content: Text(message),
-        textCancel: checkError ? 'إغلاق' : 'استمرار',
-        title: checkError ? 'تنبيه' : '',
-        buttonColor: checkError ? kPrimaryColor : Colors.green,
-        cancelTextColor: kTextColor);
-  }
+  // Future<void> dialog(bool checkError, String message) {
+  //   return Get.defaultDialog(
+  //       content: Text(message),
+  //       textCancel: checkError ? 'إغلاق' : 'استمرار',
+  //       title: checkError ? 'تنبيه' : '',
+  //       buttonColor: checkError ? kPrimaryColor : Colors.green,
+  //       cancelTextColor: kTextColor);
+  // }
 }

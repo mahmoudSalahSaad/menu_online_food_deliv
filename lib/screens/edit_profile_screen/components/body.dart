@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/default_button.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
@@ -224,11 +225,11 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
   }
 
   void dialog(String message) {
-    Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 }

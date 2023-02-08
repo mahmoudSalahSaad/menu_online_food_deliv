@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
@@ -17,6 +18,7 @@ import 'package:menu_egypt/screens/otp_screen/otp_screen.dart';
 //import 'package:menu_egypt/screens/orders_screen/order_details_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:provider/provider.dart';
 
 enum PaymentMethode { cash, visa }
@@ -465,38 +467,47 @@ class _BodyState extends State<Body> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      cart.cartItems[index]
-                                                          .quantity
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'x ',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      cart.cartItems[index]
-                                                              .name +
-                                                          ' ' +
-                                                          cart.cartItems[index]
-                                                              .weight,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
+                                               SizedBox(
+                                                 width: getProportionateScreenWidth(160),
+                                                 child:  Row(
+                                                   children: [
+                                                     Text(
+                                                       cart.cartItems[index]
+                                                           .quantity
+                                                           .toString(),
+                                                       style: TextStyle(
+                                                           color: Colors.white,
+                                                           fontWeight:
+                                                           FontWeight.bold,
+                                                           fontSize: getProportionateScreenHeight(12)
+                                                       ),
+                                                     ),
+                                                     Text(
+                                                       'x ',
+                                                       style: TextStyle(
+                                                           color: Colors.white,
+                                                           fontSize: getProportionateScreenHeight(12)
+                                                       ),
+                                                     ),
+                                                     SizedBox(
+                                                       width :getProportionateScreenWidth(137) , 
+                                                       child: Text(
+                                                         cart.cartItems[index]
+                                                             .name +
+                                                             ' ' +
+                                                             cart.cartItems[index]
+                                                                 .weight,
+                                                         style: TextStyle(
+                                                             color: Colors.white,
+                                                             fontWeight:
+                                                             FontWeight.bold,
+                                                             fontSize: getProportionateScreenHeight(12)
+                                                         ),
+                                                       ),
+                                                     )
+                                                   ],
+                                                 ),
+                                               ),
                                                 Text(
                                                   cart.cartItems[index].price
                                                           .toStringAsFixed(2) +
@@ -710,7 +721,12 @@ class _BodyState extends State<Body> {
                         minWidth: MediaQuery.of(context).size.width,
                         onPressed: () async {
                           if (addressId == 0) {
-                            dialog('برجاء اختيار عنوان التوصيل');
+                            AppDialog.infoDialog(
+                              context: context,
+                              title: 'تنبيه',
+                              message: 'برجاء اختيار عنوان التوصيل',
+                              btnTxt: 'إغلاق',
+                            );
                           } else {
                             final result = await cartProvider.checkOut(
                                 addressId, notesController.text);
@@ -719,12 +735,19 @@ class _BodyState extends State<Body> {
                                     .toString()
                                     .contains('عضويتك')) {
                               print("USER IS VERIFIED");
-                              successDialog(context, 'جار ارسال طلبك للمطعم',
-                                  result['orderSerialNumber']);
+                              successDialog(message: 'جار ارسال طلبك للمطعم',
+                                 context: context ,
+                                 orderNumber:  result['orderSerialNumber']
+                              );
                               cartProvider.clearCart();
                             } else {
                               print("USER IS NOT VERIFIED");
-                              dialog(result['error']);
+                              AppDialog.infoDialog(
+                                context: context,
+                                title: 'تنبيه',
+                                message: result['error'],
+                                btnTxt: 'إغلاق',
+                              );
                               Get.toNamed(OtpScreen.routeName);
                             }
                           }
@@ -763,18 +786,33 @@ class _BodyState extends State<Body> {
   }
 
   //go to order details
-  void successDialog(
-      BuildContext context, String message, String orderSerialNumber) {
-    Get.defaultDialog(
-        content: Text(message),
-        textConfirm: 'تفاصيل الطلب',
+  // void successDialog(
+  //     BuildContext context, String message, String orderSerialNumber) {
+  //   Get.defaultDialog(
+  //       content: Text(message),
+  //       textConfirm: 'تفاصيل الطلب',
+  //       title: 'عملية ناجحة',
+  //       buttonColor: Colors.red,
+  //       onConfirm: () async {
+  //         print(orderSerialNumber);
+  //         await orderProvider.getOrderDetails(orderSerialNumber);
+  //         Get.toNamed(OrderDetails.routeName);
+  //       },
+  //       confirmTextColor: kTextColor);
+  // }
+
+  Future<void> successDialog({String message , BuildContext context , String orderNumber}){
+    return PanaraConfirmDialog.showAnimatedGrow(context,
+        message: message,
+        color: kPrimaryColor,
         title: 'عملية ناجحة',
-        buttonColor: Colors.red,
-        onConfirm: () async {
-          print(orderSerialNumber);
-          await orderProvider.getOrderDetails(orderSerialNumber);
-          Get.toNamed(OrderDetails.routeName);
+        confirmButtonText: 'تفاصيل الطلب',
+        cancelButtonText: "أغلاق",
+        onTapConfirm: ()async{
+        await orderProvider.getOrderDetails(orderNumber);
+        Get.toNamed(OrderDetails.routeName);
         },
-        confirmTextColor: kTextColor);
+        onTapCancel: ()=> Get.back(),
+        panaraDialogType: PanaraDialogType.custom) ;
   }
 }

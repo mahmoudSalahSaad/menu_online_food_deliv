@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/comments_tap/comments_form.dart';
@@ -119,12 +120,12 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
   }
 
   Future<void> messageDialog(String message) {
-    return Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: '',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    return AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 
   void dialog(UserProvider userProvider) {

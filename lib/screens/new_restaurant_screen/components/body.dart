@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/branches_tab_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/comments_tab_widget.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/menu_tab_widget.dart';
@@ -219,11 +220,11 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   }
 
   void dialog(String message) {
-    Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 }

@@ -19,15 +19,8 @@ class MenuWidget extends StatelessWidget {
             children: [
               Container(
                   width: double.infinity,
-                  child: InteractiveViewer(
-                    minScale: 0.5,
-                    maxScale: 4,
-                    child: FadeInImage.assetNetwork(
-                        fit: BoxFit.cover,
-                        placeholder:
-                            'assets/images/01-Splash-Screen.png',
-                        image: images[index]),
-                  )),
+                  child: Image.network(images[index])
+              ),
               SizedBox(
                 height: SizeConfig.screenHeight * 0.02,
               )

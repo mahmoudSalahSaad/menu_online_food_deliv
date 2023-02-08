@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
@@ -146,11 +147,11 @@ class _BodyState extends State<Body> {
   }
 
   void dialog(String message, String title) {
-    Get.defaultDialog(
-        content: SelectableText(message),
-        textCancel: 'إغلاق',
-        title: title,
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    AppDialog.infoDialog(
+      context: context,
+      title: title,
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 }

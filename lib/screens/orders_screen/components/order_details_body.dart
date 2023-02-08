@@ -280,12 +280,15 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                                   color: Colors.white,
                                                 ),
                                               ),
-                                              Text(
-                                                "${orderDetailsModel.itemDetails[index].product}" +
-                                                    " ${orderDetailsModel.itemDetails[index].size}",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
+                                              SizedBox(
+                                                width: getProportionateScreenWidth(137),
+                                                child: Text(
+                                                  "${orderDetailsModel.itemDetails[index].product}" +
+                                                      " ${orderDetailsModel.itemDetails[index].size}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               )
                                             ],

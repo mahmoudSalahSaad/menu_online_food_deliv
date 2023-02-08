@@ -41,118 +41,134 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
           top: getProportionateScreenHeight(5),
           left: getProportionateScreenWidth(10),
           right: getProportionateScreenWidth(10)),
-      child: CustomScrollView(
-        slivers: [
-          SliverList(
-              delegate: SliverChildListDelegate([
-            GestureDetector(
-              child: SizedBox(
-                height: 400,
-                width: 400,
-                child: Stack(
-                  children: [
-                    ImagesSlider(
-                      imagesSliders: widget.sliderImages,
-                      pageIndex: _pageIndex,
-                      onPageChange: (index, reason) {
-                        setState(() {
-                          _pageIndex = index;
-                        });
+      child: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                    GestureDetector(
+                      child: SizedBox(
+                        height: 400,
+                        width: 400,
+                        child: Stack(
+                          children: [
+                            ImagesSlider(
+                              imagesSliders: widget.sliderImages,
+                              pageIndex: _pageIndex,
+                              onPageChange: (index, reason) {
+                                setState(() {
+                                  _pageIndex = index;
+                                });
+                              },
+                            ),
+                            SliderDots(
+                                imagesSliders: widget.sliderImages,
+                                pageIndex: _pageIndex),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        if (Platform.isIOS) {
+                          print('ios');
+                          Provider.of<RestaurantsProvider>(context, listen: false)
+                              .detectAddsClick(widget.restId, 'ios')
+                              .then((value) {
+                            if (value['status']) {
+                              _launchUrl();
+                            }
+                          });
+                        } else if (Platform.isAndroid) {
+                          print('android');
+                          Provider.of<RestaurantsProvider>(context, listen: false)
+                              .detectAddsClick(widget.restId, 'android')
+                              .then((value) {
+                            if (value['status']) {
+                              _launchUrl();
+                            }
+                          });
+                        } else {
+                          print('something else');
+                        }
                       },
                     ),
-                    SliderDots(
-                        imagesSliders: widget.sliderImages,
-                        pageIndex: _pageIndex),
-                  ],
+                    SizedBox(
+                      height: getProportionateScreenHeight(10),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        widget.date.isNotEmpty
+                            ? Text('المنيو بتاريخ : ' + widget.date)
+                            : Text(''),
+
+                      ],
+                    ),
+                    Divider(
+                      thickness: 2,
+                      color: Colors.black,
+                    ),
+
+
+                  ])),
+              widget.images.length == 0
+                  ? SliverList(
+                  delegate: SliverChildListDelegate([
+                    Center(
+                        child: Container(
+                            child: Text('لا يوجد قوائم طعام لهذا المطعم')))
+                  ]))
+                  : SliverToBoxAdapter(child: MenuWidget(images: widget.images ,isOnline: widget.isOnline,isOutOfTime: widget.isOutOfTime,)) ,
+
+
+
+            ],
+          ) ,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: widget.isOnline == 'yes' && widget.isOutOfTime == 'no'
+                ? MaterialButton(
+              onPressed: () {
+                print('RESTURANT ID ' + widget.restId.toString());
+                Provider.of<ResturantItemsProvider>(context,
+                    listen: false)
+                    .getResturantCategoriesAndProducts(widget.restId);
+                Get.toNamed(ResturantScreenNew.routeName);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(
+                  color: Colors.white,
+                  width: getProportionateScreenWidth(1),
+                  style: BorderStyle.solid,
                 ),
               ),
-              onTap: () {
-                if (Platform.isIOS) {
-                  print('ios');
-                  Provider.of<RestaurantsProvider>(context, listen: false)
-                      .detectAddsClick(widget.restId, 'ios')
-                      .then((value) {
-                    if (value['status']) {
-                      _launchUrl();
-                    }
-                  });
-                } else if (Platform.isAndroid) {
-                  print('android');
-                  Provider.of<RestaurantsProvider>(context, listen: false)
-                      .detectAddsClick(widget.restId, 'android')
-                      .then((value) {
-                    if (value['status']) {
-                      _launchUrl();
-                    }
-                  });
-                } else {
-                  print('something else');
-                }
-              },
-            ),
-            SizedBox(
-              height: getProportionateScreenHeight(10),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                widget.date.isNotEmpty
-                    ? Text('المنيو بتاريخ : ' + widget.date)
-                    : Text(''),
-                widget.isOnline == 'yes' && widget.isOutOfTime == 'no'
-                    ? MaterialButton(
-                        onPressed: () {
-                          print('RESTURANT ID ' + widget.restId.toString());
-                          Provider.of<ResturantItemsProvider>(context,
-                                  listen: false)
-                              .getResturantCategoriesAndProducts(widget.restId);
-                          Get.toNamed(ResturantScreenNew.routeName);
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: Colors.white,
-                            width: getProportionateScreenWidth(1),
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                        color: Colors.black,
-                        child: Text('اطلب اونلاين'),
-                      )
-                    : widget.isOnline == 'yes' && widget.isOutOfTime == 'yes'
-                        ? IgnorePointer(
-                            child: MaterialButton(
-                              onPressed: () {
-                                Get.toNamed(ResturantScreenNew.routeName);
-                              },
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(
-                                  color: Colors.grey[600],
-                                  width: getProportionateScreenWidth(1),
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              color: Colors.grey,
-                              child: Text('خارج توقيت العمل'),
-                            ),
-                          )
-                        : SizedBox(),
-              ],
-            ),
-            Divider(
-              thickness: 2,
               color: Colors.black,
+              child: Text('اطلب اونلاين'),
             )
-          ])),
-          widget.images.length == 0
-              ? SliverList(
-                  delegate: SliverChildListDelegate([
-                  Center(
-                      child: Container(
-                          child: Text('لا يوجد قوائم طعام لهذا المطعم')))
-                ]))
-              : SliverToBoxAdapter(child: MenuWidget(images: widget.images))
+                : widget.isOnline == 'yes' && widget.isOutOfTime == 'yes'
+                ? IgnorePointer(
+              child: MaterialButton(
+                onPressed: () {
+                  Get.toNamed(ResturantScreenNew.routeName);
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(
+                    color: Colors.grey[600],
+                    width: getProportionateScreenWidth(1),
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                color: Colors.grey,
+                child: Text('خارج توقيت العمل'),
+              ),
+            )
+                : SizedBox(),
+          )
+
+
+
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
@@ -92,10 +93,10 @@ class _BodyState extends State<Body> {
                                 listen: false)
                             .verifyWithOtp(otpController.text);
                         if (result['success']) {
-                          dialog('done');
+                          AppDialog.infoDialog(message: result['msg'] , btnTxt: "اغلاق",title: "نبية"  ,context: context);
                           Get.offAllNamed(HomeScreen.routeName);
                         } else {
-                          dialog(result['error'].toString());
+                          AppDialog.infoDialog(message: result['error'] , btnTxt: "اغلاق",title: "نبية"  ,context: context);
                         }
                       }
                     },
@@ -124,9 +125,11 @@ class _BodyState extends State<Body> {
                   await Provider.of<UserProvider>(context, listen: false)
                       .resendOtp();
               if (result['success']) {
-                dialog('تم ارسال رمز التحقق');
+                AppDialog.infoDialog(message: result['msg'] , btnTxt: "اغلاق",title: "نبية"  ,context: context);
+
               } else {
-                dialog(result['error'].toString());
+                AppDialog.infoDialog(message: result['error'] , btnTxt: "اغلاق",title: "نبية"  ,context: context);
+
               }
             },
           ),
@@ -135,12 +138,12 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Future<void> dialog(String message) {
-    return Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
-  }
+  // Future<void> dialog(String message) {
+  //   return AppDialog.infoDialog(
+  //     context: context,
+  //     title: 'تنبيه',
+  //     message: message,
+  //     btnTxt: 'إغلاق',
+  //   );
+  // }
 }

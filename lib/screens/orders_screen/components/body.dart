@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/cart_item.dart';
 import 'package:menu_egypt/models/order.dart';
@@ -415,28 +416,25 @@ class _BodyState extends State<Body> {
   }
 
   void dialog(String message) {
-    Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 
   void deleteDialog(BuildContext context) {
-    Get.defaultDialog(
-      content: Text('هل تريد حذف السلة؟'),
-      textConfirm: 'حذف',
+    AppDialog.confirmDialog(
+      context: context,
       title: 'لديك طلب من مطعم اخر',
-      buttonColor: Colors.red,
+      message: 'هل تريد حذف السلة؟',
+      confirmBtnTxt: 'حذف',
+      cancelBtnTxt: 'رجوع',
       onConfirm: () async {
         Get.back();
         Provider.of<CartProvider>(context, listen: false).clearCart();
       },
-      confirmTextColor: kTextColor,
-      onCancel: () async {},
-      textCancel: 'رجوع',
-      cancelTextColor: kTextColor,
     );
   }
 }

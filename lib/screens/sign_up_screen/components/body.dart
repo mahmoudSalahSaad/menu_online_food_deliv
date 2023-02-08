@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/default_button.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
@@ -45,8 +46,10 @@ class _BodyState extends State<Body> {
     _formData['gender'] = _gender.toString().split('Gender.')[1];
     var result = await Provider.of<UserProvider>(context, listen: false)
         .signUp(_formData);
+    print(result);
     if (result['success']) {
       Get.toNamed(OtpScreen.routeName);
+      AppDialog.mailDialog( btnTxt: "استمر"  , message:result['msg'] , context: context , title: "") ;
     } else {
       dialog(result['error'].toString());
     }
@@ -200,11 +203,11 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> dialog(String message) {
-    return Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    return AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 }

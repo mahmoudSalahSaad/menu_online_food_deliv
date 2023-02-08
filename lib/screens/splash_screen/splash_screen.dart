@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
@@ -51,16 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offNamed(HomeScreen.routeName);
       }
       */
-
-      //navigate SliderScreen
-      if (firstUseApp.isEmpty) {
-        await Provider.of<UserProvider>(context, listen: false).sliderImages();
-        Get.offNamed(SliderScreen.routeName);
-      } else {
-        Get.offNamed(HomeScreen.routeName);
-      }
-
-      //check for updates
       Map<String, dynamic> setting = await userProvider.getAppSetting();
       if (setting['setting'] != null) {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -70,24 +61,35 @@ class _SplashScreenState extends State<SplashScreen> {
             int.parse(buildNumber) !=
                 int.parse(setting['setting'].appleBuildNumber)) {
           print('ios');
-          dialog();
+          await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
         } else if (Platform.isAndroid &&
             int.parse(buildNumber) !=
                 int.parse(setting['setting'].androidBuildNumber)) {
           print('android');
-          dialog();
+          await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+
         } else {
           print('something else');
         }
       }
+      //navigate SliderScreen
+      if (firstUseApp.isEmpty) {
+        await Provider.of<UserProvider>(context, listen: false).sliderImages();
+        Get.offNamed(SliderScreen.routeName);
+      } else {
+        Get.offNamed(HomeScreen.routeName);
+      }
+
+      //check for updates
+
     });
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,5 +115,23 @@ class _SplashScreenState extends State<SplashScreen> {
         onCancel: () async {},
         confirmTextColor: kTextColor,
         cancelTextColor: kTextColor);
+  }
+  Future<void> versionDialog({String message , BuildContext context }){
+    return PanaraConfirmDialog.showAnimatedGrow(context,
+        message: message,
+        textColor: Colors.black,
+        confirmButtonText:'تحديث',
+        cancelButtonText: 'تخطى',
+        onTapConfirm: (){
+          LaunchReview.launch(
+            androidAppId: 'com.menuegypt.menuegupt',
+            iOSAppId: '1630657799',
+            writeReview: false,
+          );
+        },
+        onTapCancel: (){
+        Get.back() ;
+        },
+        panaraDialogType: PanaraDialogType.warning) ;
   }
 }

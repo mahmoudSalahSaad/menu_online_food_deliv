@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/city_drop_down.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/region_drop_down.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
@@ -377,7 +378,12 @@ void addNewAddressBottomSheet(BuildContext context) {
                                     apartmentController.text.isEmpty ||
                                     roundController.text.isEmpty ||
                                     neighborhoodController.text.isEmpty) {
-                              dialog('من فضلك أدخل العنوان كاملا');
+                              AppDialog.infoDialog(
+                                context: context,
+                                title: 'تنبيه',
+                                message: 'من فضلك أدخل العنوان كاملا',
+                                btnTxt: 'إغلاق',
+                              );
                             } else {
                               Provider.of<AddressProvider>(context,
                                       listen: false)
@@ -723,7 +729,12 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
                                 apartmentController.text.isEmpty ||
                                 roundController.text.isEmpty ||
                                 neighborhoodController.text.isEmpty) {
-                              dialog('من فضلك أدخل العنوان كاملا');
+                              AppDialog.infoDialog(
+                                context: context,
+                                title: 'تنبيه',
+                                message: 'من فضلك أدخل العنوان كاملا',
+                                btnTxt: 'إغلاق',
+                              );
                             } else {
                               Provider.of<AddressProvider>(context,
                                       listen: false)
@@ -749,13 +760,4 @@ void editAddressBottomSheet(BuildContext context, AddressModel addressModel) {
       );
     },
   );
-}
-
-void dialog(String message) {
-  Get.defaultDialog(
-      content: Text(message),
-      textCancel: 'إغلاق',
-      title: 'تنبيه',
-      buttonColor: kPrimaryColor,
-      cancelTextColor: kTextColor);
 }

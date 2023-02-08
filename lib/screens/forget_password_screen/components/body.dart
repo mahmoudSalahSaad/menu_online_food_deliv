@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/default_button.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
 import 'package:menu_egypt/screens/forget_password_screen/components/forget_password_form.dart';
@@ -29,12 +30,15 @@ class _BodyState extends State<Body> {
     _formKey.currentState.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
         .forgetPassword(_formData['email']);
+    print(result) ;
     if (result['success']) {
-      await dialog(false, "قم بفحص البريد الخاص بك.");
+      // await dialog(false, "قم بفحص البريد الخاص بك.");
       Get.toNamed(VerificationPasswordScreen.routeName,
           arguments: _formData['email']);
+      AppDialog.mailDialog(message: result['msg'], context:  context ,btnTxt: "استمر") ;
+
     } else {
-      dialog(true, result['error']);
+      AppDialog.infoDialog(message: result['error'] , title: "تنبية", context: context ,  btnTxt: "اغلاق");
     }
   }
 
@@ -83,12 +87,5 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Future<void> dialog(bool checkError, String message) {
-    return Get.defaultDialog(
-        content: Text(message),
-        textCancel: checkError ? 'إغلاق' : 'استمرار',
-        title: checkError ? 'تنبيه' : '',
-        buttonColor: checkError ? kPrimaryColor : Colors.green,
-        cancelTextColor: kTextColor);
-  }
+
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/models/address.dart';
 import 'package:menu_egypt/providers/address_provider.dart';
@@ -90,14 +91,14 @@ class _BodyState extends State<Body> {
                                                             width:
                                                                 getProportionateScreenWidth(
                                                                     5)),
-                                                        Text(addresses[index]
-                                                                .cityName +
+                                                        Text("${addresses[index]
+                                                            .cityName +
                                                             ',' +
                                                             addresses[index]
                                                                 .regionName +
-                                                            ',' +
+                                                           ',' +
                                                             addresses[index]
-                                                                .neighborhood)
+                                                                .neighborhood??"" }")
                                                       ],
                                                     ),
                                                   ),
@@ -282,21 +283,18 @@ class _BodyState extends State<Body> {
   }
 
   void deleteDialog(BuildContext context, int addressId) {
-    Get.defaultDialog(
-      content: Text('هل تريد حذف العنوان؟'),
-      textConfirm: 'حذف',
+    AppDialog.confirmDialog(
+      context: context,
       title: 'حذف العنوان',
-      buttonColor: Colors.red,
+      message: 'هل تريد حذف العنوان؟',
+      confirmBtnTxt: 'حذف',
+      cancelBtnTxt: 'رجوع',
       onConfirm: () async {
         print(addressId);
         Get.back();
         Provider.of<AddressProvider>(context, listen: false)
             .deleteAdress(addressId);
       },
-      confirmTextColor: kTextColor,
-      onCancel: () async {},
-      textCancel: 'رجوع',
-      cancelTextColor: kTextColor,
     );
   }
 }

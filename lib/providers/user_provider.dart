@@ -95,6 +95,7 @@ class UserProvider extends ChangeNotifier {
         _user = user;
         storeAuthUser(user, response.data['user']['api_token'], true);
         result['success'] = true;
+        result['msg'] = response.data['message'];
         print('Register Success');
       } else {
         print('Register Failed');
@@ -683,6 +684,7 @@ class UserProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
+        result['msg'] = response.data['message'] ;
         result['success'] = true;
       } else {
         print('Failed');
@@ -712,6 +714,7 @@ class UserProvider extends ChangeNotifier {
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print('Success');
+        result['msg'] = response.data['message'] ;
         result['success'] = true;
       } else {
         print('Failed');

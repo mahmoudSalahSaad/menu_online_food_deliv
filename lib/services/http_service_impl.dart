@@ -32,6 +32,7 @@ class HttpServiceImpl implements HttpService {
           data: postData,
           options: Options(headers: {
             "Authorization": "Bearer $token",
+            "Language" : "ar"
           }));
     } on DioError catch (e) {
       response = e.response;

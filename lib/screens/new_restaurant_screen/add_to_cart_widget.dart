@@ -165,9 +165,12 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      product.product.title + "    ",
-                                      style: TextStyle(color: Colors.black),
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(180),
+                                      child: Text(
+                                        product.product.title ,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                     ),
                                     Text(
                                       price.toStringAsFixed(2) + ' جم',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 import 'package:menu_egypt/providers/cart_provider.dart';
 import 'package:menu_egypt/providers/resturant_items_provider.dart';
@@ -174,27 +175,31 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                           flex: 2,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: InstaImageViewer(
-                              child: Image(
-                                image: resturantData
-                                            .catgeoriesList[i]
-                                            .catgeoryProducts[index]
-                                            .product
-                                            .image ==
-                                        null
-                                    ? AssetImage('assets/icons/menu.png')
-                                    : Image.network(
-                                            'https://menuegypt.com/order_online/product_images/' +
-                                                resturantData
-                                                    .catgeoriesList[i]
-                                                    .catgeoryProducts[index]
-                                                    .product
-                                                    .image)
-                                        .image,
-                              ),
+                            child: GestureDetector(
+                              onTap: (){} ,
+                                child: Image(
+                                  image: resturantData
+                                      .catgeoriesList[i]
+                                      .catgeoryProducts[index]
+                                      .product
+                                      .image ==
+                                      null
+                                      ? AssetImage('assets/icons/menu.png')
+                                      : Image.network(
+                                      'https://menuegypt.com/order_online/product_images/' +
+                                          resturantData
+                                              .catgeoriesList[i]
+                                              .catgeoryProducts[index]
+                                              .product
+                                              .image)
+                                      .image,
+                                ),
                             ),
                           ),
                         ),
+                        // InstaImageViewer(
+
+                        // )
                         SizedBox(
                           width: 8,
                         ),
@@ -430,28 +435,25 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
   }
 
   void dialog(String message) {
-    Get.defaultDialog(
-        content: Text(message),
-        textCancel: 'إغلاق',
-        title: 'تنبيه',
-        buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+    AppDialog.infoDialog(
+      context: context,
+      title: 'تنبيه',
+      message: message,
+      btnTxt: 'إغلاق',
+    );
   }
 
   void deleteDialog(BuildContext context) {
-    Get.defaultDialog(
-      content: Text('هل تريد حذف السلة؟'),
-      textConfirm: 'حذف',
+    AppDialog.confirmDialog(
+      context: context,
       title: 'لديك طلب من مطعم اخر',
-      buttonColor: Colors.red,
+      message: 'هل تريد حذف السلة ؟',
+      confirmBtnTxt: 'حذف',
+      cancelBtnTxt: 'رجوع',
       onConfirm: () async {
         Get.back();
         Provider.of<CartProvider>(context, listen: false).clearCart();
       },
-      confirmTextColor: kTextColor,
-      onCancel: () async {},
-      textCancel: 'رجوع',
-      cancelTextColor: kTextColor,
     );
   }
 
