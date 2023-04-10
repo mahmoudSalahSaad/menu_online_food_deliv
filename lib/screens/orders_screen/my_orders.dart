@@ -14,7 +14,7 @@ class MyOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     final ordersProvider = Provider.of<OrderProvider>(context, listen: false);
     return Container(
-      decoration: BoxDecoration(gradient: kBackgroundColor),
+      decoration: BoxDecoration(color: Colors.white),
       child: BaseConnectivity(
         child: Scaffold(
           body: ordersProvider.isLoading ? LoadingCircle() : Body(),

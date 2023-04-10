@@ -19,7 +19,7 @@ class NewRestaurantScreen extends StatelessWidget {
     //restaurantProvider.fetchRestaurant(restId);
 
     return Container(
-      decoration: BoxDecoration(gradient: kBackgroundColor),
+      decoration: BoxDecoration(color: Colors.white),
       child: BaseConnectivity(
         child: Scaffold(
           body: restaurantProvider.isLoading ? LoadingCircle() : Body(),

@@ -14,10 +14,10 @@ import '../../../utilities/constants.dart';
 
 class CommentsTabWidget extends StatefulWidget {
   CommentsTabWidget({
-    Key key,
-    @required this.id,
+    Key? key,
+     this.id,
   }) : super(key: key);
-  final int id;
+  final int? id;
   @override
   State<CommentsTabWidget> createState() => _CommentsTabWidgetState();
 }
@@ -33,14 +33,14 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
 
   final List<String> errors = [];
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -54,7 +54,7 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
       Get.back();
       final resturantProvider =
           Provider.of<RestaurantsProvider>(context, listen: false);
-      var result = await resturantProvider.addComment(widget.id, _formData);
+      var result = await resturantProvider.addComment(widget.id!, _formData);
       if (result['success']) {
         await messageDialog('تم إضافة التقييم بنجاح');
       } else {
@@ -98,15 +98,24 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
         slivers: [
           SliverList(
               delegate: SliverChildListDelegate([
+                SizedBox(
+                  height: 16,
+                ),
             DefaultButton(
-                textColor: Colors.white,
+                textColor:  Color(0xffB90101),
                 onPressed: () {
-                  final userProvier =
-                      Provider.of<UserProvider>(context, listen: false);
-                  dialog(userProvier);
+                  final userProvider =
+                      Provider.of<UserProvider>(context , listen: false);
+                  AppDialog.confirmDialog(
+                    message: "برجاء تسجيل الدخول" ,
+                    context: context ,
+                    cancelBtnTxt: "اغلاق" ,
+                    confirmBtnTxt: "تسجيل الدخول",
+                    onConfirm: ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> SignInScreen()))
+                  ) ;
                 },
                 child: Text('إضافة تقييم جديد'),
-                color: kPrimaryColor,
+                color: Colors.white,
                 minWidth: 0.0,
                 height: getProportionateScreenHeight(45)),
             SizedBox(
@@ -130,8 +139,8 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
 
   void dialog(UserProvider userProvider) {
     if (userProvider.user != null) {
-      _formData['email'] = userProvider.user.email;
-      _formData['name'] = userProvider.user.fullName;
+      _formData['email'] = userProvider.user!.email;
+      _formData['name'] = userProvider.user!.fullName;
     }
     Get.defaultDialog(
         title: '',
@@ -170,8 +179,8 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
                 ],
               )
             : Container(
-                width: SizeConfig.screenWidth * 0.8,
-                height: SizeConfig.screenHeight * 0.5,
+                width: SizeConfig.screenWidth !* 0.8,
+                height: SizeConfig.screenHeight !* 0.5,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [

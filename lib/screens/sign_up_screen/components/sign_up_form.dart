@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class SignUpForm extends StatefulWidget {
   SignUpForm(
-      {Key key,
+      {Key? key,
       this.formKey,
       this.formData,
       this.cities,
@@ -23,20 +23,20 @@ class SignUpForm extends StatefulWidget {
 
   final formKey;
   final formData;
-  final List<CityModel> cities;
-  List<RegionModel> regions;
-  CityModel city;
-  RegionModel region;
+  final List<CityModel>? cities;
+  List<RegionModel>? regions;
+  CityModel? city;
+  RegionModel? region;
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
   final List<String> errors = [];
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
         _scrollController.animateTo(
           0.0,
           curve: Curves.easeOut,
@@ -45,7 +45,7 @@ class _SignUpFormState extends State<SignUpForm> {
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -68,6 +68,7 @@ class _SignUpFormState extends State<SignUpForm> {
               InputTextField(
                 textInputType: TextInputType.name,
                 labelText: "الأسم",
+                iconPath: "assets/icons/Group 1000000781.png",
                 border: false,
                 onSaved: (String newValue) =>
                     widget.formData['fullName'] = newValue,
@@ -91,9 +92,13 @@ class _SignUpFormState extends State<SignUpForm> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: 12,
+              ),
               InputTextField(
                 textInputType: TextInputType.emailAddress,
                 labelText: "البريد إلالكترونى",
+                iconPath: "assets/icons/mail.png",
                 border: false,
                 onSaved: (String newValue) =>
                     widget.formData['email'] = newValue,
@@ -117,10 +122,15 @@ class _SignUpFormState extends State<SignUpForm> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: 12,
+              ),
               InputTextField(
                 textInputType: TextInputType.visiblePassword,
                 obscure: true,
                 labelText: "الرقم السرى",
+                isPassword: true,
+                iconPath: "assets/icons/Group 1000000777.png",
                 border: false,
                 onSaved: (String newValue) =>
                     widget.formData['password'] = newValue,
@@ -143,31 +153,38 @@ class _SignUpFormState extends State<SignUpForm> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: 12,
+              ) ,
               InputTextField(
                 textInputType: TextInputType.phone,
                 labelText: "الموبايل",
+                iconPath: "assets/icons/phone.png",
                 border: false,
                 onSaved: (String newValue) =>
                     widget.formData['phoneNumber'] = newValue,
                 onChanged: (String value) {
-                  if (value.isNotEmpty) {
-                    removeError(error: kPhoneNumberNullError);
-                    if (phoneValidatorRegExp.hasMatch(value)) {
-                      removeError(error: kInvalidPhoneNumberError);
-                    }
-                  }
+                  // if (value.isNotEmpty) {
+                  //   removeError(error: kPhoneNumberNullError);
+                  //   if (phoneValidatorRegExp.hasMatch(value)) {
+                  //     removeError(error: kInvalidPhoneNumberError);
+                  //   }
+                  // }
                   return null;
                 },
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    addError(error: kPhoneNumberNullError);
-                    return "";
-                  } else if (!phoneValidatorRegExp.hasMatch(value)) {
-                    addError(error: kInvalidPhoneNumberError);
-                    return "";
-                  }
-                  return null;
-                },
+                // validator: (String value) {
+                //   if (value.isEmpty) {
+                //     addError(error: kPhoneNumberNullError);
+                //     return "";
+                //   } else if (!phoneValidatorRegExp.hasMatch(value)) {
+                //     addError(error: kInvalidPhoneNumberError);
+                //     return "";
+                //   }
+                //   return null;
+                // },
+              ),
+              SizedBox(
+                height: 12,
               ),
               CityDropDownField(
                 items: widget.cities,
@@ -179,10 +196,13 @@ class _SignUpFormState extends State<SignUpForm> {
                     widget.formData['cityId'] = city.cityId;
                     widget.regions =
                         Provider.of<RegionProvider>(context, listen: false)
-                            .regionsOfCity(widget.city.cityId);
+                            .regionsOfCity(widget.city!.cityId!);
                     widget.formData['regionId'] = null;
                   });
                 },
+              ),
+              SizedBox(
+                height: 12,
               ),
               RegionDropDownField(
                 items: widget.regions,

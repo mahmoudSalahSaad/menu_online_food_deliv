@@ -1,9 +1,9 @@
 import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 
 class OrderDetailsModel {
-  RestDetails restDetails;
-  OrderDetails orderDetails;
-  List<ItemDetails> itemDetails;
+  RestDetails? restDetails;
+  OrderDetails? orderDetails;
+  List<ItemDetails>? itemDetails;
 
   OrderDetailsModel({this.restDetails, this.orderDetails, this.itemDetails});
 
@@ -17,7 +17,7 @@ class OrderDetailsModel {
     if (json['item_details'] != null) {
       itemDetails = [];
       json['item_details'].forEach((v) {
-        itemDetails.add(new ItemDetails.fromJson(v));
+        itemDetails!.add(new ItemDetails.fromJson(v));
       });
     }
   }
@@ -25,22 +25,23 @@ class OrderDetailsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.restDetails != null) {
-      data['rest_details'] = this.restDetails.toJson();
+      data['rest_details'] = this.restDetails!.toJson();
     }
     if (this.orderDetails != null) {
-      data['order_details'] = this.orderDetails.toJson();
+      data['order_details'] = this.orderDetails!.toJson();
     }
     if (this.itemDetails != null) {
-      data['item_details'] = this.itemDetails.map((v) => v.toJson()).toList();
+      data['item_details'] = this.itemDetails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class RestDetails {
-  int id;
-  String name;
-  String logo;
+  int? id;
+  String? name;
+  String? logo;
+  String? mobile ;
 
   RestDetails({this.id, this.name, this.logo});
 
@@ -48,6 +49,7 @@ class RestDetails {
     id = json['id'];
     name = json['name'];
     logo = json['logo'];
+    mobile = json['mobile'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -55,22 +57,23 @@ class RestDetails {
     data['id'] = this.id;
     data['name'] = this.name;
     data['logo'] = this.logo;
+    data['mobile'] = this.mobile ;
     return data;
   }
 }
 
 class OrderDetails {
-  int id;
-  String date;
-  String serialNumber;
-  int countItems;
-  num subTotal;
-  num deliveryFee;
-  num total;
-  int deliveryTime;
-  String orderStatus;
-  String notes;
-  Address address;
+  int? id;
+  String? date;
+  String? serialNumber;
+  int? countItems;
+  num? subTotal;
+  num? deliveryFee;
+  num? total;
+  int? deliveryTime;
+  String? orderStatus;
+  String? notes;
+  Address? address;
 
   OrderDetails(
       {this.id,
@@ -113,23 +116,23 @@ class OrderDetails {
     data['order_status'] = this.orderStatus;
     data['notes'] = this.notes;
     if (this.address != null) {
-      data['address'] = this.address.toJson();
+      data['address'] = this.address!.toJson();
     }
     return data;
   }
 }
 
 class Address {
-  String regionName;
-  String cityIName;
-  String neighborhood;
-  String street;
-  String building;
-  String round;
-  String apartmentNumber;
-  String type;
-  String addressDescription;
-  String description;
+  String? regionName;
+  String? cityIName;
+  String? neighborhood;
+  String? street;
+  String? building;
+  String? round;
+  String? apartmentNumber;
+  String? type;
+  String? addressDescription;
+  String? description;
 
   Address(
       {this.regionName,
@@ -173,18 +176,18 @@ class Address {
 }
 
 class ItemDetails {
-  int id;
-  String product;
-  String size;
-  String addition1;
-  String addition2;
-  int sizeId;
-  int addition1Id;
-  int addition2Id;
-  int quantity;
-  num subTotal;
-  num total;
-
+  int? id;
+  String? product;
+  String? size;
+  String? addition1;
+  String? addition2;
+  int? sizeId;
+  int? addition1Id;
+  int? addition2Id;
+  int? quantity;
+  num? subTotal;
+  num? total;
+  String? comment ;
   ItemDetails({
     this.id,
     this.product,
@@ -197,6 +200,7 @@ class ItemDetails {
     this.quantity,
     this.subTotal,
     this.total,
+    this.comment
   });
 
   ItemDetails.fromJson(Map<String, dynamic> json) {
@@ -211,6 +215,7 @@ class ItemDetails {
     quantity = json['quantity'];
     subTotal = json['sub_total'];
     total = json['total'];
+    comment = json['comment'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -226,23 +231,25 @@ class ItemDetails {
     data['quantity'] = this.quantity;
     data['sub_total'] = this.subTotal;
     data['total'] = this.total;
+    data['comment'] = this.comment ;
     return data;
   }
 }
 
 class ReOrderItemDetails {
-  int id;
-  String product;
-  String size;
-  String addition1;
-  String addition2;
-  int sizeId;
-  int addition1Id;
-  int addition2Id;
-  int quantity;
-  num subTotal;
-  num total;
-  CatgeoryProduct productInfo;
+  int? id;
+  String? product;
+  String? size;
+  String? addition1;
+  String? addition2;
+  int? sizeId;
+  int? addition1Id;
+  int? addition2Id;
+  int? quantity;
+  num? subTotal;
+  num? total;
+  String? comment ;
+  CatgeoryProduct? productInfo;
 
   ReOrderItemDetails({
     this.id,
@@ -257,6 +264,7 @@ class ReOrderItemDetails {
     this.subTotal,
     this.total,
     this.productInfo,
+    this.comment
   });
 
   ReOrderItemDetails.fromJson(Map<String, dynamic> json) {
@@ -272,6 +280,7 @@ class ReOrderItemDetails {
     subTotal = json['sub_total'];
     total = json['total'];
     productInfo = CatgeoryProduct.fromJson(json['product_info']);
+    comment = json['comment'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -287,7 +296,8 @@ class ReOrderItemDetails {
     data['quantity'] = this.quantity;
     data['sub_total'] = this.subTotal;
     data['total'] = this.total;
-    data['product_info'] = this.productInfo.toJson();
+    data['product_info'] = this.productInfo!.toJson();
+    data['comment'] = this.comment ;
     return data;
   }
 }

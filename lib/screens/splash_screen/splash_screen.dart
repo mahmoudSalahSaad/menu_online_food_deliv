@@ -2,6 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/providers/categories_provider.dart';
+import 'package:menu_egypt/providers/city_provider.dart';
+import 'package:menu_egypt/providers/home_provider.dart';
+import 'package:menu_egypt/providers/region_provider.dart';
+import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
@@ -29,9 +34,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(milliseconds: 1), () async {
+    Future.delayed(Duration(seconds: 1), () async {
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
+
+      final homeProvider = Provider.of<HomeProvider>(context ,listen: false) ;
+      final categoryProvider =
+      Provider.of<CategoriesProvider>(context, listen: false);
+      final cityProvider = Provider.of<CityProvider>(context, listen: false);
+      final regionProvider = Provider.of<RegionProvider>(context, listen: false);
+      final resturantProvider =
+      Provider.of<RestaurantsProvider>(context, listen: false);
+      if (categoryProvider.categories.length < 1) {
+        await categoryProvider.fetchCategories('guest');
+      }
+      if (cityProvider.cities.length < 1) {
+        await cityProvider.fetchCities();
+      }
+      if (regionProvider.regions.length < 1) {
+        await regionProvider.fetchRegions();
+      }
+      await homeProvider.fetchData();
 
       //FetchDynamicLink
       await FetchDynamicLink(context).initDynamicLinks(context);
@@ -52,32 +75,112 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offNamed(HomeScreen.routeName);
       }
       */
-      Map<String, dynamic> setting = await userProvider.getAppSetting();
-      if (setting['setting'] != null) {
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String buildNumber = packageInfo.buildNumber;
-        print(buildNumber);
-        if (Platform.isIOS &&
-            int.parse(buildNumber) !=
-                int.parse(setting['setting'].appleBuildNumber)) {
-          print('ios');
-          await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
-        } else if (Platform.isAndroid &&
-            int.parse(buildNumber) !=
-                int.parse(setting['setting'].androidBuildNumber)) {
-          print('android');
-          await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
 
-        } else {
-          print('something else');
-        }
-      }
       //navigate SliderScreen
       if (firstUseApp.isEmpty) {
         await Provider.of<UserProvider>(context, listen: false).sliderImages();
-        Get.offNamed(SliderScreen.routeName);
+        
+        // Get.offNamed(SliderScreen.routeName).then((value) async {
+        //   Map<String, dynamic> setting = await userProvider.getAppSetting();
+        //   print(setting) ;
+        //
+        //   if (setting['setting'] != null) {
+        //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        //     String buildNumber = packageInfo.buildNumber;
+        //     print(buildNumber);
+        //     if (Platform.isIOS &&
+        //         int.parse(buildNumber) !=
+        //             int.parse(setting['setting'].appleBuildNumber)) {
+        //       print('ios');
+        //       await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+        //     } else if (Platform.isAndroid &&
+        //         int.parse(buildNumber) !=
+        //             int.parse(setting['setting'].androidBuildNumber)) {
+        //       print('android');
+        //       await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+        //
+        //     } else {
+        //       print('something else');
+        //     }
+        //   }
+        // });
+        Map<String, dynamic> setting = await userProvider.getAppSetting();
+        print(setting) ;
+
+        if (setting['setting'] != null) {
+          PackageInfo packageInfo = await PackageInfo.fromPlatform();
+          String buildNumber = packageInfo.buildNumber;
+          print(buildNumber);
+          if (Platform.isIOS ||
+              int.parse(buildNumber) !=
+                  int.parse(setting['setting'].appleBuildNumber)) {
+            print('ios');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+          } else if (Platform.isAndroid ||
+              int.parse(buildNumber) !=
+                  int.parse(setting['setting'].androidBuildNumber)) {
+            print('android');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+
+          } else {
+            print('something else');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+          }
+        }
+
       } else {
-        Get.offNamed(HomeScreen.routeName);
+        // Get.offNamed(HomeScreen.routeName).then((value) async {
+        //   Map<String, dynamic> setting = await userProvider.getAppSetting();
+        //   print(setting) ;
+        //   if (setting['setting'] != null) {
+        //     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        //     String buildNumber = packageInfo.buildNumber;
+        //     print(buildNumber);
+        //     if (Platform.isIOS &&
+        //         int.parse(buildNumber) !=
+        //             int.parse(setting['setting'].appleBuildNumber)) {
+        //       print('ios');
+        //       await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+        //     } else if (Platform.isAndroid &&
+        //         int.parse(buildNumber) !=
+        //             int.parse(setting['setting'].androidBuildNumber)) {
+        //       print('android');
+        //       await versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+        //
+        //     } else {
+        //       print('something else');
+        //     }
+        //   }
+        // });
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen())) ;
+        Map<String, dynamic> setting = await userProvider.getAppSetting();
+        print(setting) ;
+
+        if (setting['setting'] != null) {
+          PackageInfo packageInfo = await PackageInfo.fromPlatform();
+          String buildNumber = packageInfo.buildNumber;
+          print(buildNumber);
+          if (Platform.isIOS &&
+              int.parse(buildNumber) !=
+                  int.parse(setting['setting'].appleBuildNumber)) {
+            print('ios');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+          } else if (Platform.isAndroid &&
+              int.parse(buildNumber) !=
+                  int.parse(setting['setting'].androidBuildNumber)) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+            print('android');
+             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+
+          } else {
+            print('something else');
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+
+          }
+        }
       }
 
       //check for updates
@@ -116,10 +219,11 @@ class _SplashScreenState extends State<SplashScreen> {
         confirmTextColor: kTextColor,
         cancelTextColor: kTextColor);
   }
-  Future<void> versionDialog({String message , BuildContext context }){
-    return PanaraConfirmDialog.showAnimatedGrow(context,
-        message: message,
+  Future<void> versionDialog({String? message , BuildContext? context }){
+    return PanaraConfirmDialog.showAnimatedGrow(context!,
+        message: message!,
         textColor: Colors.black,
+        color: kAppBarColor,
         confirmButtonText:'تحديث',
         cancelButtonText: 'تخطى',
         onTapConfirm: (){
@@ -132,6 +236,6 @@ class _SplashScreenState extends State<SplashScreen> {
         onTapCancel: (){
         Get.back() ;
         },
-        panaraDialogType: PanaraDialogType.warning) ;
+        panaraDialogType: PanaraDialogType.custom) ;
   }
 }

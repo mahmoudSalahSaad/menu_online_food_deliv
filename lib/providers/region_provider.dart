@@ -30,7 +30,7 @@ class RegionProvider extends ChangeNotifier {
     httpService.init();
     final List<RegionModel> regions = [];
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
 
       var parsedRegions = response.data['data']['regions'] as List;
@@ -67,7 +67,7 @@ class RegionProvider extends ChangeNotifier {
 
   RegionModel getRegionById(int regionId) {
     RegionModel region =
-        _regions.firstWhere((region) => region.regionId == regionId);
+        _regions.firstWhere((region) => region.regionId == regionId , orElse: ()=> RegionModel(regionId: null, cityId: null, nameAr: null));
     return region;
   }
 }

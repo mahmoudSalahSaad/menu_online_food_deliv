@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<OrderModel> _orders = [];
-  OrderDetailsModel orderDetailsModel;
+  OrderDetailsModel? orderDetailsModel;
   bool _isLoading = false;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
@@ -29,7 +29,7 @@ class OrderProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
@@ -47,6 +47,7 @@ class OrderProvider extends ChangeNotifier {
             countItems: parsedOrders[i]['order_details']['count_items'],
             total: parsedOrders[i]['order_details']['total'],
             orderStatus: parsedOrders[i]['order_details']['order_status'],
+            orderName:  parsedOrders[i]['order_details']['order_name']
           );
           _orders.add(orderModel);
         }
@@ -79,7 +80,7 @@ class OrderProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
@@ -128,7 +129,7 @@ class OrderProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
@@ -150,8 +151,10 @@ class OrderProvider extends ChangeNotifier {
             subTotal: element['value']['price'],
             quantity: element['value']['quantity'],
             total: element['value']['total'],
+            comment: element['value']['comment'],
             productInfo: CatgeoryProduct.fromJson(element['product_info']),
           );
+          print(item.comment) ;
           itmes.add(item);
         });
 
@@ -164,6 +167,41 @@ class OrderProvider extends ChangeNotifier {
         result['restLogo'] = response.data['data']['rest']['restLogo'];
         result['deliveryFee'] = response.data['data']['rest']['deliveryFee'];
         result['deliveryTime'] = response.data['data']['rest']['deliveryTime'];
+      } else {
+        print('Failed');
+        result['error'] = response.data['message'];
+      }
+    } catch (error) {
+      print('Catch');
+      print(error);
+      throw result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
+  Future<Map<String, dynamic>> cancelOrder(String orderSerialNumber , String comment) async {
+    Map<String, dynamic> result = {
+      'success': false,
+      'error': null,
+    };
+    _isLoading = true;
+    notifyListeners();
+    String url = '/cancel-order-api/$orderSerialNumber/$comment';
+    httpService.init();
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String token = preferences.getString('apiToken')!;
+      print(token);
+      Response response = await httpService.getRequest(url, token ?? '');
+      print(response);
+      if (response.statusCode == 200 && response.data['status'] == true) {
+
+        print('Success');
+        result['success'] = true;
+        result['error'] = response.data['message'];
+
       } else {
         print('Failed');
         result['error'] = response.data['message'];

@@ -15,7 +15,7 @@ class MyBasket extends StatelessWidget {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
 
     return Container(
-      decoration: BoxDecoration(gradient: kBackgroundColor),
+      decoration: BoxDecoration(color: Colors.white),
       child: BaseConnectivity(
         child: Scaffold(
           body: cartProvider.isLoading ? LoadingCircle() : Body(),

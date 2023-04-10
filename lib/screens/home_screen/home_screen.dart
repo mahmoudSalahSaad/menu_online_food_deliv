@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: true);
     return Container(
-      decoration: BoxDecoration(gradient: kBackgroundColor),
+      decoration: BoxDecoration(color: Colors.white),
       child: BaseConnectivity(
         child: Scaffold(
           body: homeProvider.isLoading ? LoadingCircle() : Body(),

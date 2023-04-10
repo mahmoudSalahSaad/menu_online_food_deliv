@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/screens/forget_password_screen/components/change_password.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
@@ -17,6 +18,9 @@ import '../../../utilities/size_config.dart';
 
 class VerificationPasswordScreen extends StatefulWidget {
   static String routeName = '/verification_password';
+  final String? email;
+
+  const VerificationPasswordScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<VerificationPasswordScreen> createState() =>
@@ -26,20 +30,20 @@ class VerificationPasswordScreen extends StatefulWidget {
 class _VerificationPasswordScreenState
     extends State<VerificationPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String code;
+  String? code;
   String email = Get.arguments as String;
   final List<String> errors = [];
   String message = '';
   final CountdownController timerController =
       CountdownController(autoStart: true);
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -47,20 +51,28 @@ class _VerificationPasswordScreenState
   }
 
   void _onSubmit() async {
+
     print(email);
     print(code);
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
-        .verifyPassword(email, code);
+        .verifyPassword(widget.email!, code!);
+    print(result);
     if (result['success']) {
       Get.offNamed(ChangePasswordScreen.routeName,
           arguments: [result['userId'], result['userToken']]);
     } else {
-      dialog(true, result['error']);
+      AppDialog.infoDialog(context: context ,  title: "تنبية",message: result['error'] , btnTxt: "أغلاق");
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(email) ;
   }
 
   @override
@@ -78,20 +90,33 @@ class _VerificationPasswordScreenState
               ),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppBarWidget(
+                    Padding(padding: EdgeInsets.all(getProportionateScreenHeight(16.0)) ,
+                    child: AppBarWidget(
                       title: 'إرسال رمز التحقق الى الاميل',
                       withBack: true,
                     ),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
                     ),
-                    Text('من فضلك قم بإدخال رمز التحقق.',
-                        style: Theme.of(context).textTheme.headline5.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: getProportionateScreenHeight(14.0))),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: SizeConfig.screenHeight !* 0.04,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(40.0)),
+                      child: Image.asset('assets/images/menu-egypt-logo.png'),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.screenHeight !* 0.04,
+                    ),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10.0)) ,
+                    child: Text('من فضلك قم بإدخال رمز التحقق.',
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: getProportionateScreenHeight(18.0))),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.screenHeight !* 0.04,
                     ),
                     Form(
                       key: _formKey,
@@ -101,10 +126,12 @@ class _VerificationPasswordScreenState
                             textInputType: TextInputType.number,
                             labelText: "رمز التحقق",
                             border: false,
+                            iconPath: "assets/icons/mail.png",
                             onChanged: (String value) {
                               if (value.isNotEmpty) {
                                 removeError(error: kCodeNullError);
                               }
+                              print(value);
                               return null;
                             },
                             validator: (String value) {
@@ -123,22 +150,27 @@ class _VerificationPasswordScreenState
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: getProportionateScreenHeight(8)
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Countdown(
-                        controller: timerController,
-                        seconds: 60,
-                        build: (BuildContext context, double time) {
-                          return Text(time.toString());
-                        },
-                        onFinished: () {
-                          setState(() {
-                            message = 'إضغط هنا لإعادة إرسال الرمز';
-                          });
-                        },
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Countdown(
+                            controller: timerController,
+                            seconds: 60,
+                            build: (BuildContext context, double time) {
+                              return Text(time.toStringAsFixed(0));
+                            },
+                            onFinished: () {
+                              setState(() {
+                                message = 'إضغط هنا لإعادة إرسال الرمز';
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     userProvider.isLoading
                         ? LoadingCircle()

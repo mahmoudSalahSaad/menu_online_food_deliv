@@ -1,9 +1,9 @@
 class Setting {
-  int id;
-  String androidBuildNumber;
-  String appleBuildNumber;
-  String googlePlayLink;
-  String appStoreLink;
+  int? id;
+  String? androidBuildNumber;
+  String? appleBuildNumber;
+  String? googlePlayLink;
+  String? appStoreLink;
 
   Setting(
       {this.id,

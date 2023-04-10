@@ -9,7 +9,10 @@ import 'package:menu_egypt/services/http_service_impl.dart';
 
 class CartProvider extends ChangeNotifier {
   bool _isLoading = false;
-  CartModel _cart;
+
+
+
+  CartModel? _cart;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
   CartProvider() {
@@ -21,7 +24,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   CartModel get cart {
-    return _cart;
+    return _cart!;
   }
 
   initCart() async {
@@ -33,13 +36,14 @@ class CartProvider extends ChangeNotifier {
     if (json.isNotEmpty) {
       Map<String, dynamic> map = jsonDecode(json);
       _cart = CartModel.fromJson(map);
-      _cart.resturantId = map['resturantId'];
-      _cart.deliveryPrice = map['deliveryPrice'];
-      _cart.deliveryTime = map['deliveryTime'];
-      _cart.resturantName = map['resturantName'];
-      _cart.resturantLogo = map['resturantLogo'];
-      _cart.subTotalPrice = calculateCartSubtotal();
-      _cart.totalPrice = calculateCartTotal();
+      _cart!.resturantId = map['resturantId'];
+      _cart!.deliveryPrice = map['deliveryPrice'];
+      _cart!.deliveryTime = map['deliveryTime'];
+      _cart!.resturantName = map['resturantName'];
+      _cart!.resturantLogo = map['resturantLogo'];
+      _cart!.orderName = map['order_name'] ;
+      _cart!.subTotalPrice = calculateCartSubtotal();
+      _cart!.totalPrice = calculateCartTotal();
     } else {
       _cart = CartModel(
           cartItems: [],
@@ -57,104 +61,106 @@ class CartProvider extends ChangeNotifier {
 
   num calculateCartSubtotal() {
     num subTotal = 0.0;
-    for (CartItemModel cartItem in _cart.cartItems) {
-      subTotal += cartItem.quantity * cartItem.price;
+    for (CartItemModel cartItem in _cart!.cartItems!) {
+      subTotal += cartItem.quantity! * cartItem.price!;
     }
     return subTotal;
   }
 
   num calculateCartTotal() {
     num total = 0.0;
-    total = _cart.subTotalPrice + _cart.deliveryPrice;
+    total = _cart!.subTotalPrice! + _cart!.deliveryPrice!;
     return total;
   }
 
   addItemToCart(CartItemModel cartItem, int resturantId, num deliveryPrice,
-      int deliveryTime, String resturantName, String resturantLogo) async {
+      int deliveryTime, String resturantName, String resturantLogo ,) async {
     bool theSameItemExistsInCart = false;
     //if the same item is found in cart .. update it's quantity
-    for (CartItemModel item in _cart.cartItems) {
+    for (CartItemModel item in _cart!.cartItems!) {
       if (cartItem.id == item.id &&
           cartItem.weightId == item.weightId &&
           cartItem.firstAddId == item.firstAddId &&
           cartItem.secondAddId == item.secondAddId) {
-        item.quantity += cartItem.quantity;
+        item.quantity = item.quantity! +cartItem.quantity! ;
         theSameItemExistsInCart = true;
         break;
       }
     }
     //if first item to add to cart OR the item is new item
-    if (_cart.cartItems.isEmpty || !theSameItemExistsInCart) {
-      _cart.cartItems.add(cartItem);
+    if (_cart!.cartItems!.isEmpty || !theSameItemExistsInCart) {
+      _cart!.cartItems!.add(cartItem);
     }
-    _cart.resturantId = resturantId;
-    _cart.deliveryTime = deliveryTime;
-    _cart.deliveryPrice = deliveryPrice.toDouble();
-    _cart.resturantName = resturantName;
-    _cart.resturantLogo = resturantLogo;
-    _cart.subTotalPrice = calculateCartSubtotal();
-    _cart.totalPrice = calculateCartTotal();
+    _cart!.resturantId = resturantId;
+    _cart!.deliveryTime = deliveryTime;
+    _cart!.deliveryPrice = deliveryPrice.toDouble();
+    _cart!.resturantName = resturantName;
+    _cart!.resturantLogo = resturantLogo;
+    _cart!.subTotalPrice = calculateCartSubtotal();
+    _cart!.totalPrice = calculateCartTotal();
     await updateCartToSharedPref();
     notifyListeners();
   }
 
   removeItemFromCart(int itemIndex) async {
-    _cart.cartItems.removeAt(itemIndex);
-    _cart.subTotalPrice = calculateCartSubtotal();
-    _cart.totalPrice = calculateCartTotal();
-    if (_cart.cartItems.isEmpty) {
-      _cart.resturantId = 0;
+    _cart!.cartItems!.removeAt(itemIndex);
+    _cart!.subTotalPrice = calculateCartSubtotal();
+    _cart!.totalPrice = calculateCartTotal();
+    if (_cart!.cartItems!.isEmpty) {
+      _cart!.resturantId = 0;
     }
     await updateCartToSharedPref();
     notifyListeners();
   }
 
   clearCart() async {
-    _cart.cartItems.clear();
-    _cart.resturantId = 0;
-    _cart.resturantName = '';
-    _cart.resturantLogo = '';
-    _cart.deliveryTime = 0;
-    _cart.deliveryPrice = 0.0;
-    _cart.subTotalPrice = 0.0;
-    _cart.totalPrice = 0.0;
+    _cart!.cartItems!.clear();
+    _cart!.resturantId = 0;
+    _cart!.resturantName = '';
+    _cart!.resturantLogo = '';
+    _cart!.deliveryTime = 0;
+    _cart!.deliveryPrice = 0.0;
+    _cart!.subTotalPrice = 0.0;
+    _cart!.totalPrice = 0.0;
     await removeCartFromShredPref();
     notifyListeners();
   }
 
-  editCartItem(CartItemModel item, int itemIndex) async {
+  editCartItem(CartItemModel item, int itemIndex , String orderName) async {
     //if the same item is found in cart .. update it's quantity
     bool theSameItemExistsInCart = false;
 
-    for (CartItemModel i in _cart.cartItems) {
+    for (CartItemModel i in _cart!.cartItems!) {
       if (item.id == i.id &&
           item.weightId == i.weightId &&
           item.firstAddId == i.firstAddId &&
           item.secondAddId == i.secondAddId) {
         theSameItemExistsInCart = true;
-        if (itemIndex != _cart.cartItems.indexOf(i)) {
-          i.quantity += item.quantity;
-          _cart.cartItems.removeAt(itemIndex);
+        if (itemIndex != _cart!.cartItems!.indexOf(i)) {
+          i.quantity =i.quantity!+ item.quantity!;
+          _cart!.cartItems!.removeAt(itemIndex);
         } else {
           i.quantity = item.quantity;
+          i.comment = item.comment ;
+          _cart!.orderName = orderName ;
         }
         break;
       }
     }
     //The item is a new item to edit
     if (!theSameItemExistsInCart) {
-      _cart.cartItems[itemIndex] = item;
-      print(_cart.cartItems[itemIndex].product.product.title);
+      _cart!.cartItems![itemIndex] = item;
+      print(_cart!.cartItems![itemIndex].product!.product!.title);
     }
-    _cart.subTotalPrice = calculateCartSubtotal();
-    _cart.totalPrice = calculateCartTotal();
+    _cart!.subTotalPrice = calculateCartSubtotal();
+    _cart!.totalPrice = calculateCartTotal();
     await updateCartToSharedPref();
     notifyListeners();
   }
 
   updateCartToSharedPref() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> json = _cart.toJson();
+    Map<String, dynamic> json = _cart!.toJson();
     print(json);
     preferences.setString('cart', jsonEncode(json));
   }
@@ -162,6 +168,17 @@ class CartProvider extends ChangeNotifier {
   removeCartFromShredPref() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove('cart');
+  }
+
+
+  addOrderName( String name) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    _cart!.orderName = name ;
+    updateCartToSharedPref() ;
+    initCart() ;
+    print(_cart);
+    notifyListeners() ;
+
   }
 
   Future<Map<String, dynamic>> checkOut(int addressId, String notes) async {
@@ -177,69 +194,87 @@ class CartProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
-      print(_cart.resturantId);
+      print(_cart!.resturantId);
 
       List<Map<String, dynamic>> cartItemsList = [];
-      for (CartItemModel item in _cart.cartItems) {
+      for (CartItemModel item in _cart!.cartItems!) {
         if (item.weightId != 0 &&
             item.firstAddId != 0 &&
             item.secondAddId != 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
+            "rest_id": _cart!.resturantId,
             "size_id": item.weightId,
             "addition1_id": item.firstAddId,
             "addition2_id": item.secondAddId,
-            "quantity": item.quantity
+            "quantity": item.quantity ,
+            "comment" : item.comment ,
+            "order_name" : _cart!.orderName
           });
         } else if (item.weightId == 0 &&
             item.firstAddId == 0 &&
             item.secondAddId == 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
-            "quantity": item.quantity
+            "rest_id": _cart!.resturantId,
+            "quantity": item.quantity,
+            "comment" : item.comment ,
+            "order_name" :  _cart!.orderName ,
+
+
           });
         } else if (item.weightId == 0 &&
             item.firstAddId != 0 &&
             item.secondAddId != 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
+            "rest_id": _cart!.resturantId,
             "addition1_id": item.firstAddId,
             "addition2_id": item.secondAddId,
-            "quantity": item.quantity
+            "quantity": item.quantity,
+            "comment" : item.comment ,
+            "order_name" : _cart!.orderName
+
           });
         } else if (item.weightId != 0 &&
             item.firstAddId == 0 &&
             item.secondAddId != 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
+            "rest_id": _cart!.resturantId,
             "size_id": item.weightId,
             "addition2_id": item.secondAddId,
-            "quantity": item.quantity
+            "quantity": item.quantity ,
+            "comment" : item.comment ,
+            "order_name" : _cart!.orderName
+
           });
         } else if (item.weightId != 0 &&
             item.firstAddId != 0 &&
             item.secondAddId == 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
+            "rest_id": _cart!.resturantId,
             "size_id": item.weightId,
             "addition1_id": item.firstAddId,
-            "quantity": item.quantity
+            "quantity": item.quantity ,
+            "comment" : item.comment ,
+            "order_name" : _cart!.orderName
+
           });
         } else if (item.weightId != 0 &&
             item.firstAddId == 0 &&
             item.secondAddId == 0) {
           cartItemsList.add({
             "id": item.id,
-            "rest_id": _cart.resturantId,
+            "rest_id": _cart!.resturantId,
             "size_id": item.weightId,
-            "quantity": item.quantity
+            "quantity": item.quantity,
+            "comment" : item.comment ,
+            "order_name" :  _cart!.orderName ,
+
           });
         }
       }
@@ -252,12 +287,14 @@ class CartProvider extends ChangeNotifier {
         print(item.weightId);
       }
       */
+
       Map<String, dynamic> cartMap = {
-        'rest_id': _cart.resturantId,
+        'rest_id': _cart!.resturantId,
         'payment_type': 1,
         'address_id': addressId,
         'notes': notes,
         'cart': cartItemsList,
+        "order_name" :  _cart!.orderName ,
       };
       Response response =
           await httpService.postRequest(url, cartMap, token ?? '');

@@ -24,17 +24,17 @@ class _BodyState extends State<Body> {
   };
 
   void _onSubmit() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
+    print(_formData['email']) ;
     final result = await Provider.of<UserProvider>(context, listen: false)
         .forgetPassword(_formData['email']);
     print(result) ;
     if (result['success']) {
       // await dialog(false, "قم بفحص البريد الخاص بك.");
-      Get.toNamed(VerificationPasswordScreen.routeName,
-          arguments: _formData['email']);
+      Navigator.push(context, MaterialPageRoute(builder: (_)=> VerificationPasswordScreen(email: _formData['email'],))) ;
       AppDialog.mailDialog(message: result['msg'], context:  context ,btnTxt: "استمر") ;
 
     } else {
@@ -48,7 +48,8 @@ class _BodyState extends State<Body> {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(10.0),
+          horizontal: getProportionateScreenWidth(16.0),
+          vertical: getProportionateScreenHeight(16)
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -57,19 +58,28 @@ class _BodyState extends State<Body> {
                 title: 'نسيت كلمة السر',
                 withBack: true,
               ),
+
               SizedBox(
-                height: SizeConfig.screenHeight * 0.04,
+                height: SizeConfig.screenHeight !* 0.04,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(40.0)),
+                child: Image.asset('assets/images/menu-egypt-logo.png'),
+              ),
+              SizedBox(
+                height: SizeConfig.screenHeight !* 0.04,
               ),
               ForgetPasswordText(),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.04,
+                height: SizeConfig.screenHeight !* 0.04,
               ),
               ForgetPasswordForm(
                 formData: _formData,
                 formKey: _formKey,
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.04,
+                height: SizeConfig.screenHeight !* 0.04,
               ),
               userProvider.isLoading
                   ? LoadingCircle()

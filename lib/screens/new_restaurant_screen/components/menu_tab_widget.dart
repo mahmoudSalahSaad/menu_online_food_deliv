@@ -7,6 +7,7 @@ import 'package:menu_egypt/providers/resturant_items_provider.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/resturant_screen_new.dart';
 import 'package:menu_egypt/screens/slider_screen/components/images_sliders.dart';
 import 'package:menu_egypt/screens/slider_screen/components/slider_dots.dart';
+import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,18 +16,19 @@ import 'menu_tap/menu_widget.dart';
 
 class MenuTabWidget extends StatefulWidget {
   const MenuTabWidget({
-    Key key,
-    @required this.images,
-    @required this.date,
-    @required this.isOnline,
-    @required this.isOutOfTime,
-    @required this.restId,
-    @required this.sliderImages,
-    @required this.sliderImagesLink,
+    Key? key,
+     this.images,
+     this.date,
+     this.isOnline,
+
+     this.isOutOfTime,
+     this.restId,
+     this.sliderImages,
+     this.sliderImagesLink,
   }) : super(key: key);
-  final int restId;
-  final List<String> images, sliderImages;
-  final String date, isOnline, isOutOfTime, sliderImagesLink;
+  final int? restId;
+  final List<String>? images, sliderImages;
+  final String? date, isOnline, isOutOfTime, sliderImagesLink;
 
   @override
   State<MenuTabWidget> createState() => _MenuTabWidgetState();
@@ -39,22 +41,25 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
     return Padding(
       padding: EdgeInsets.only(
           top: getProportionateScreenHeight(5),
-          left: getProportionateScreenWidth(10),
-          right: getProportionateScreenWidth(10)),
+          left: getProportionateScreenWidth(18),
+          right: getProportionateScreenWidth(18)),
       child: Stack(
         children: [
           CustomScrollView(
             slivers: [
               SliverList(
                   delegate: SliverChildListDelegate([
+                    SizedBox(
+                      height: 8,
+                    ),
                     GestureDetector(
                       child: SizedBox(
-                        height: 400,
-                        width: 400,
+                        height: 350,
+                        width: 350,
                         child: Stack(
                           children: [
                             ImagesSlider(
-                              imagesSliders: widget.sliderImages,
+                              imagesSliders: widget.sliderImages!,
                               pageIndex: _pageIndex,
                               onPageChange: (index, reason) {
                                 setState(() {
@@ -63,7 +68,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                               },
                             ),
                             SliderDots(
-                                imagesSliders: widget.sliderImages,
+                                imagesSliders: widget.sliderImages!,
                                 pageIndex: _pageIndex),
                           ],
                         ),
@@ -72,7 +77,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                         if (Platform.isIOS) {
                           print('ios');
                           Provider.of<RestaurantsProvider>(context, listen: false)
-                              .detectAddsClick(widget.restId, 'ios')
+                              .detectAddsClick(widget.restId!, 'ios')
                               .then((value) {
                             if (value['status']) {
                               _launchUrl();
@@ -81,7 +86,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                         } else if (Platform.isAndroid) {
                           print('android');
                           Provider.of<RestaurantsProvider>(context, listen: false)
-                              .detectAddsClick(widget.restId, 'android')
+                              .detectAddsClick(widget.restId!, 'android')
                               .then((value) {
                             if (value['status']) {
                               _launchUrl();
@@ -95,23 +100,23 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                     SizedBox(
                       height: getProportionateScreenHeight(10),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        widget.date.isNotEmpty
-                            ? Text('المنيو بتاريخ : ' + widget.date)
-                            : Text(''),
-
-                      ],
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: Colors.black,
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     widget.date.isNotEmpty
+                    //         ? Text('المنيو بتاريخ : ' + widget.date)
+                    //         : Text(''),
+                    //
+                    //   ],
+                    // ),
+                    // Divider(
+                    //   thickness: 2,
+                    //   color: Colors.black,
+                    // ),
 
 
                   ])),
-              widget.images.length == 0
+              widget.images!.length == 0
                   ? SliverList(
                   delegate: SliverChildListDelegate([
                     Center(
@@ -128,23 +133,25 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
             alignment: Alignment.bottomCenter,
             child: widget.isOnline == 'yes' && widget.isOutOfTime == 'no'
                 ? MaterialButton(
+              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(getProportionateScreenWidth(60)) , vertical: getProportionateScreenHeight(4)),
+
               onPressed: () {
                 print('RESTURANT ID ' + widget.restId.toString());
                 Provider.of<ResturantItemsProvider>(context,
                     listen: false)
-                    .getResturantCategoriesAndProducts(widget.restId);
+                    .getResturantCategoriesAndProducts(widget.restId!);
                 Get.toNamed(ResturantScreenNew.routeName);
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
-                  color: Colors.white,
-                  width: getProportionateScreenWidth(1),
-                  style: BorderStyle.solid,
-                ),
+                // side: BorderSide(
+                //   color: Colors.white,
+                //   width: getProportionateScreenWidth(1),
+                //   style: BorderStyle.solid,
+                // ),
               ),
-              color: Colors.black,
-              child: Text('اطلب اونلاين'),
+              color: kAppBarColor,
+              child: Text('اطلب اونلاين' , style: TextStyle(fontSize: getProportionateScreenHeight(17) , color: Colors.white), ),
             )
                 : widget.isOnline == 'yes' && widget.isOutOfTime == 'yes'
                 ? IgnorePointer(
@@ -155,7 +162,7 @@ class _MenuTabWidgetState extends State<MenuTabWidget> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   side: BorderSide(
-                    color: Colors.grey[600],
+                    color: Colors.grey[600]!,
                     width: getProportionateScreenWidth(1),
                     style: BorderStyle.solid,
                   ),

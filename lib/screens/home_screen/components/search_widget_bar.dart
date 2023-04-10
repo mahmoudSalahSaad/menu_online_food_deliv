@@ -8,23 +8,23 @@ import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 class SearchWidgetBar extends StatelessWidget {
-  const SearchWidgetBar({Key key, @required this.restaurantProvider})
+  const SearchWidgetBar({Key? key,  this.restaurantProvider})
       : super(key: key);
 
-  final RestaurantsProvider restaurantProvider;
+  final RestaurantsProvider? restaurantProvider;
 
   List<String> getSuggestions(String query) {
     List<String> matches = [];
-    restaurantProvider.restaurants.forEach((restaurant) {
+    restaurantProvider!.restaurants.forEach((restaurant) {
       if (query != "") {
         String resturantEn =
-            restaurant.nameEn.toLowerCase().removeAllWhitespace;
+            restaurant.nameEn!.toLowerCase().removeAllWhitespace;
 
         if (resturantEn.contains(query.toLowerCase().removeAllWhitespace)) {
-          matches.add(restaurant.nameEn);
-        } else if (restaurant.nameAr.removeAllWhitespace
+          matches.add(restaurant.nameEn!);
+        } else if (restaurant.nameAr!.removeAllWhitespace
             .contains(query.removeAllWhitespace)) {
-          matches.add(restaurant.nameAr);
+          matches.add(restaurant.nameAr!);
         }
       }
     });
@@ -34,7 +34,7 @@ class SearchWidgetBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(36),
+      height: getProportionateScreenHeight(48),
       child: TypeAheadField(
         suggestionsBoxController: SuggestionsBoxController(),
         hideOnLoading: false,
@@ -43,28 +43,45 @@ class SearchWidgetBar extends StatelessWidget {
         keepSuggestionsOnSuggestionSelected: false,
         textFieldConfiguration: TextFieldConfiguration(
           autofocus: false,
-          style: DefaultTextStyle.of(context).style.copyWith(color: kTextColor),
+          style: DefaultTextStyle.of(context).style.copyWith(color: Colors.black , fontSize: 20 , height: 2.0),
           decoration: InputDecoration(
-            fillColor: Colors.white.withOpacity(0.25),
+            fillColor: Color(0xffF7F7F9),
             filled: true,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding / 1.5),
-              borderSide: BorderSide(color: Colors.grey.withOpacity(0.25)),
+              borderSide: BorderSide(color: Color(0xffE4E4E5)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kDefaultPadding / 1.5),
-              borderSide: BorderSide(color: Colors.grey.withOpacity(0.25)),
+              borderSide: BorderSide(color: Color(0xffE4E4E5
+              )),
             ),
-            hintText: "ابحث هنا...",
-            prefixIcon: Icon(
-              Icons.search,
-              color: kTextColor,
+            hintText: "ابحث باسم المطعم",
+            hintStyle: TextStyle(
+              color: Color(0xff7D848D) ,
+              fontSize: 16 ,
+              height: 2.0
             ),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.only(
-              left: 16,
-              right: 20,
+            prefixIcon: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage("assets/icons/Search.png") , scale: 3.2)
+              ),
+              height: 1,
+              width: 1,
+
             ),
+            contentPadding: EdgeInsets.symmetric(vertical: 0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(kDefaultPadding / 1.5),
+              borderSide: BorderSide(color: Color(0xffE4E4E5
+              )),
+            ),
+            // contentPadding: const EdgeInsets.only(
+            //   top: 20,
+            //   bottom: 14,
+            //   left: 16,
+            //   right: 20,
+            // ),
           ),
         ),
         suggestionsCallback: (pattern) async {
@@ -77,7 +94,7 @@ class SearchWidgetBar extends StatelessWidget {
           );
         },
         onSuggestionSelected: (suggestion) async {
-          int index = restaurantProvider.restaurants.indexWhere(
+          int index = restaurantProvider!.restaurants.indexWhere(
               (res) => (res.nameAr == suggestion || res.nameEn == suggestion));
           // await restaurantProvider
           //     .restaurantImages(restaurantProvider.restaurants[index]);
@@ -90,9 +107,9 @@ class SearchWidgetBar extends StatelessWidget {
           // }
           print(suggestion +
               ' ' +
-              restaurantProvider.restaurants[index].id.toString());
+              restaurantProvider!.restaurants[index].id.toString());
           Provider.of<RestaurantsProvider>(context, listen: false)
-              .fetchRestaurant(restaurantProvider.restaurants[index].id);
+              .fetchRestaurant(restaurantProvider!.restaurants[index].id!);
           Get.toNamed(NewRestaurantScreen.routeName);
         },
       ),

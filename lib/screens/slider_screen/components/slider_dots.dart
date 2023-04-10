@@ -3,13 +3,13 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 class SliderDots extends StatelessWidget {
   const SliderDots({
-    Key key,
-    @required this.imagesSliders,
-    @required this.pageIndex,
+    Key? key,
+     this.imagesSliders,
+     this.pageIndex,
   }) : super(key: key);
 
-  final List<String> imagesSliders;
-  final int pageIndex;
+  final List<String>? imagesSliders;
+  final int? pageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class SliderDots extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: imagesSliders.map((image) {
-            int index = imagesSliders.indexOf(image);
+          children: imagesSliders!.map((image) {
+            int index = imagesSliders!.indexOf(image);
             return Container(
               width: getProportionateScreenWidth(8),
               height: getProportionateScreenHeight(8),

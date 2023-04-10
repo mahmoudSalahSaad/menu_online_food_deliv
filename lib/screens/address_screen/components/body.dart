@@ -12,7 +12,7 @@ import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
@@ -25,7 +25,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureProvider<Map<String, dynamic>>(
-        initialData: null,
+        initialData: {},
         create: (_) {
           addresses =
               Provider.of<AddressProvider>(context, listen: false).addresses;
@@ -33,7 +33,7 @@ class _BodyState extends State<Body> {
               .getAddresses();
         },
         child: Consumer<Map<String, dynamic>>(builder: (_, value, __) {
-          if (value != null) {
+          if (value.isNotEmpty) {
             return addresses.isNotEmpty
                 ? SingleChildScrollView(
                     child: Column(
@@ -56,18 +56,19 @@ class _BodyState extends State<Body> {
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, index) {
                                     return Padding(
-                                      padding: const EdgeInsets.all(16.0),
+                                      padding: const EdgeInsets.only(left: 16.0 , right: 16.0 , bottom: 8.0),
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
+                                          color: Color(0xffF7F7F9),
                                             border: Border.all(
-                                              color: Colors.white,
+                                              color: Color(0xffE4E4E5),
                                             ),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(20))),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(16.0),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -80,25 +81,19 @@ class _BodyState extends State<Body> {
                                                   Container(
                                                     child: Row(
                                                       children: [
-                                                        Icon(
-                                                          FontAwesomeIcons
-                                                              .locationPin,
-                                                          size:
-                                                              getProportionateScreenHeight(
-                                                                  15),
-                                                        ),
+                                                        Image.asset("assets/icons/location.png" ,scale: 3.6,),
                                                         SizedBox(
                                                             width:
                                                                 getProportionateScreenWidth(
                                                                     5)),
                                                         Text("${addresses[index]
-                                                            .cityName +
+                                                            .cityName! +
                                                             ',' +
                                                             addresses[index]
-                                                                .regionName +
+                                                                .regionName! +
                                                            ',' +
                                                             addresses[index]
-                                                                .neighborhood??"" }")
+                                                                .neighborhood! }", style: TextStyle(fontSize: 16))
                                                       ],
                                                     ),
                                                   ),
@@ -106,13 +101,16 @@ class _BodyState extends State<Body> {
                                                     children: [
                                                       InkWell(
                                                         onTap: () {
-                                                          editAddressBottomSheet(
-                                                              context,
-                                                              addresses[index]);
+                                                         Navigator.push(context, MaterialPageRoute(builder: (_)=> EditMyAddress(
+                                                           addressModel: addresses[index],
+                                                         ))) ;
                                                         },
                                                         child: Container(
+                                                          height: getProportionateScreenHeight(40),
+                                                          width: getProportionateScreenHeight(40),
                                                           decoration:
                                                               BoxDecoration(
+                                                                color: Colors.white,
                                                                   border: Border
                                                                       .all(
                                                                     color: Colors
@@ -122,10 +120,7 @@ class _BodyState extends State<Body> {
                                                                       BorderRadius.all(
                                                                           Radius.circular(
                                                                               20))),
-                                                          child: Icon(
-                                                            Icons.edit,
-                                                            color: Colors.white,
-                                                          ),
+                                                          child: Image.asset("assets/icons/edit-2.png" , scale: 4.2,),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -138,11 +133,14 @@ class _BodyState extends State<Body> {
                                                           deleteDialog(
                                                               context,
                                                               addresses[index]
-                                                                  .id);
+                                                                  .id!);
                                                         },
                                                         child: Container(
+                                                          height: getProportionateScreenHeight(40),
+                                                          width: getProportionateScreenHeight(40),
                                                           decoration:
                                                               BoxDecoration(
+                                                                color: Colors.white,
                                                                   border: Border
                                                                       .all(
                                                                     color: Colors
@@ -152,65 +150,55 @@ class _BodyState extends State<Body> {
                                                                       BorderRadius.all(
                                                                           Radius.circular(
                                                                               20))),
-                                                          child: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.white,
-                                                          ),
+                                                          child: Image.asset("assets/icons/Group 1000000840.png" , scale: 4,),
                                                         ),
                                                       )
                                                     ],
                                                   )
                                                 ],
                                               ),
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.streetView,
-                                                    size:
-                                                        getProportionateScreenHeight(
-                                                            15),
-                                                  ),
-                                                  SizedBox(
-                                                      width:
-                                                          getProportionateScreenWidth(
-                                                              5)),
-                                                  Text(
-                                                      'شارع: ${addresses[index].street}')
-                                                ],
+                                              SizedBox(
+                                                height: 6,
                                               ),
                                               Row(
                                                 children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.building,
-                                                    size:
-                                                        getProportionateScreenHeight(
-                                                            15),
-                                                  ),
+                                                  Image.asset("assets/icons/Group 1000000831.png" , scale: 3.6,) ,
                                                   SizedBox(
                                                       width:
                                                           getProportionateScreenWidth(
                                                               5)),
                                                   Text(
-                                                      'عمارة: ${addresses[index].building} شقة: ${addresses[index].apartment}')
+                                                      'شارع: ${addresses[index].street}', style: TextStyle(fontSize: 16))
                                                 ],
+                                              ),
+                                              SizedBox(
+                                                height: 12,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Image.asset("assets/icons/Group 1000000793.png" , scale: 3.6,) ,
+                                                  SizedBox(
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              5)),
+                                                  Text(
+                                                      'عمارة: ${addresses[index].building} شقة: ${addresses[index].apartment}' , style: TextStyle(fontSize: 16),)
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 12,
                                               ),
                                               addresses[index].description !=
                                                       null
                                                   ? Row(
                                                       children: [
-                                                        Icon(
-                                                          FontAwesomeIcons
-                                                              .noteSticky,
-                                                          size:
-                                                              getProportionateScreenHeight(
-                                                                  15),
-                                                        ),
+                                                       Image.asset("assets/icons/Group 1000000834.png" ,  scale: 3.6,),
                                                         SizedBox(
                                                             width:
                                                                 getProportionateScreenWidth(
                                                                     5)),
                                                         Text(
-                                                            'الوصف: ${addresses[index].description}')
+                                                            'الوصف: ${addresses[index].description}', style: TextStyle(fontSize: 16))
                                                       ],
                                                     )
                                                   : SizedBox(),
@@ -230,7 +218,7 @@ class _BodyState extends State<Body> {
                             height: getProportionateScreenHeight(50),
                             minWidth: MediaQuery.of(context).size.width,
                             onPressed: () {
-                              addNewAddressBottomSheet(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=> AddNewAddress())) ;
                             },
                             color: kAppBarColor,
                             shape: RoundedRectangleBorder(
@@ -259,7 +247,7 @@ class _BodyState extends State<Body> {
                             height: getProportionateScreenHeight(50),
                             minWidth: MediaQuery.of(context).size.width,
                             onPressed: () {
-                              addNewAddressBottomSheet(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=> AddNewAddress())) ;
                             },
                             color: kAppBarColor,
                             shape: RoundedRectangleBorder(

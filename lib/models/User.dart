@@ -6,31 +6,31 @@ part 'User.g.dart';
 @JsonSerializable()
 class UserModel {
   @JsonKey(name: 'id')
-  final int id;
+  final int? id;
   @JsonKey(name: 'cityId')
-  int cityId;
+  int? cityId;
   @JsonKey(name: 'regionId')
-  int regionId;
+  int? regionId;
   @JsonKey(name: 'fullName')
-  final String fullName;
+  final String? fullName;
   @JsonKey(name: 'email')
-  String email;
+  String? email;
   @JsonKey(name: 'password')
-  final String password;
+  final String? password;
   @JsonKey(name: 'phoneNumber')
-  String phoneNumber;
+  String? phoneNumber;
   @JsonKey(name: 'avatarUrl')
-  final String avatarUrl;
+  final String? avatarUrl;
   @JsonKey(name: 'authType')
-  final String authType;
+  final String? authType;
   @JsonKey(name: 'favorites')
-  List<int> favorites;
+  List<int>? favorites;
   @JsonKey(name: 'gender')
-  final String gender;
+  final String? gender;
   @JsonKey(name: 'birthDate')
-  final String birthDate;
+  final String? birthDate;
   @JsonKey(name: 'apiToken')
-  final String apiToken;
+  final String? apiToken;
 
   UserModel({
     this.id,

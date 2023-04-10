@@ -6,7 +6,7 @@ import 'package:menu_egypt/utilities/constants.dart';
 
 class SliderStartedButton extends StatelessWidget {
   const SliderStartedButton({
-    Key key,
+    Key ?key,
   }) : super(key: key);
 
   @override

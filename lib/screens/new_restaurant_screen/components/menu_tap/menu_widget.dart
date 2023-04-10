@@ -6,13 +6,13 @@ import 'image_slider_dialog.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({
-    Key key,
-    @required this.images, this.isOnline, this.isOutOfTime,
+    Key? key,
+     this.images, this.isOnline, this.isOutOfTime,
   }) : super(key: key);
 
-  final List<String> images;
-  final String isOnline ;
-  final String isOutOfTime ;
+  final List<String>? images;
+  final String? isOnline ;
+  final String? isOutOfTime ;
 
   @override
 
@@ -22,20 +22,20 @@ class MenuWidget extends StatelessWidget {
       children: [
         Column(
             children: List.generate(
-              images.length,
+              images!.length,
                   (index) => Column(
                 children: [
                   GestureDetector(
                     onTap: (){
-                      showImageViewer(context,  Image.network(images[index]).image, onViewerDismissed: () {
+                      showImageViewer(context,  Image.network(images![index]).image, onViewerDismissed: () {
                         print("dismissed");
                       });
 
                     },
-                    child: Image.network(images[index]),
+                    child: Image.network(images![index]),
                   ) ,
                   SizedBox(
-                    height: SizeConfig.screenHeight * 0.02,
+                    height: SizeConfig.screenHeight !* 0.02,
                   )
                 ],
               ),

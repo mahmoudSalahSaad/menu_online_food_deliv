@@ -11,7 +11,9 @@ import 'package:menu_egypt/screens/address_screen/address_screen.dart';
 import 'package:menu_egypt/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:menu_egypt/screens/favorites_screen/favorites_screen.dart';
 import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
+import 'package:menu_egypt/screens/profile_screen/chat_with_us.dart';
 import 'package:menu_egypt/screens/profile_screen/components/text_icon_widget.dart';
+import 'package:menu_egypt/screens/profile_screen/info_screen.dart';
 import 'package:menu_egypt/screens/sign_in_screen/sign_in_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
@@ -24,8 +26,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  String city;
-  String region;
+  String? city;
+  String? region;
   void onSubmit() async {
     Get.defaultDialog(
       title: 'تسجيل الخروج',
@@ -62,88 +64,163 @@ class _BodyState extends State<Body> {
     return SafeArea(
         child: Container(
             padding: EdgeInsets.all(kDefaultPadding),
-            child: CustomScrollView(slivers: [
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                AppBarWidget(
-                  title: 'حسابى',
-                  withBack: false,
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.04,
-                ),
-                CircleAvatar(
-                  radius: 50,
-                  child: ClipOval(
-                    child: Image.asset("assets/images/profile.jpg"),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  AppBarWidget(
+                    title: 'حسابى',
+                    withBack: false,
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
-                ),
-                Text(
-                  userProvider.user.fullName,
-                  maxLines: 3,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(14),
+                  SizedBox(
+                    height: SizeConfig.screenHeight !* 0.04,
                   ),
-                ),
-                Text(
-                  userProvider.user.email,
-                  maxLines: 3,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(14),
+                  CircleAvatar(
+                    radius: 50,
+                    child: ClipOval(
+                      child: userProvider.user!.gender == "male" ?  Image.asset("assets/icons/Ellipse 16.png") : Image.asset("assets/icons/worker-woman-svgrepo-com.png"),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.screenHeight * 0.04,
-                ),
-                TextIconWidget(
-                  text: 'معلومات الحساب',
-                  icon: Icons.person,
-                  onTap: () {
-                    Get.toNamed(ProfileEditScreen.routeName);
-                  },
-                ),
-                TextIconWidget(
-                  text: 'طلباتى',
-                  icon: Icons.list,
-                  onTap: () {
-                    Get.toNamed(MyOrders.routeName);
-                  },
-                ),
-                TextIconWidget(
-                  text: 'العناوين',
-                  icon: Icons.location_pin,
-                  onTap: () {
-                    Get.toNamed(AddressScreen.routeName);
-                  },
-                ),
-                TextIconWidget(
-                  text: 'المفضلة',
-                  icon: Icons.favorite,
-                  onTap: () {
-                    Get.toNamed(FavoritesScreen.routeName);
-                  },
-                ),
-                TextIconWidget(
-                  text: 'معلومات عنا',
-                  icon: Icons.info,
-                  onTap: () {
-                    dialog('info@menuegypt.com - 01116618752',
-                        'لديك اقتراح أو طلب مساعدة يمكنكم التواصل معنا عبر');
-                  },
-                ),
-                TextIconWidget(
-                    text: 'الخروج من التطبيق',
-                    icon: FontAwesomeIcons.rightFromBracket,
+                  SizedBox(
+                    height: SizeConfig.screenHeight! * 0.02,
+                  ),
+                  Text(
+                    userProvider.user!.fullName!,
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(18),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    ),
+                  ),
+                  Text(
+                    userProvider.user!.email!,
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(14),
+                        color: Colors.black
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.screenHeight! * 0.04,
+                  ),
+                  TextIconWidget(
+                    text: 'معلومات الحساب',
+                    icon: "assets/icons/Group 1000000781.png",
                     onTap: () {
-                      onSubmit();
-                    }),
-              ])),
-            ])));
+                      Get.toNamed(ProfileEditScreen.routeName);
+                    },
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+
+
+                    ),
+                  ),
+
+                  TextIconWidget(
+                    text: 'طلباتى',
+                    icon: "assets/icons/Group 1000000724.png",
+                    onTap: () {
+                      Get.toNamed(MyOrders.routeName);
+                    },
+                  ),
+
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+                      thickness: 1,
+
+
+                    ),
+                  ),
+                  TextIconWidget(
+                    text: 'العناوين',
+                    icon: "assets/icons/location.png",
+                    onTap: () {
+                      Get.toNamed(AddressScreen.routeName);
+                    },
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+                      thickness: 1,
+
+
+                    ),
+                  ),
+                  TextIconWidget(
+                    text: 'المفضلة',
+                    icon: "assets/icons/Group 1000000723 (2).png",
+                    onTap: () {
+                      Get.toNamed(FavoritesScreen.routeName);
+                    },
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+                      thickness: 1,
+
+
+                    ),
+                  ),
+                  TextIconWidget(
+                    text: 'الدعم',
+                    icon: "assets/icons/Group 1000000899.png",
+                    onTap: () {
+                      Get.off(()=> ChatWithUs() ) ;
+                    },
+                  ),
+
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+                      thickness: 1,
+
+                    ),
+                  ),
+                  TextIconWidget(
+                    text: 'معلومات عنا',
+                    icon: "assets/icons/info-circle.png",
+                    onTap: () {
+                            Get.off(()=> InfoScreen()) ;
+                    },
+                  ),
+
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      thickness: 1,
+                      color: Color(0xff222222).withOpacity(0.1),
+
+
+                    ),
+                  ),
+                  TextIconWidget(
+                      signOut: true,
+                      text: 'الخروج من التطبيق',
+                      icon: "assets/icons/Group 1000000820.png",
+                      onTap: () {
+                        onSubmit();
+                      }),
+                  SizedBox(
+                    width: getProportionateScreenWidth(330),
+                    child: Divider(
+                      color: Color(0xff222222).withOpacity(0.1),
+                      thickness: 1,
+
+                    ),
+                  ),
+                ],
+              ),
+            )));
   }
 
   void dialog(String message, String title) {

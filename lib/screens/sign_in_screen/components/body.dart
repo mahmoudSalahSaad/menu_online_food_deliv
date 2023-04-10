@@ -31,10 +31,10 @@ class _BodyState extends State<Body> {
     if (guest) {
       Get.toNamed(HomeScreen.routeName);
     } else {
-      if (!_formKey.currentState.validate()) {
+      if (!_formKey.currentState!.validate()) {
         return;
       }
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
       var result = await Provider.of<UserProvider>(context, listen: false)
           .signIn(_formData);
       if (result['success'] && result['verified'] == 1) {
@@ -49,14 +49,14 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -75,29 +75,40 @@ class _BodyState extends State<Body> {
         width: double.infinity,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(10.0),
+            horizontal: getProportionateScreenWidth(16.0),
+            vertical: getProportionateScreenHeight(16.0)
           ),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding:  EdgeInsets.zero,
                   child: AppBarWidget(
                     title: 'تسجيل الدخول',
                     withBack: true,
+                    navigationPage:  HomeScreen.routeName,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(getProportionateScreenWidth(20.0)),
-                  child: Image.asset('assets/images/menu-egypt-logo.png'),
+                  child: Image.asset('assets/images/menu-egypt-logo.png' ,height: 60),
                 ),
                 SizedBox(height: getProportionateScreenHeight(20.0)),
                 SignInForm(
                   formKey: _formKey,
                   formData: _formData,
                 ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.toNamed(ForgetPasswordScreen.routeName);
+                    },
+                    child: Text('هل نسيت كلمة السر؟'),
+                  ),
+                ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: 32,
                 ),
                 userProvider.isLoading ||
                         categoryProvider.isLoading ||
@@ -111,38 +122,30 @@ class _BodyState extends State<Body> {
                         minWidth: 0.0,
                         height: getProportionateScreenHeight(45)),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: getProportionateScreenHeight(12),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(ForgetPasswordScreen.routeName);
-                    },
-                    child: Text('هل نسيت كلمة السر؟'),
-                  ),
-                ),
+
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight! * 0.02,
                 ),
                 //Text('يمكنك الدخول عن طريق حسابات'),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight! * 0.02,
                 ),
                 //UpperSignInButtons(),
-                SizedBox(height: SizeConfig.screenHeight * 0.12),
-                Column(
+                SizedBox(height: SizeConfig.screenHeight! * 0.24),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(' ليس لديك حساب؟ '),
-                    SizedBox(height: SizeConfig.screenHeight * 0.02),
-                    DefaultButton(
-                        textColor: Colors.white,
-                        onPressed: () => Get.toNamed(SignUpScreen.routeName),
-                        child: Text('تسجيل اشتراك جديد'),
-                        color: kPrimaryColor,
-                        minWidth: 0.0,
-                        height: getProportionateScreenHeight(45)),
+
+                    GestureDetector(
+
+                        onTap: () => Get.toNamed(SignUpScreen.routeName),
+                        child: Text('تسجيل' , style: TextStyle(
+                          color: Color(0xffB90101)
+                        ),),
+                        ),
                   ],
                 ),
               ],

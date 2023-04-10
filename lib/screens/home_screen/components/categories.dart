@@ -9,30 +9,30 @@ import 'package:provider/provider.dart';
 
 class Categories extends StatelessWidget {
   const Categories({
-    Key key,
-    @required this.categories,
+    Key? key,
+    this.categories,
   }) : super(key: key);
 
-  final List<CategoryModel> categories;
+  final List<CategoryModel>? categories;
 
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate((BuildContext context, index) {
-        final CategoryModel category = categories[index];
+        final CategoryModel category = categories![index];
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
                 onTap: () {
                   Provider.of<RestaurantsProvider>(context, listen: false)
-                      .categoryRestaurantsFilter(category.id);
+                      .categoryRestaurantsFilter(category.id!);
                   Get.toNamed(CategoryScreen.routeName);
                 },
                 child: Stack(
                   children: [
                     Container(
-                      width: (SizeConfig.screenWidth - kDefaultPadding * 4) / 2,
+                      width: (SizeConfig.screenWidth !- kDefaultPadding * 4) / 2,
                       height: getProportionateScreenHeight(300),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(kDefaultPadding),
@@ -45,13 +45,13 @@ class Categories extends StatelessWidget {
                         bottom: 5.0,
                         right: 10.0,
                         child: Text(
-                          category.nameAr,
+                          category.nameAr!,
                         ))
                   ],
                 ))
           ],
         );
-      }, childCount: categories.length),
+      }, childCount: categories!.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 0.8,
           crossAxisCount: 2,

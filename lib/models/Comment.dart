@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class Comment {
-  final String email, name, comment, date;
-  final int review;
+  final String? email, name, comment, date;
+  final int? review;
   Comment({
     @required this.email,
     @required this.name,

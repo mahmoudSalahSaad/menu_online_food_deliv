@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 import '../screens/new_restaurant_screen/resturant_screen_new.dart';
 
 class FetchDynamicLink {
-  RestaurantsProvider restProvider;
-  ResturantItemsProvider restItemsProvider;
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  RestaurantsProvider? restProvider;
+  ResturantItemsProvider? restItemsProvider;
+  FirebaseDynamicLinks? dynamicLinks = FirebaseDynamicLinks.instance;
 
   FetchDynamicLink(BuildContext context) {
     restProvider = Provider.of<RestaurantsProvider>(context, listen: false);
@@ -22,13 +22,13 @@ class FetchDynamicLink {
 
   Future<void> initDynamicLinks(BuildContext context) async {
     //if the app is closed
-    final PendingDynamicLinkData data = await dynamicLinks.getInitialLink();
+    final PendingDynamicLinkData? data = await dynamicLinks!.getInitialLink();
     if (data != null) {
       print("APP IS CLOSED");
       if (data.link.pathSegments.contains('ar')) {
         print("RESTURANT");
         await restProvider
-            .fetchRestaurantByUrl(
+            !.fetchRestaurantByUrl(
               Uri.decodeComponent(
                 data.link.toString().split('ar/')[1],
               ),
@@ -38,13 +38,13 @@ class FetchDynamicLink {
             );
       } else if (data.link.pathSegments.contains('order')) {
         print("ORDER");
-        await restProvider.fetchRestaurantByUrl(
+        await restProvider!.fetchRestaurantByUrl(
           Uri.decodeComponent(
             data.link.toString().split('order/')[1],
           ),
         );
         await restItemsProvider
-            .getResturantCategoriesAndProductsByUrl(
+            !.getResturantCategoriesAndProductsByUrl(
               Uri.decodeComponent(
                 data.link.toString().split('order/')[1],
               ),
@@ -58,14 +58,14 @@ class FetchDynamicLink {
     }
 
     //if the app is opened
-    dynamicLinks.onLink.listen((dynamicLinkData) async {
+    dynamicLinks!.onLink.listen((dynamicLinkData) async {
       print("APP IS OPENED");
       if (dynamicLinkData.link.pathSegments.contains('ar')) {
         print("RESTURANT ${Uri.decodeComponent(
           dynamicLinkData.link.toString().split('ar/')[1],
         )}");
         await restProvider
-            .fetchRestaurantByUrl(
+            !.fetchRestaurantByUrl(
               Uri.decodeComponent(
                 dynamicLinkData.link.toString().split('ar/')[1],
               ),
@@ -75,13 +75,13 @@ class FetchDynamicLink {
             );
       } else if (dynamicLinkData.link.pathSegments.contains('order')) {
         print("ORDER");
-        await restProvider.fetchRestaurantByUrl(
+        await restProvider!.fetchRestaurantByUrl(
           Uri.decodeComponent(
             dynamicLinkData.link.toString().split('order/')[1],
           ),
         );
         await restItemsProvider
-            .getResturantCategoriesAndProductsByUrl(
+            !.getResturantCategoriesAndProductsByUrl(
               Uri.decodeComponent(
                 dynamicLinkData.link.toString().split('order/')[1],
               ),

@@ -5,76 +5,81 @@ import '../../../../models/Restaurant.dart';
 
 class BranchesWidget extends StatelessWidget {
   const BranchesWidget({
-    Key key,
-    @required this.resturant,
+    Key? key,
+    this.resturant,
   }) : super(key: key);
 
-  final RestaurantModel resturant;
+  final RestaurantModel? resturant;
 
   @override
   Widget build(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, index) {
-        return resturant.branches.length > 0
+        return resturant!.branches!.length > 0
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  resturant.branches[index]['name'] != null
+                  SizedBox(
+                    height: 12,
+                  ),
+                  resturant!.branches![index]['name'] != null
                       ? Text(
-                          'اسم الفرع :  ${resturant.branches[index]['name']}')
+                          '${resturant!.branches![index]['name']}' , style: TextStyle(fontSize: 16 , fontWeight: FontWeight.bold),)
                       : Container(),
-                  resturant.branches[index]['address'] != null
+                  SizedBox(
+                    height: 4,
+                  ),
+                  resturant!.branches![index]['address'] != null
                       ? Text(
-                          'عنوان الفرع :  ${resturant.branches[index]['address']}')
+                          '${resturant!.branches![index]['address']}', style: TextStyle(fontSize: 14 ),)
                       : Container(),
-                  resturant.branches[index]['numone'] != null ||
-                          resturant.branches[index]['numtwo'] != null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('أرقام التليفون : '),
-                            Row(
-                              children: [
-                                resturant.branches[index]['numone'] != null
-                                    ? GestureDetector(
-                                        onTap: () async {
-                                          bool result =
-                                              await FlutterPhoneDirectCaller
-                                                  .callNumber(
-                                                      '${resturant.branches[index]['numone']}');
-                                          if (result) {
-                                            print('call');
-                                          }
-                                        },
-                                        child: Text(resturant.branches[index]
-                                            ['numone']),
-                                      )
-                                    : Container(),
-                                resturant.branches[index]['numtwo'] != null
-                                    ? GestureDetector(
-                                        onTap: () async {
-                                          bool result =
-                                              await FlutterPhoneDirectCaller
-                                                  .callNumber(
-                                                      '${resturant.branches[index]['numtwo']}');
-                                          if (result) {
-                                            print('call');
-                                          }
-                                        },
-                                        child: Text(
-                                            ' - ${resturant.branches[index]['numtwo']}'),
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                            Divider()
-                          ],
-                        )
-                      : Container()
+                  // resturant.branches[index]['numone'] != null ||
+                  //         resturant.branches[index]['numtwo'] != null
+                  //     ? Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Row(
+                  //             children: [
+                  //               resturant.branches[index]['numone'] != null
+                  //                   ? GestureDetector(
+                  //                       onTap: () async {
+                  //                         bool result =
+                  //                             await FlutterPhoneDirectCaller
+                  //                                 .callNumber(
+                  //                                     '${resturant.branches[index]['numone']}');
+                  //                         if (result) {
+                  //                           print('call');
+                  //                         }
+                  //                       },
+                  //                       child: Text(resturant.branches[index]
+                  //                           ['numone']),
+                  //                     )
+                  //                   : Container(),
+                  //               resturant.branches[index]['numtwo'] != null
+                  //                   ? GestureDetector(
+                  //                       onTap: () async {
+                  //                         bool result =
+                  //                             await FlutterPhoneDirectCaller
+                  //                                 .callNumber(
+                  //                                     '${resturant.branches[index]['numtwo']}');
+                  //                         if (result) {
+                  //                           print('call');
+                  //                         }
+                  //                       },
+                  //                       child: Text(
+                  //                           ' - ${resturant.branches[index]['numtwo']}'),
+                  //                     )
+                  //                   : Container(),
+                  //             ],
+                  //           ),
+                  //
+                  //         ],
+                  //       )
+                  //     : Container()
                 ],
               )
             : Center(child: Text('لايوجد فروع'));
-      }, childCount: resturant.branches.length),
+      }, childCount: resturant!.branches!.length),
     );
   }
 }

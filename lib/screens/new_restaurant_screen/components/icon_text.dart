@@ -3,42 +3,46 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 class IconTextWidget extends StatelessWidget {
   const IconTextWidget(
-      {Key key,
+      {Key? key,
       @required this.icon,
       @required this.iconColor,
       @required this.iconSize,
       this.fontColor,
       this.fontSize,
-      @required this.text})
+      @required this.text, this.isImage = false, this.imagePath})
       : super(key: key);
-  final IconData icon;
-  final Color iconColor, fontColor;
-  final double fontSize, iconSize;
-  final String text;
+  final bool? isImage ;
+  final imagePath ;
+  final IconData? icon;
+  final Color? iconColor, fontColor;
+  final double? fontSize, iconSize;
+  final String? text;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
+       isImage == false?  Icon(
           icon,
           color: iconColor,
           size: iconSize,
-        ),
+        ) :Image.asset(imagePath , height: 18,),
         SizedBox(
-          width: getProportionateScreenWidth(5),
+          width: getProportionateScreenWidth(2),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: getProportionateScreenHeight(5),
+              height: getProportionateScreenHeight(6),
             ),
             Text(
-              text,
+              text.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: fontColor ?? Colors.white,
-                  fontSize: fontSize ?? getProportionateScreenHeight(16)),
+                  color: fontColor ?? Color(0xff212121),
+                  fontSize: fontSize ?? getProportionateScreenHeight(16) ,
+                  fontWeight: FontWeight.w400
+              ),
             ),
           ],
         ),

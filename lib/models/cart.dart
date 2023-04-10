@@ -1,10 +1,10 @@
 import 'package:menu_egypt/models/cart_item.dart';
 
 class CartModel {
-  int resturantId = 0, deliveryTime = 0;
-  num deliveryPrice = 0.0, subTotalPrice = 0.0, totalPrice = 0.0;
-  String resturantName = '', resturantLogo = '';
-  List<CartItemModel> cartItems = [];
+  int? resturantId = 0, deliveryTime = 0;
+  num? deliveryPrice = 0.0, subTotalPrice = 0.0, totalPrice = 0.0;
+  String? resturantName = '', resturantLogo = '' , orderName;
+  List<CartItemModel>? cartItems = [];
 
   CartModel({
     this.resturantId,
@@ -15,6 +15,7 @@ class CartModel {
     this.resturantName,
     this.resturantLogo,
     this.cartItems,
+    this.orderName
   });
 
   CartModel.fromJson(Map<String, dynamic> json) {
@@ -27,15 +28,16 @@ class CartModel {
       resturantName: json['resturantName'],
       resturantLogo: json['resturantLogo'],
       cartItems: json['cartItems'].forEach((e) {
-        cartItems.add(CartItemModel.fromJson(e));
+        cartItems!.add(CartItemModel.fromJson(e));
       }),
+      orderName: json['order_name']
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    List<Map> items = this.cartItems != null
-        ? this.cartItems.map((i) => i.toJson()).toList()
+    List<Map<String, dynamic>>? items = this.cartItems != null
+        ? this.cartItems!.map((i) => i.toJson()).toList()
         : null;
     data['resturantId'] = this.resturantId;
     data['deliveryTime'] = this.deliveryTime;
@@ -44,6 +46,7 @@ class CartModel {
     data['totalPrice'] = this.totalPrice;
     data['resturantName'] = this.resturantName;
     data['resturantLogo'] = this.resturantLogo;
+    data['order_name'] = this.orderName ;
     data['cartItems'] = items;
     return data;
   }

@@ -6,46 +6,59 @@ import '../utilities/size_config.dart';
 
 class CategoriesDropDownField extends StatelessWidget {
   const CategoriesDropDownField({
-    Key key,
-    @required this.value,
-    @required this.items,
-    @required this.onChanged,
+    Key? key,
+     this.value,
+     this.items,
+     this.onChanged,
   }) : super(key: key);
-  final CategoryModel value;
-  final Function onChanged;
-  final List<CategoryModel> items;
+  final CategoryModel? value;
+  final Function(CategoryModel)? onChanged;
+  final List<CategoryModel>? items;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-      height: getProportionateScreenHeight(36),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      height: getProportionateScreenHeight(50),
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.25),
+          color: Color(0xffF7F7F9),
+          border: Border.all(
+            color: Color(0xffE4E4E5)
+          ),
           borderRadius: BorderRadius.circular(kDefaultPadding / 1.5)),
       child: new DropdownButton<CategoryModel>(
         value: value,
+        icon: Image.asset("assets/icons/Vector (1).png"),
+        dropdownColor: Colors.white,
+
         items: items
-            .map<DropdownMenuItem<CategoryModel>>((CategoryModel category) {
+            !.map<DropdownMenuItem<CategoryModel>>((CategoryModel category) {
           return new DropdownMenuItem<CategoryModel>(
             value: category,
-            child: new Text(category.nameAr),
+            child: new Text(category.nameAr!, style: TextStyle(
+              color: Colors.black,
+              fontSize: 18
+            )),
           );
         }).toList(),
         underline: Container(),
+
         selectedItemBuilder: (BuildContext context) {
-          return items.map<Widget>((value) {
+          return items!.map<Widget>((value) {
             return Align(
               alignment: Alignment.centerRight,
-              child: Text(value.nameAr,
+              child: Text(value.nameAr!,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
+                    fontSize: 18 ,
+                      height:1.6
+
                   )),
             );
           }).toList();
         },
         isExpanded: true,
-        itemHeight: getProportionateScreenHeight(50),
-        onChanged: onChanged,
+        // itemHeight: getProportionateScreenHeight(50),
+        onChanged: (value) =>onChanged!(value!),
       ),
     );
   }

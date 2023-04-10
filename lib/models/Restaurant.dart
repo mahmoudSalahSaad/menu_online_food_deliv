@@ -1,18 +1,18 @@
 class RestaurantModel {
-  final int id;
-  final String nameAr;
-  final String nameEn;
-  final String logoSmall;
-  final String phoneNumber1, phoneNumber2, phoneNumber3;
-  final int categoryId;
-  final String viewTimes;
-  final int review;
-  String date;
-  List<String> images;
-  List<Map<String, dynamic>> branches;
-  List<int> regions;
-  List<String> areas;
-  String isOnline, isOutOfTime;
+  final int? id;
+  final String? nameAr;
+  final String? nameEn;
+  final String? logoSmall;
+  final String? phoneNumber1, phoneNumber2, phoneNumber3;
+  final int? categoryId;
+  final String? viewTimes;
+  final int? review;
+  String? date;
+  List<String>? images;
+  List<Map<String, dynamic>>? branches;
+  List<int>? regions;
+  List<String>? areas;
+  String? isOnline, isOutOfTime;
 
   RestaurantModel({
     this.id,

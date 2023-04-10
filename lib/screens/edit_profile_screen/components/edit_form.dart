@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class EditForm extends StatefulWidget {
   EditForm(
-      {Key key,
+      {Key? key,
       this.formKey,
       this.formData,
       this.cities,
@@ -26,25 +26,25 @@ class EditForm extends StatefulWidget {
 
   final formKey;
   final formData;
-  final List<CityModel> cities;
-  List<RegionModel> regions;
-  CityModel city;
-  RegionModel region;
+  final List<CityModel>? cities;
+  List<RegionModel>? regions;
+  CityModel? city;
+  RegionModel? region;
   @override
   _EditFormState createState() => _EditFormState();
 }
 
 class _EditFormState extends State<EditForm> {
   final List<String> errors = [];
-  UserModel user;
-  void addError({String error}) {
+  UserModel? user;
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -70,10 +70,11 @@ class _EditFormState extends State<EditForm> {
                 height: getProportionateScreenHeight(5),
               ),
               InputTextField(
-                intialValue: user.fullName != null ? user.fullName : '',
+                intialValue: user!.fullName != null ? user!.fullName : '',
                 textInputType: TextInputType.name,
                 labelText: "الأسم",
-                border: false,
+                iconPath: "assets/icons/Group 1000000781.png",
+                border: true,
                 onSaved: (String newValue) =>
                     widget.formData['fullName'] = newValue,
                 onChanged: (String value) {
@@ -96,12 +97,16 @@ class _EditFormState extends State<EditForm> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: getProportionateScreenHeight(12),
+              ),
               IgnorePointer(
                 child: InputTextField(
-                  intialValue: user.email != null ? user.email : '',
+                  intialValue: user!.email ?? '',
                   textInputType: TextInputType.emailAddress,
                   labelText: "البريد إلالكترونى",
-                  border: false,
+                  border: true,
+                  iconPath: "assets/icons/mail.png",
                   onSaved: (String newValue) =>
                       widget.formData['email'] = newValue,
                   onChanged: (String value) {
@@ -125,11 +130,15 @@ class _EditFormState extends State<EditForm> {
                   },
                 ),
               ),
+              SizedBox(
+                height: getProportionateScreenHeight(12),
+              ),
               InputTextField(
-                intialValue: user.phoneNumber != null ? user.phoneNumber : '',
+                intialValue:  user!.phoneNumber ?? '',
                 textInputType: TextInputType.phone,
                 labelText: "الموبايل",
-                border: false,
+                border: true,
+                  iconPath: "assets/icons/phone.png",
                 onSaved: (String newValue) =>
                     widget.formData['phoneNumber'] = newValue,
                 onChanged: (String value) {
@@ -152,9 +161,12 @@ class _EditFormState extends State<EditForm> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: getProportionateScreenHeight(12),
+              ),
               CityDropDownField(
                 items: widget.cities,
-                text: user.cityId == null ? 'اختار المحافظة' : '',
+                text: user!.cityId == null ? 'اختار المحافظة' : '',
                 value: widget.formData['cityId'] == null ? null : widget.city,
                 onChanged: (CityModel city) {
                   setState(() {
@@ -162,17 +174,20 @@ class _EditFormState extends State<EditForm> {
                     widget.formData['cityId'] = city.cityId;
                     widget.regions =
                         Provider.of<RegionProvider>(context, listen: false)
-                            .regionsOfCity(widget.city.cityId);
-                    widget.formData['regionId'] = widget.regions[0].regionId;
-                    widget.region = widget.regions[0];
+                            .regionsOfCity(widget.city!.cityId!);
+                    widget.formData['regionId'] = widget.regions![0].regionId;
+                    widget.region = widget.regions![0];
                   });
                 },
               ),
+              SizedBox(
+                height: getProportionateScreenHeight(12),
+              ),
               RegionDropDownField(
-                items: widget.regions,
-                text: user.regionId == null ? 'اختار المنطقة' : '',
+                items: widget.regions!,
+                text: user!.regionId == null ? 'اختار المنطقة' : '',
                 value:
-                    widget.formData['regionId'] == null ? null : widget.region,
+                    widget.formData['regionId'] !?? widget.region!,
                 onChanged: (RegionModel region) {
                   setState(() {
                     widget.region = region;

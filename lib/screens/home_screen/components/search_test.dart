@@ -6,23 +6,23 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 
 class SearchTestBar extends StatelessWidget {
-  const SearchTestBar({Key key, @required this.restaurantProvider})
+  const SearchTestBar({Key? key,  this.restaurantProvider})
       : super(key: key);
 
-  final RestaurantsProvider restaurantProvider;
+  final RestaurantsProvider? restaurantProvider;
 
   List<String> getSuggestions(String query) {
     List<String> matches = [];
-    restaurantProvider.restaurants.forEach((restaurant) {
+    restaurantProvider!.restaurants.forEach((restaurant) {
       if (query != "") {
         String resturantEn =
-            restaurant.nameEn.toLowerCase().removeAllWhitespace;
+            restaurant.nameEn!.toLowerCase().removeAllWhitespace;
 
         if (resturantEn.contains(query.toLowerCase().removeAllWhitespace)) {
-          matches.add(restaurant.nameEn);
-        } else if (restaurant.nameAr.removeAllWhitespace
+          matches.add(restaurant.nameEn!);
+        } else if (restaurant.nameAr!.removeAllWhitespace
             .contains(query.removeAllWhitespace)) {
-          matches.add(restaurant.nameAr);
+          matches.add(restaurant.nameAr!);
         }
       }
     });

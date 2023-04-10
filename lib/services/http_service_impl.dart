@@ -8,17 +8,17 @@ const APP_TOKEN =
     '\$2y\$10\$HCLhSzCVc2/Ph3pC5MHiU.gxhRZeUuUQJDWwZWcqVcw4vQ0OIiZsy';
 
 class HttpServiceImpl implements HttpService {
-  Dio _dio;
+  Dio? _dio;
   @override
-  Future<Response> getRequest(String url, token) async {
+  Future<Response> getRequest(String? url, token) async {
     Response response;
     try {
       if (token != null) {
-        _dio.options.headers['Authorization'] = "Bearer $token";
+        _dio!.options.headers['Authorization'] = "Bearer $token";
       }
-      response = await _dio.get(url);
+      response = await _dio!.get(url!);
     } on DioError catch (e) {
-      response = e.response;
+      response = e.response!;
     }
 
     return response;
@@ -28,14 +28,14 @@ class HttpServiceImpl implements HttpService {
   Future<Response> postRequest(String url, postData, token) async {
     Response response;
     try {
-      response = await _dio.post(url,
+      response = await _dio!.post(url,
           data: postData,
           options: Options(headers: {
             "Authorization": "Bearer $token",
             "Language" : "ar"
           }));
     } on DioError catch (e) {
-      response = e.response;
+      response = e.response!;
     }
     return response;
   }

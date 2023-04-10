@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RestaurantsProvider extends ChangeNotifier {
   bool _isLoading = false;
-  RestaurantModel _restaurant;
+  RestaurantModel? _restaurant;
   List<RestaurantModel> _restaurants = [];
   List<RestaurantModel> _mostViewRestaurants = [];
   List<RestaurantModel> _filterRestaurants = [];
@@ -29,7 +29,7 @@ class RestaurantsProvider extends ChangeNotifier {
   }
 
   RestaurantModel get restaurant {
-    return _restaurant;
+    return _restaurant!;
   }
 
   List<RestaurantModel> get restaurants {
@@ -88,6 +88,7 @@ class RestaurantsProvider extends ChangeNotifier {
     httpService.init();
     //final List<RestaurantModel> restaurants = [];
     _comments.clear();
+    _restaurant = null ;
     final List<Map<String, dynamic>> restaurantBranches = [];
     final List<String> restaurantImages = [];
     final List<int> regionsResult = [];
@@ -97,6 +98,7 @@ class RestaurantsProvider extends ChangeNotifier {
       //SharedPreferences preferences = await SharedPreferences.getInstance();
       //String accessToken = preferences.getString('accessToken');
       Response response = await httpService.postRequest(url, {'id': id}, '');
+      restaurantImages.clear();
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         print(response);
         var parsedRestaurants = response.data['data']['restaurant'];
@@ -157,19 +159,19 @@ class RestaurantsProvider extends ChangeNotifier {
           _sliderImagesLink = parsedSliderImagesLink;
         }
 
-        double views = parsedRestaurants['view_times'] / 1.5;
-        String viewsdata;
-        if (views < 1000) {
-          views = num.parse(views.toStringAsFixed(1));
+        double? views = parsedRestaurants['view_times'] / 1.5;
+        String? viewsdata;
+        if (views! < 1000) {
+          views = num.parse(views.toStringAsFixed(1)) as double?;
 
-          viewsdata = ((views / 10).ceil() * 10).toString();
+          viewsdata = ((views! / 10).ceil() * 10).toString();
         } else if (views >= 1000 && views < 1000000) {
           var viewsCount = views * (1 / 1000);
           var viewsK = (viewsCount).round();
 
           viewsdata = viewsK.toString() + 'K';
         } else if (views >= 1000000) {
-          var viewsCount = views * (1 / 1000000);
+          num? viewsCount = views * (1 / 1000000);
 
           viewsCount = num.parse(viewsCount.toStringAsFixed(1));
 
@@ -230,8 +232,10 @@ class RestaurantsProvider extends ChangeNotifier {
 
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String accessToken = preferences.getString('accessToken');
-      Response response = await httpService.getRequest(url, accessToken);
+      String? accessToken = preferences.getString('accessToken');
+      Response response = await httpService.getRequest(url, accessToken??'');
+
+
       var parsedRestaurants = response.data['data']['restaurants'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         print(response);
@@ -275,8 +279,8 @@ class RestaurantsProvider extends ChangeNotifier {
 
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String accessToken = preferences.getString('accessToken');
-      Response response = await httpService.getRequest(url, accessToken);
+      String? accessToken = preferences.getString('accessToken');
+      Response response = await httpService.getRequest(url, accessToken??'');
       var parsedRestaurants = response.data['data']['restaurants'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         parsedRestaurants.forEach((restaurantObject) {
@@ -400,7 +404,7 @@ class RestaurantsProvider extends ChangeNotifier {
     String url = '/restaurantsimages';
     httpService.init();
     final List<String> restaurantImages = [];
-    String latestDate;
+    String? latestDate;
     try {
       Response response = await httpService.postRequest(
           url, {'restaurant_id': restaurantModel.id}, '');
@@ -413,7 +417,7 @@ class RestaurantsProvider extends ChangeNotifier {
           latestDate = restaurantObject['updated_at'];
         });
         restaurantModel.date =
-            DateFormat('dd/MM/yyyy').format(DateTime.parse(latestDate));
+            DateFormat('dd/MM/yyyy').format(DateTime.parse(latestDate!));
         restaurantModel.images = restaurantImages;
         result['success'] = true;
       }
@@ -630,19 +634,19 @@ class RestaurantsProvider extends ChangeNotifier {
           _sliderImagesLink = parsedSliderImagesLink;
         }
 
-        double views = parsedRestaurants['view_times'] / 1.5;
-        String viewsdata;
-        if (views < 1000) {
-          views = num.parse(views.toStringAsFixed(1));
+        double? views = parsedRestaurants['view_times'] / 1.5;
+        String? viewsdata;
+        if (views! < 1000) {
+          views = num.parse(views.toStringAsFixed(1)) as double?;
 
-          viewsdata = ((views / 10).ceil() * 10).toString();
+          viewsdata = ((views! / 10).ceil() * 10).toString();
         } else if (views >= 1000 && views < 1000000) {
           var viewsCount = views * (1 / 1000);
           var viewsK = (viewsCount).round();
 
           viewsdata = viewsK.toString() + 'K';
         } else if (views >= 1000000) {
-          var viewsCount = views * (1 / 1000000);
+          num viewsCount = views * (1 / 1000000);
 
           viewsCount = num.parse(viewsCount.toStringAsFixed(1));
 

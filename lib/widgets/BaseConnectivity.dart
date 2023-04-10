@@ -16,8 +16,8 @@ import 'package:menu_egypt/widgets/BaseMessageScreen.dart';
 // Description: A base widget to checked internet connectivity
 
 class BaseConnectivity extends StatelessWidget {
-  final Widget child;
-  const BaseConnectivity({Key key, this.child}) : super(key: key);
+  final Widget? child;
+  const BaseConnectivity({Key? key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class BaseConnectivity extends StatelessWidget {
           return BaseMessageScreen();
         } else {
           //checkDataExistance(context);
-          return child;
+          return child!;
         }
       },
       builder: (BuildContext context) {

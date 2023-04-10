@@ -32,12 +32,12 @@ class _BodyState extends State<Body> {
     'categryId': null,
   };
 
-  List<CityModel> cities;
-  List<RegionModel> regions;
-  List<CategoryModel> categories;
-  CityModel city;
-  RegionModel region;
-  CategoryModel category;
+  List<CityModel>? cities;
+  List<RegionModel>? regions;
+  List<CategoryModel>? categories;
+  CityModel? city;
+  RegionModel? region;
+  CategoryModel? category;
 
   void _onSubmit(BuildContext context) async {
     Map<String, dynamic> result =
@@ -58,26 +58,26 @@ class _BodyState extends State<Body> {
 
     cities = cityProvider.cities;
     if (user.user != null) {
-      if (user.user.cityId != null) {
-        city = cityProvider.getCityById(user.user.cityId);
+      if (user.user!.cityId != null) {
+        city = cityProvider.getCityById(user.user!.cityId!);
 
-        regions = regionProvider.regionsOfCity(city.cityId);
-        region = regionProvider.getRegionById(user.user.regionId);
+        regions = regionProvider.regionsOfCity(city!.cityId!);
+        region = regionProvider.getRegionById(user.user!.regionId!);
       } else {
-        city = cities[0];
-        regions = regionProvider.regionsOfCity(city.cityId);
-        region = regions[15];
+        city = cities![0];
+        regions = regionProvider.regionsOfCity(city!.cityId!);
+        region = regions![15];
       }
     } else {
-      city = cities[0];
-      regions = regionProvider.regionsOfCity(city.cityId);
-      region = regions[15];
+      city = cities![0];
+      regions = regionProvider.regionsOfCity(city!.cityId!);
+      region = regions![15];
     }
     categories = Provider.of<CategoriesProvider>(context, listen: false)
         .filterCategories();
-    category = categories[0];
-    _formData['regionId'] = region.regionId;
-    _formData['categoryId'] = category.id;
+    category = categories![0];
+    _formData['regionId'] = region!.regionId;
+    _formData['categoryId'] = category!.id;
     super.initState();
   }
 
@@ -93,17 +93,17 @@ class _BodyState extends State<Body> {
                 withBack: true,
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               Align(
                 alignment: Alignment.center,
                 child: Image.asset('assets/images/menu-egypt-logo.png'),
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               CityDropDownField(
                   items: cities,
@@ -113,18 +113,18 @@ class _BodyState extends State<Body> {
                       city = cityModel;
                       regions =
                           Provider.of<RegionProvider>(context, listen: false)
-                              .regionsOfCity(city.cityId);
-                      if (cityModel.cityId == cities[18].cityId) {
-                        region = regions[24];
+                              .regionsOfCity(city!.cityId!);
+                      if (cityModel.cityId == cities![18].cityId) {
+                        region = regions![24];
                       } else {
-                        region = regions[0];
+                        region = regions![0];
                       }
-                      _formData['cityId'] = city.cityId;
-                      _formData['regionId'] = regions[0].regionId;
+                      _formData['cityId'] = city!.cityId;
+                      _formData['regionId'] = regions![0].regionId;
                     });
                   }),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               RegionDropDownField(
                 items: regions,
@@ -132,12 +132,12 @@ class _BodyState extends State<Body> {
                 onChanged: (RegionModel regionModel) {
                   setState(() {
                     region = regionModel;
-                    _formData['regionId'] = region.regionId;
+                    _formData['regionId'] = region!.regionId;
                   });
                 },
               ),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               CategoriesDropDownField(
                   value: category,
@@ -145,11 +145,11 @@ class _BodyState extends State<Body> {
                   onChanged: (CategoryModel categoryModel) {
                     setState(() {
                       category = categoryModel;
-                      _formData['categoryId'] = category.id;
+                      _formData['categoryId'] = category!.id;
                     });
                   }),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.02,
+                height: SizeConfig.screenHeight !* 0.02,
               ),
               Provider.of<RestaurantsProvider>(context).isLoading
                   ? LoadingCircle()
@@ -160,7 +160,7 @@ class _BodyState extends State<Body> {
                       child: Text(
                         'ابحث',
                         style:
-                            TextStyle(fontSize: SizeConfig.screenWidth * 0.06),
+                            TextStyle(fontSize: SizeConfig.screenWidth !* 0.06),
                       ),
                       color: kPrimaryColor,
                       textColor: kTextColor,

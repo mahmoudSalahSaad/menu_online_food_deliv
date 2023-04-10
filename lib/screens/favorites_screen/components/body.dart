@@ -33,7 +33,9 @@ class Body extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(kDefaultPadding),
                       child: Text(
-                          'ربما لايوجد مطاعم مفضلة أو يوجد مشكلة فى الانترنت الخاص بك حاول مرة أخرى '),
+                          'ربما لايوجد مطاعم مفضلة أو يوجد مشكلة فى الانترنت الخاص بك حاول مرة أخرى ' , style:  TextStyle(
+                        color: Colors.black
+                      ),),
                     ),
                   ),
                 )

@@ -1,10 +1,10 @@
 class ResturantProductModel {
-  Product product;
-  List<Sizes> sizes;
-  String firstAdditionTitle;
-  List<FirstAdditionsData> firstAdditionsData;
-  String secondAdditionTitle;
-  List<SecondAdditionsData> secondAdditionsData;
+  Product? product;
+  List<Sizes>? sizes;
+  String? firstAdditionTitle;
+  List<FirstAdditionsData>? firstAdditionsData;
+  String? secondAdditionTitle;
+  List<SecondAdditionsData>? secondAdditionsData;
 
   ResturantProductModel(
       {this.product,
@@ -20,21 +20,21 @@ class ResturantProductModel {
     if (json['sizes'] != null) {
       sizes = [];
       json['sizes'].forEach((v) {
-        sizes.add(new Sizes.fromJson(v));
+        sizes!.add(new Sizes.fromJson(v));
       });
     }
     firstAdditionTitle = json['first_addition_title'];
     if (json['first_additions_data'] != null) {
       firstAdditionsData = [];
       json['first_additions_data'].forEach((v) {
-        firstAdditionsData.add(new FirstAdditionsData.fromJson(v));
+        firstAdditionsData!.add(new FirstAdditionsData.fromJson(v));
       });
     }
     secondAdditionTitle = json['second_addition_title'];
     if (json['second_additions_data'] != null) {
       secondAdditionsData = [];
       json['second_additions_data'].forEach((v) {
-        secondAdditionsData.add(new SecondAdditionsData.fromJson(v));
+        secondAdditionsData!.add(new SecondAdditionsData.fromJson(v));
       });
     }
   }
@@ -42,34 +42,34 @@ class ResturantProductModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.product != null) {
-      data['product'] = this.product.toJson();
+      data['product'] = this.product!.toJson();
     }
     if (this.sizes != null) {
-      data['sizes'] = this.sizes.map((v) => v.toJson()).toList();
+      data['sizes'] = this.sizes!.map((v) => v.toJson()).toList();
     }
     data['first_addition_title'] = this.firstAdditionTitle;
     if (this.firstAdditionsData != null) {
       data['first_additions_data'] =
-          this.firstAdditionsData.map((v) => v.toJson()).toList();
+          this.firstAdditionsData!.map((v) => v.toJson()).toList();
     }
     data['second_addition_title'] = this.secondAdditionTitle;
     if (this.secondAdditionsData != null) {
       data['second_additions_data'] =
-          this.secondAdditionsData.map((v) => v.toJson()).toList();
+          this.secondAdditionsData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Product {
-  int id;
-  int restId;
-  int categoryId;
-  String title;
-  String image;
-  num price;
-  String shortDescription;
-  String productHaveSizes;
+  int? id;
+  int? restId;
+  int? categoryId;
+  String? title;
+  String? image;
+  num? price;
+  String? shortDescription;
+  String? productHaveSizes;
 
   Product(
       {this.id,
@@ -107,9 +107,9 @@ class Product {
 }
 
 class Sizes {
-  int id;
-  String title;
-  num price;
+  int? id;
+  String? title;
+  num? price;
 
   Sizes({this.id, this.title, this.price});
 
@@ -129,8 +129,8 @@ class Sizes {
 }
 
 class FirstAdditionsData {
-  int id;
-  String title;
+  int? id;
+  String? title;
 
   FirstAdditionsData({this.id, this.title});
 
@@ -148,8 +148,8 @@ class FirstAdditionsData {
 }
 
 class SecondAdditionsData {
-  int id;
-  String title;
+  int? id;
+  String? title;
 
   SecondAdditionsData({this.id, this.title});
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 
 class MenuWidgetSlider extends StatelessWidget {
-  const MenuWidgetSlider({Key key, @required this.image}) : super(key: key);
-  final String image;
+  const MenuWidgetSlider({Key? key,  this.image}) : super(key: key);
+  final String? image;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +15,7 @@ class MenuWidgetSlider extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: NetworkImage(image),
+            image: NetworkImage(image!),
           )),
         ),
       ],

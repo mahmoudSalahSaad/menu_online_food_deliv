@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   SignInForm({
-    Key key,
+    Key? key,
     this.formKey,
-    @required this.formData,
+     this.formData,
   }) : super(key: key);
-  final GlobalKey formKey;
+  final GlobalKey? formKey;
 
   final formData;
   @override
@@ -21,14 +21,14 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   final List<String> errors = [];
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -47,6 +47,7 @@ class _SignInFormState extends State<SignInForm> {
               textInputType: TextInputType.emailAddress,
               labelText: "البريد إلالكترونى",
               border: false,
+              iconPath: "assets/icons/mail.png",
               intialValue: userProvider.emailExist ?? '',
               onSaved: (String newValue) => widget.formData['email'] = newValue,
               onChanged: (String value) {
@@ -69,10 +70,15 @@ class _SignInFormState extends State<SignInForm> {
                 return null;
               },
             ),
+            SizedBox(
+              height: 12,
+            ),
             InputTextField(
               textInputType: TextInputType.visiblePassword,
               obscure: true,
               labelText: "الرقم السرى",
+              isPassword: true,
+              iconPath: "assets/icons/Group 1000000777.png",
               border: false,
               onSaved: (String newValue) =>
                   widget.formData['password'] = newValue,

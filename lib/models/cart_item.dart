@@ -1,10 +1,10 @@
 import 'package:menu_egypt/models/resturan_categories_and_products.dart';
 
 class CartItemModel {
-  int id, quantity, weightId, firstAddId, secondAddId;
-  num price, firstAddonPrice, secondAddonPrice;
-  String name, description, weight, firstAddonName, secondAddonName, photoUrl;
-  CatgeoryProduct product;
+  int? id, quantity, weightId, firstAddId, secondAddId;
+  num? price, firstAddonPrice, secondAddonPrice;
+  String? name, description, weight, firstAddonName, secondAddonName, photoUrl , comment , orderName;
+  CatgeoryProduct? product;
 
   CartItemModel({
     this.id,
@@ -22,6 +22,9 @@ class CartItemModel {
     this.secondAddonName,
     this.photoUrl,
     this.product,
+    this.comment ,
+    this.orderName
+
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +44,8 @@ class CartItemModel {
       secondAddonName: json['secondAddonName'],
       photoUrl: json['photoUrl'],
       product: CatgeoryProduct.fromJson(json['product']),
+      comment: json['comment'] ,
+      orderName: json['order_name']
     );
   }
 
@@ -59,7 +64,9 @@ class CartItemModel {
     data['weight'] = this.weight;
     data['firstAddonName'] = this.firstAddonName;
     data['secondAddonName'] = this.secondAddonName;
-    data['product'] = this.product.toJson();
+    data['product'] = this.product!.toJson();
+    data['comment'] = this.comment ;
+    data['order_name'] = this.orderName;
     return data;
   }
 }

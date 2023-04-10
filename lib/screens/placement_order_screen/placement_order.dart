@@ -9,7 +9,10 @@ import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
 
 class PlacementOrder extends StatefulWidget {
+  final String? orderName ;
   static String routeName = '/placement';
+
+  const PlacementOrder({Key? key, this.orderName}) : super(key: key);
 
   @override
   State<PlacementOrder> createState() => _PlacementOrderState();
@@ -30,7 +33,7 @@ class _PlacementOrderState extends State<PlacementOrder> {
       decoration: BoxDecoration(gradient: kBackgroundColor),
       child: BaseConnectivity(
         child: Scaffold(
-          body: cartProvider.isLoading ? LoadingCircle() : Body(),
+          body: Body(),
           bottomNavigationBar: BottomNavBarWidgetNew(index: 2),
         ),
       ),

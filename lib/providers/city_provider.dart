@@ -8,10 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CityProvider extends ChangeNotifier {
   bool _isLoading = false;
-  List<CityModel> _cities = [];
+  List<CityModel>? _cities = [];
   final HttpServiceImpl httpService = HttpServiceImpl();
-  UnmodifiableListView<CityModel> get cities {
-    return UnmodifiableListView(_cities);
+  List<CityModel> get cities {
+    return _cities!;
   }
 
   void setCities(List<CityModel> newCities) {
@@ -30,7 +30,7 @@ class CityProvider extends ChangeNotifier {
     httpService.init();
     final List<CityModel> cities = [];
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, "");
       print(response);
       var parsedCities = response.data['data']['cities'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
@@ -56,7 +56,10 @@ class CityProvider extends ChangeNotifier {
   }
 
   CityModel getCityById(int cityId) {
-    CityModel city = _cities.firstWhere((city) => city.cityId == cityId);
+    CityModel city = _cities!.firstWhere((city) => city.cityId == cityId ,orElse: ()=> CityModel(
+      cityId: null ,
+      nameAr: null
+    ));
     return city;
   }
 }

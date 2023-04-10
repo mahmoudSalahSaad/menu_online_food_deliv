@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
@@ -13,13 +14,13 @@ import 'package:menu_egypt/services/http_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
-  UserModel _user;
+  UserModel?_user;
   bool _isLoading = false;
   bool _isAuthenticated = false;
-  String _userCity;
-  String _userRegion;
-  String _emailExist;
-  int forgetPasswordUserId;
+  String? _userCity;
+  String? _userRegion;
+  String? _emailExist;
+  int? forgetPasswordUserId;
   List<String> _sliders = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   //final _facebookLogin = FacebookAuth.instance;
@@ -33,19 +34,19 @@ class UserProvider extends ChangeNotifier {
     return _isAuthenticated;
   }
 
-  UserModel get user {
+  UserModel? get user {
     return _user;
   }
 
-  String get userCity {
+  String? get userCity {
     return _userCity;
   }
 
-  String get userRegion {
+  String? get userRegion {
     return _userRegion;
   }
 
-  String get emailExist {
+  String? get emailExist {
     return _emailExist;
   }
 
@@ -131,9 +132,9 @@ class UserProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String? token = preferences.getString('apiToken');
       print(token);
-      Response response = await httpService.postRequest(url, userData, token);
+      Response response = await httpService.postRequest(url, userData, token??'');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         var parsedUser = response.data['user'];
@@ -152,7 +153,7 @@ class UserProvider extends ChangeNotifier {
           gender: parsedUser['gender'],
         );
         _user = user;
-        storeAuthUser(_user, token, true);
+        storeAuthUser(_user!, token!, true);
         result['success'] = true;
       } else {
         result['error'] = response.data['message'];
@@ -202,13 +203,13 @@ class UserProvider extends ChangeNotifier {
         );
 
         parsedFavorites.forEach((fav) {
-          user.favorites.add(fav['restaurant_id']);
+          user.favorites?.add(fav['restaurant_id']);
         });
 
         _user = user;
 
         if (response.data['user']['verified'] == 1) {
-          storeAuthUser(_user, response.data['user']['api_token'], true);
+          storeAuthUser(_user!, response.data['user']['api_token'], true);
           result['success'] = true;
           result['verified'] = 1;
           print('Login Success & Verified');
@@ -260,9 +261,9 @@ class UserProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String? token = preferences.getString('apiToken');
       print(token);
-      Response response = await httpService.postRequest(url, null, token);
+      Response response = await httpService.postRequest(url, {}, token!);
       print(response);
       if (response.statusCode == 200 &&
           response.data['message']
@@ -281,7 +282,7 @@ class UserProvider extends ChangeNotifier {
     });
 
     _user = null;
-    storeAuthUser(_user, '', false);
+    storeAuthUser(_user!, '', false);
     return result;
   }
 
@@ -374,13 +375,13 @@ class UserProvider extends ChangeNotifier {
   Future<UserCredential> googleConfigurations() async {
     UserCredential userCredential;
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
-    GoogleAuthCredential googleAuthCredential = GoogleAuthProvider.credential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken);
-    userCredential = await _auth.signInWithCredential(googleAuthCredential);
+    final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication? googleSignInAuthentication =
+        await googleSignInAccount?.authentication;
+    GoogleAuthCredential? googleAuthCredential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication?.idToken,
+        accessToken: googleSignInAuthentication?.accessToken) as GoogleAuthCredential?;
+    userCredential = await _auth.signInWithCredential(googleAuthCredential!);
     return userCredential;
   }
 
@@ -392,7 +393,7 @@ class UserProvider extends ChangeNotifier {
     httpService.init();
     try {
       Response response = await httpService.postRequest(
-          url, {'restaurant_id': restaurantId, 'user_id': _user.id}, '');
+          url, {'restaurant_id': restaurantId, 'user_id': _user!.id}, '');
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
       }
@@ -412,7 +413,7 @@ class UserProvider extends ChangeNotifier {
     httpService.init();
     try {
       Response response = await httpService.postRequest(
-          url, {'restaurant_id': restaurantId, 'user_id': _user.id}, '');
+          url, {'restaurant_id': restaurantId, 'user_id': _user!.id}, '');
 
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
@@ -428,7 +429,7 @@ class UserProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getUser() async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     final Map<String, dynamic> userData = {
-      'user_id': _user.id,
+      'user_id': _user!.id,
     };
     _isLoading = true;
     notifyListeners();
@@ -451,10 +452,10 @@ class UserProvider extends ChangeNotifier {
             authType: parsedUser['auth_type'],
             favorites: []);
         parsedFavorites.forEach((fav) {
-          userData.favorites.add(fav['restaurant_id']);
+          userData.favorites?.add(fav['restaurant_id']);
         });
         _user = userData;
-        storeAuthUser(_user, response.data['data']['access_token'], true);
+        storeAuthUser(_user!, response.data['data']['access_token'], true);
         result['success'] = true;
       } else {
         result['error'] = response.data['errors'];
@@ -468,25 +469,25 @@ class UserProvider extends ChangeNotifier {
   }
 
   void fetchUserCity(List<CityModel> cities) {
-    if (_user.cityId != null) {
-      var city = cities.firstWhere((city) => city.cityId == _user.cityId);
+    if (_user?.cityId != null) {
+      var city = cities.firstWhere((city) => city.cityId == _user!.cityId ,   orElse: ()=> CityModel(cityId: null, nameAr: null));
       _userCity = city.nameAr;
     }
   }
 
   void fetchUserRegion(List<RegionModel> regions) {
-    if (_user.regionId != null) {
+    if (_user?.regionId != null) {
       var region =
-          regions.firstWhere((region) => region.regionId == _user.regionId);
+          regions.firstWhere((region) => region.regionId == _user?.regionId);
       _userRegion = region.nameAr;
     }
   }
 
   Future<void> autoAuthenticated() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool isAuthenticated;
+    bool? isAuthenticated;
     preferences.getBool('userExistence') != null
-        ? isAuthenticated = preferences.getBool('userExistence')
+        ? isAuthenticated = preferences.getBool('userExistence')!
         : isAuthenticated = false;
     if (isAuthenticated) {
       var user = preferences.getString('user');
@@ -631,11 +632,11 @@ class UserProvider extends ChangeNotifier {
         );
 
         parsedFavorites.forEach((fav) {
-          user.favorites.add(fav['restaurant_id']);
+          user.favorites?.add(fav['restaurant_id']);
         });
 
         _user = user;
-        storeAuthUser(_user, response.data['data']['token'], true);
+        storeAuthUser(_user!, response.data['data']['token'], true);
         result['success'] = true;
         print('sucsess');
       } else {
@@ -655,7 +656,7 @@ class UserProvider extends ChangeNotifier {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     if (isAuth) {
       preferences.setStringList(
-          "favList", user.favorites.map((i) => i.toString()).toList());
+          "favList", user.favorites!.map((i) => i.toString()).toList());
       preferences.setBool('userExistence', true);
       Map<String, dynamic> userMap = user.toJson();
       preferences.setString('user', jsonEncode(userMap));
@@ -678,7 +679,7 @@ class UserProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String? token = preferences.getString('apiToken');
       print(token);
       Response response = await httpService.postRequest(url, code, token ?? '');
       print(response);
@@ -708,7 +709,7 @@ class UserProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String? token = preferences.getString('apiToken');
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
@@ -740,7 +741,7 @@ class UserProvider extends ChangeNotifier {
     String url = '/api-setting';
     httpService.init();
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
 
       if (response.statusCode == 200 && response.data['status'] == true) {

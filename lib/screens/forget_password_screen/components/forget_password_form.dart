@@ -8,7 +8,7 @@ import 'package:menu_egypt/utilities/constants.dart';
 class ForgetPasswordForm extends StatefulWidget {
   ForgetPasswordForm({this.formData, this.formKey});
 
-  final GlobalKey formKey;
+  final GlobalKey? formKey;
   final formData;
   @override
   _ForgetPasswordFormState createState() => _ForgetPasswordFormState();
@@ -17,14 +17,14 @@ class ForgetPasswordForm extends StatefulWidget {
 class _ForgetPasswordFormState extends State<ForgetPasswordForm> {
   final List<String> errors = [];
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -41,12 +41,15 @@ class _ForgetPasswordFormState extends State<ForgetPasswordForm> {
             textInputType: TextInputType.emailAddress,
             labelText: "البريد إلالكترونى",
             border: false,
+            iconPath: "assets/icons/mail.png",
             onSaved: (String newValue) => widget.formData['email'] = newValue,
             onChanged: (String value) {
               if (value.isNotEmpty) {
                 removeError(error: kEmailNullError);
                 if (emailValidatorRegExp.hasMatch(value)) {
                   removeError(error: kInvalidEmailError);
+                  widget.formData['email'] = value ;
+
                 }
               }
               return null;

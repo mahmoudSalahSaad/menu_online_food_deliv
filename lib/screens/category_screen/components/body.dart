@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
                   ),
                   Text('',
                       style: TextStyle(
-                        fontSize: SizeConfig.screenWidth * 0.09,
+                        fontSize: SizeConfig.screenWidth !* 0.09,
                       )),
                   RestaurantTileWidget(restaurants: restaurants)
                 ],

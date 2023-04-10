@@ -19,7 +19,7 @@ class HomeProvider extends ChangeNotifier {
   List<CityModel> _cities = [];
 
   HomeProvider() {
-    fetchData();
+     fetchData();
   }
 
   bool get isLoading {
@@ -59,7 +59,7 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String accessToken = preferences.getString('accessToken');
+      String accessToken = preferences.getString('accessToken')!;
       Response response = await httpService.getRequest(url, accessToken);
       var parsedRestaurants = response.data['data']['restaurants'] as List;
       var parsedCategories = response.data['data']['categories'] as List;

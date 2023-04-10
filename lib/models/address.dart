@@ -1,6 +1,6 @@
 class AddressModel {
-  int id, regionId, cityId;
-  String round,
+  int ?id, regionId, cityId;
+  String? round,
       apartment,
       street,
       building,

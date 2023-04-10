@@ -6,45 +6,59 @@ import '../utilities/size_config.dart';
 
 class CityDropDownField extends StatelessWidget {
   const CityDropDownField({
-    Key key,
-    @required this.value,
-    @required this.items,
-    @required this.onChanged,
+    Key? key,
+     this.value,
+     this.items,
+     this.onChanged,
   }) : super(key: key);
-  final CityModel value;
-  final Function onChanged;
-  final List<CityModel> items;
+  final CityModel? value;
+  final Function(CityModel)? onChanged;
+  final List<CityModel>? items;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-      height: getProportionateScreenHeight(36),
+      height: getProportionateScreenHeight(50),
+
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.25),
+          color: Color(0xffF7F7F9),
+          border: Border.all(color:Color(0xffE4E4E5) ),
           borderRadius: BorderRadius.circular(kDefaultPadding / 1.5)),
       child: new DropdownButton<CityModel>(
         value: value,
-        items: items.map<DropdownMenuItem<CityModel>>((CityModel city) {
+        dropdownColor:Colors.white,
+        icon: Image.asset("assets/icons/Vector (1).png"),
+        items: items!.map<DropdownMenuItem<CityModel>>((CityModel city) {
           return new DropdownMenuItem<CityModel>(
             value: city,
-            child: new Text(city.nameAr),
+
+            child: new Text(city.nameAr!,style: TextStyle(
+              color: Colors.black,
+            )),
           );
         }).toList(),
         underline: Container(),
         selectedItemBuilder: (BuildContext context) {
-          return items.map<Widget>((value) {
+          return items!.map<Widget>((value) {
             return Align(
               alignment: Alignment.centerRight,
-              child: Text(value.nameAr,
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
+              child: Row(
+                children: [
+
+                  Text(value.nameAr!,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18 ,
+                        height: 2.0
+                      ))
+                ],
+              ),
             );
           }).toList();
         },
         isExpanded: true,
-        onChanged: onChanged,
-        itemHeight: getProportionateScreenHeight(50),
+        onChanged: (value)=>onChanged!(value!),
+        // itemHeight: getProportionateScreenHeight(30),
       ),
     );
   }

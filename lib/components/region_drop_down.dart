@@ -5,45 +5,58 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 class RegionDropDownField extends StatelessWidget {
   const RegionDropDownField({
-    Key key,
-    @required this.value,
-    @required this.items,
-    @required this.onChanged,
+    Key? key,
+     this.value,
+     this.items,
+     this.onChanged,
   }) : super(key: key);
-  final RegionModel value;
-  final Function onChanged;
-  final List<RegionModel> items;
+  final RegionModel? value;
+  final Function(RegionModel)? onChanged;
+  final List<RegionModel>? items;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-      height: getProportionateScreenHeight(36),
+      height: getProportionateScreenHeight(50),
       decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.25),
+          color: Color(0xffF7F7F9),
+          border: Border.all(color: Color(0xffE4E4E5)),
           borderRadius: BorderRadius.circular(kDefaultPadding / 1.5)),
       child: new DropdownButton<RegionModel>(
         value: value,
-        items: items.map<DropdownMenuItem<RegionModel>>((RegionModel region) {
+        icon: Image.asset("assets/icons/Vector (1).png"),
+        dropdownColor: Colors.white,
+        items: items!.map<DropdownMenuItem<RegionModel>>((RegionModel region) {
           return new DropdownMenuItem<RegionModel>(
             value: region,
-            child: new Text(region.nameAr),
+            child: new Text(region.nameAr , style: TextStyle(
+              color: Colors.black ,
+              fontSize: 18
+            ),),
           );
         }).toList(),
         underline: Container(),
         selectedItemBuilder: (BuildContext context) {
-          return items.map<Widget>((value) {
+          return items!.map<Widget>((value) {
             return Align(
               alignment: Alignment.centerRight,
-              child: Text(value.nameAr,
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
+              child: Row(
+                children: [
+
+                  Text(value.nameAr,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18 ,
+                          height: 2.0
+                      ))
+                ],
+              ),
             );
           }).toList();
         },
         isExpanded: true,
-        onChanged: onChanged,
-        itemHeight: getProportionateScreenHeight(50),
+        onChanged: (RegionModel? model)=> onChanged,
+        // itemHeight: getProportionateScreenHeightreenHeight(50),
       ),
     );
   }

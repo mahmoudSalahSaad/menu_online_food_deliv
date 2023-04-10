@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'package:menu_egypt/utilities/constants.dart';
+
 import 'package:menu_egypt/utilities/provider.dart';
 import 'package:menu_egypt/widgets/BaseConnectivity.dart';
 import 'package:provider/provider.dart';
 
 import 'package:menu_egypt/utilities/routes.dart';
-import 'package:menu_egypt/utilities/theme.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,12 +40,9 @@ class _MyAppState extends State<MyApp> {
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-                primaryColor: kAppBarColor,
-                cardColor: Colors.black,
-                brightness: Brightness.dark,
-                scaffoldBackgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
                 fontFamily: 'DroidArabic',
-                appBarTheme: appBarTheme()),
+               ),
             textDirection: TextDirection.rtl,
             initialRoute: '/',
             routes: routes,

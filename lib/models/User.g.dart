@@ -13,12 +13,12 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     regionId: json['regionId'] as int,
     fullName: json['fullName'] as String,
     email: json['email'] as String,
-    password: json['password'] as String,
-    phoneNumber: json['phoneNumber'] as String,
-    avatarUrl: json['avatarUrl'] as String,
-    favorites: (json['favorites'] as List)?.map((e) => e as int)?.toList(),
-    authType: json['authType'] as String,
-    gender: json['gender'] as String,
+
+    phoneNumber: json['phoneNumber'] ,
+    avatarUrl: json['avatarUrl'] ,
+    favorites: (json['favorites'] as List).map((e) => e as int).toList(),
+    authType: json['authType'] ,
+    gender: json['gender'] ,
     birthDate: json['birthDate'] as String,
     apiToken: json['apiToken'] as String,
   );
@@ -30,7 +30,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'regionId': instance.regionId,
       'fullName': instance.fullName,
       'email': instance.email,
-      'password': instance.password,
+
       'phoneNumber': instance.phoneNumber,
       'avatarUrl': instance.avatarUrl,
       'authType': instance.authType,

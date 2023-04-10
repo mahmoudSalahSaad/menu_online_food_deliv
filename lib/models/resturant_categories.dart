@@ -1,8 +1,8 @@
 class ResturantCategoriesModel {
-  int restId;
-  num deliveryFee;
-  int deliveryTime;
-  List<CatgeoriesList> catgeoriesList;
+  int? restId;
+  num? deliveryFee;
+  int? deliveryTime;
+  List<CatgeoriesList>? catgeoriesList;
 
   ResturantCategoriesModel(
       {this.restId, this.deliveryFee, this.deliveryTime, this.catgeoriesList});
@@ -14,7 +14,7 @@ class ResturantCategoriesModel {
     if (json['catgeories_list'] != null) {
       catgeoriesList = [];
       json['catgeories_list'].forEach((v) {
-        catgeoriesList.add(new CatgeoriesList.fromJson(v));
+        catgeoriesList!.add(new CatgeoriesList.fromJson(v));
       });
     }
   }
@@ -24,16 +24,16 @@ class ResturantCategoriesModel {
     data['rest_id'] = this.restId;
     if (this.catgeoriesList != null) {
       data['catgeories_list'] =
-          this.catgeoriesList.map((v) => v.toJson()).toList();
+          this.catgeoriesList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CatgeoriesList {
-  int catgeoryId;
-  String catgeoryTitle;
-  List<CatgeoryProducts> catgeoryProducts;
+  int? catgeoryId;
+  String? catgeoryTitle;
+  List<CatgeoryProducts>? catgeoryProducts;
 
   CatgeoriesList({this.catgeoryId, this.catgeoryTitle, this.catgeoryProducts});
 
@@ -43,7 +43,7 @@ class CatgeoriesList {
     if (json['catgeory_products'] != null) {
       catgeoryProducts = [];
       json['catgeory_products'].forEach((v) {
-        catgeoryProducts.add(new CatgeoryProducts.fromJson(v));
+        catgeoryProducts!.add(new CatgeoryProducts.fromJson(v));
       });
     }
   }
@@ -54,21 +54,21 @@ class CatgeoriesList {
     data['catgeory_title'] = this.catgeoryTitle;
     if (this.catgeoryProducts != null) {
       data['catgeory_products'] =
-          this.catgeoryProducts.map((v) => v.toJson()).toList();
+          this.catgeoryProducts!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CatgeoryProducts {
-  int id;
-  String title;
-  String image;
-  num price;
-  num minPrice;
-  num maxPrice;
-  String shortDescription;
-  String haveSizes;
+  int? id;
+  String? title;
+  String? image;
+  num? price;
+  num? minPrice;
+  num? maxPrice;
+  String? shortDescription;
+  String? haveSizes;
 
   CatgeoryProducts(
       {this.id,

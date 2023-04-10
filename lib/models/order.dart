@@ -1,16 +1,20 @@
 class OrderModel {
-  int id;
-  int restId;
-  String restName;
-  String restLogo;
-  String operationDate;
-  String serialNumber;
-  int countItems;
-  num total;
-  String orderStatus;
+  int? id;
+  int? restId;
+  String? restName;
+  String? restLogo;
+  String? orderName ;
+  String? operationDate;
+  String? serialNumber;
+  int? countItems;
+  num? total;
+  String? orderStatus;
+
 
   OrderModel(
-      {this.restId,
+      {
+      this.orderName ,
+      this.restId,
       this.restName,
       this.restLogo,
       this.id,
@@ -24,10 +28,11 @@ class OrderModel {
     restId = json['rest_details']['id'];
     restName = json['rest_details']['name'];
     restLogo = json['rest_details']['logo'];
-
+    orderName = json['order_details']['order_name'] ;
     id = json['order_details']['id'];
     operationDate = json['order_details']['date'];
     serialNumber = json['order_details']['serial_number'];
+
     countItems = json['order_details']['count_items'];
     total = json['order_details']['total'];
     orderStatus = json['order_details']['order_status'];
@@ -38,7 +43,7 @@ class OrderModel {
     data['rest_details']['id'] = this.restId;
     data['rest_details']['name'] = this.restName;
     data['rest_details']['logo'] = this.restLogo;
-
+    data['order_details']['order_name'] = this.orderName ;
     data['order_details']['id'] = this.id;
     data['order_details']['date'] = this.operationDate;
     data['order_details']['serial_number'] = this.serialNumber;

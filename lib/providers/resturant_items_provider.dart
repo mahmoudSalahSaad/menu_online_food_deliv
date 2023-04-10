@@ -7,24 +7,24 @@ import 'package:menu_egypt/services/http_service_impl.dart';
 
 class ResturantItemsProvider extends ChangeNotifier {
   bool _isLoading = false;
-  ResturantCategoriesModel _resturantCategoriesModel;
-  ResturantProductModel _resturantProductModel;
-  ResturantCategoriesAndProducts _resturantCategoriesAndProducts;
+  ResturantCategoriesModel? _resturantCategoriesModel;
+  ResturantProductModel? _resturantProductModel;
+  ResturantCategoriesAndProducts? _resturantCategoriesAndProducts;
   final HttpServiceImpl httpService = HttpServiceImpl();
 
   bool get isLoading {
     return _isLoading;
   }
 
-  ResturantCategoriesModel get resturantCategoriesModel {
+  ResturantCategoriesModel? get resturantCategoriesModel {
     return _resturantCategoriesModel;
   }
 
-  ResturantProductModel get resturantProductModel {
+  ResturantProductModel? get resturantProductModel {
     return _resturantProductModel;
   }
 
-  ResturantCategoriesAndProducts get resturantCategoriesAndProducts {
+  ResturantCategoriesAndProducts? get resturantCategoriesAndProducts {
     return _resturantCategoriesAndProducts;
   }
 
@@ -36,7 +36,7 @@ class ResturantItemsProvider extends ChangeNotifier {
     String url = '/view-full-resturant/$resturantId';
     httpService.init();
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print(response);
@@ -72,7 +72,7 @@ class ResturantItemsProvider extends ChangeNotifier {
     String url = '/view-resturant/$resturantId';
     httpService.init();
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print(response);
@@ -107,7 +107,7 @@ class ResturantItemsProvider extends ChangeNotifier {
     String url = '/view-resturant-product/$productId';
     httpService.init();
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print(response);
@@ -143,7 +143,7 @@ class ResturantItemsProvider extends ChangeNotifier {
     String url = '/view-full-resturant-v2/$restUrl';
     httpService.init();
     try {
-      Response response = await httpService.getRequest(url, null);
+      Response response = await httpService.getRequest(url, '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
         print(response);

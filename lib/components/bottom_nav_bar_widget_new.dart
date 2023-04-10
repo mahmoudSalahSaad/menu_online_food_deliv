@@ -10,6 +10,7 @@ import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/screens/orders_screen/my_orders.dart';
 import 'package:menu_egypt/screens/profile_screen/profile_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
+import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,8 +18,8 @@ import '../screens/sign_in_screen/sign_in_screen.dart';
 
 // ignore: must_be_immutable
 class BottomNavBarWidgetNew extends StatefulWidget {
-  BottomNavBarWidgetNew({Key key, this.index}) : super(key: key);
-  int index;
+  BottomNavBarWidgetNew({Key? key, this.index}) : super(key: key);
+  int? index;
   @override
   _BottomNavBarWidgetNewState createState() => _BottomNavBarWidgetNewState();
 }
@@ -29,7 +30,7 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
   @override
   void initState() {
     if (widget.index != null) {
-      _index = widget.index;
+      _index = widget.index!;
     }
     super.initState();
   }
@@ -44,43 +45,36 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
         BottomNavigationBar(
           elevation: 0.0,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: kBottomNavBarBackgroundColor,
-          selectedItemColor: kPrimaryColor,
-          unselectedItemColor: kTextColor,
+
+          backgroundColor: Colors.white,
+          selectedItemColor: Color(0xffB90101),
+          unselectedItemColor: Color(0xff7D848D),
           items: [
             BottomNavigationBarItem(
-                backgroundColor: kBottomNavBarBackgroundColor,
-                icon: Icon(
-                  FontAwesomeIcons.utensils,
-                  size: 30,
-                ),
-                label: "الرئيسية"),
+                icon : widget.index == 0 ? Image.asset("assets/icons/Group 41.png" , scale: 4, height: 20,) : Image.asset("assets/icons/Group 41 (1).png" , scale: 4,height: 20,),
+                label: "الرئيسية" ,
+            ),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
-                icon: Icon(
-                  FontAwesomeIcons.listCheck,
-                  size: 30,
-                ),
+                icon: widget.index == 1 ? Image.asset("assets/icons/Group 1000000724 (1).png" , height: 20,) : Image.asset("assets/icons/Group 1000000724.png" ,height: 20,),
                 label: "طلباتى"),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
                 icon: Stack(
-                  alignment: Alignment.topLeft,
+                  // alignment: Alignment.topLeft,
                   children: [
-                    Icon(
-                      FontAwesomeIcons.cartShopping,
-                      size: 30,
+                    Align(alignment: Alignment.center,
+                    child:  widget.index == 2 ? Image.asset("assets/icons/Group 1000000722 (1).png" , height: 24,) : Image.asset("assets/icons/Group 1000000722.png" ,height: 24,),
                     ),
                     Consumer<CartProvider>(
                       builder: (context, value, child) {
-                        return cartProvider.cart != null &&
-                                cartProvider.cart.cartItems.isNotEmpty
+                        return cartProvider.cart.cartItems!.isNotEmpty
                             ? CircleAvatar(
                                 radius: 11,
                                 backgroundColor: Colors.redAccent,
                                 child: Text(
-                                  cartProvider.cart != null
-                                      ? '${cartProvider.cart.cartItems.length}'
+                                  cartProvider.cart.cartItems!.isNotEmpty
+                                      ? '${cartProvider.cart.cartItems!.length}'
                                       : '0',
                                   style: TextStyle(color: Colors.white),
                                 ),
@@ -90,20 +84,15 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                     ),
                   ],
                 ),
-                label: "السلة"),
+                label: "السلة"
+            ),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
-                icon: Icon(
-                  FontAwesomeIcons.heart,
-                  size: 30,
-                ),
+                icon: widget.index == 3 ? Image.asset("assets/icons/Group 1000000723 (3).png" , height: 24,) : Image.asset("assets/icons/Group 1000000723 (2).png" ,height: 24,),
                 label: "المفضلة"),
             BottomNavigationBarItem(
                 backgroundColor: kBottomNavBarBackgroundColor,
-                icon: Icon(
-                  FontAwesomeIcons.user,
-                  size: 30,
-                ),
+                icon:widget.index == 4 ? Image.asset("assets/icons/Icon-4.png" , height: 24,) : Image.asset("assets/icons/Icon.png" , height: 24,),
                 label: "حسابى"),
           ],
           currentIndex: _index,
@@ -136,7 +125,7 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                           .favorites;
                   */
                   List<String> savedFavsStrList =
-                      prefs.getStringList('favList');
+                      prefs.getStringList('favList')!;
                   List<int> intFavList =
                       savedFavsStrList.map((i) => int.parse(i)).toList();
                   Provider.of<RestaurantsProvider>(context, listen: false)

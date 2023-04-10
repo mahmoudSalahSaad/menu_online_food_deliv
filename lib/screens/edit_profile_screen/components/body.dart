@@ -15,6 +15,7 @@ import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 enum Gender { male, female }
 
@@ -25,7 +26,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   Gender _gender = Gender.male;
-  String birthDate;
+  String? birthDate;
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'fullName': null,
@@ -36,16 +37,16 @@ class _BodyState extends State<Body> {
     'gender': null,
     'birth_date': null
   };
-  CityModel city;
-  RegionModel region;
+  CityModel? city;
+  RegionModel? region;
   void onSubmit() async {
-    if (!_formKey.currentState.validate() ||
+    if (!_formKey.currentState!.validate() ||
         _formData['cityId'] == null ||
         _formData['regionId'] == null) {
       return;
     }
-    _formKey.currentState.save();
-    _formData['birth_date'] = birthDate;
+    _formKey.currentState!.save();
+    _formData['birth_date'] = DateFormat("yyyy-MM-dd").format(_selectedDate);
     _formData['gender'] = _gender.toString().split('Gender.')[1];
     var result = await Provider.of<UserProvider>(context, listen: false)
         .editUserData(_formData);
@@ -59,27 +60,27 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     _formData['regionId'] =
-        Provider.of<UserProvider>(context, listen: false).user.regionId;
+        Provider.of<UserProvider>(context, listen: false).user!.regionId!;
     _formData['cityId'] =
-        Provider.of<UserProvider>(context, listen: false).user.cityId;
+        Provider.of<UserProvider>(context, listen: false).user!.cityId!;
     _formData['email'] =
-        Provider.of<UserProvider>(context, listen: false).user.email;
+        Provider.of<UserProvider>(context, listen: false).user!.email;
     _formData['fullname'] =
-        Provider.of<UserProvider>(context, listen: false).user.fullName;
+        Provider.of<UserProvider>(context, listen: false).user!.fullName;
     _formData['phoneNumber'] =
-        Provider.of<UserProvider>(context, listen: false).user.phoneNumber;
+        Provider.of<UserProvider>(context, listen: false).user!.phoneNumber;
     _formData['gender'] =
-        Provider.of<UserProvider>(context, listen: false).user.gender;
+        Provider.of<UserProvider>(context, listen: false).user!.gender;
     _formData['birth_date'] =
-        Provider.of<UserProvider>(context, listen: false).user.birthDate;
+        Provider.of<UserProvider>(context, listen: false).user!.birthDate;
     _gender =
-        Provider.of<UserProvider>(context, listen: false).user.gender == 'male'
+        Provider.of<UserProvider>(context, listen: false).user!.gender == 'male'
             ? Gender.male
             : Gender.female;
-    birthDate =
-        Provider.of<UserProvider>(context, listen: false).user.birthDate;
+    _selectedDate =
+        DateTime.parse(Provider.of<UserProvider>(context, listen: false).user!.birthDate.toString());
 
-    print(Provider.of<UserProvider>(context, listen: false).user.birthDate);
+    print(Provider.of<UserProvider>(context, listen: false).user!.birthDate);
 /*
 DateFormat('yyyy-MM-dd').format(DateTime.parse(
             Provider.of<UserProvider>(context, listen: false)
@@ -96,6 +97,7 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
     }
     super.initState();
   }
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -115,82 +117,105 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: AppBarWidget(
                     title: 'تعديل الملف الشخصى',
                     withBack: true,
                   ),
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight !* 0.04),
                 EditForm(
                   formKey: _formKey,
                   formData: _formData,
                   cities: cityProvider.cities,
                   regions: city != null
-                      ? regionProvider.regionsOfCity(city.cityId)
+                      ? regionProvider.regionsOfCity(city!.cityId!)
                       : regionProvider
-                          .regionsOfCity(cityProvider.cities[0].cityId),
-                  city: city != null ? city : cityProvider.cities[0],
-                  region: region != null
-                      ? region
-                      : regionProvider
-                          .regionsOfCity(cityProvider.cities[0].cityId)[0],
+                          .regionsOfCity(cityProvider.cities[0].cityId!),
+                  city: city ?? cityProvider.cities[0],
+                  region: region
+                      ?? regionProvider
+                          .regionsOfCity(cityProvider.cities[0].cityId!)[0],
                 ),
+
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.02,
                 ),
                 GestureDetector(
                   child: TextFormField(
-                    initialValue: 'اختر تاريخ الميلاد',
+                    initialValue: DateFormat("yyyy-MM-dd").format(_selectedDate)??'اختر تاريخ الميلاد',
                     enabled: false,
+                    style: TextStyle(color: Colors.black , height: 2.0) ,
                     decoration: InputDecoration(
+                      prefixIcon: Image.asset("assets/icons/birthdate.png" , scale: 3.6,),
                       contentPadding:
-                          EdgeInsets.all(getProportionateScreenHeight(5)),
-                      labelText: birthDate,
+                          EdgeInsets.all(getProportionateScreenHeight(10)),
+                      hintText:'اختر تاريخ الميلاد',
+                      filled: true,
+                      fillColor: Color(0xffF7F7F9),
+                      hintStyle: TextStyle(color: Colors.black),
                       focusColor: Colors.white,
-                      labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder:OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                            borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)) ,
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                            borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)),
+
+                        focusedBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                            borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                            borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)),
+
                     ),
                   ),
-                  onTap: () async {
-                    DateTime selected = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
-                    );
-                    if (selected == null) return;
-                    setState(() {
-                      birthDate = DateFormat('yyyy-MM-dd').format(selected);
-                    });
-                  },
+                  // onTap: () async {
+                  //   DateTime selected = await showDatePicker(
+                  //     context: context,
+                  //     initialDate: DateTime.now(),
+                  //     firstDate: DateTime(1900),
+                  //     lastDate: DateTime(2100),
+                  //   );
+                  //   if (selected == null) return;
+                  //   setState(() {
+                  //     birthDate = DateFormat('yyyy-MM-dd').format(selected);
+                  //   });
+                  // },
+                  onTap: ()=> dialogD() ,
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.02,
                 ),
                 Row(
                   children: [
-                    Expanded(
+                    SizedBox(
+                      width: getProportionateScreenWidth(getProportionateScreenWidth(150)),
                       child: RadioListTile(
-                        title: Text('ذكر'),
+
+                        title: Text('ذكر' , style: TextStyle(color: Colors.black)),
                         groupValue: _gender,
                         value: Gender.male,
                         activeColor: Colors.red,
-                        onChanged: (Gender value) {
+
+
+                        onChanged: (Gender? value) {
                           setState(() {
-                            _gender = value;
+                            _gender = value!;
                           });
                         },
                       ),
                     ),
-                    Expanded(
+                    SizedBox(
+                      width: getProportionateScreenWidth(getProportionateScreenWidth(150)),
                       child: RadioListTile(
-                        title: Text('انثى'),
+                        title: Text('انثى',style: TextStyle(color: Colors.black),),
                         groupValue: _gender,
                         value: Gender.female,
                         activeColor: Colors.red,
-                        onChanged: (Gender value) {
+                        onChanged: (Gender? value) {
                           setState(() {
-                            _gender = value;
+                            _gender = value!;
                           });
                         },
                       ),
@@ -198,7 +223,7 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
                   ],
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.02,
                 ),
                 userProvider.isLoading
                     ? LoadingCircle()
@@ -210,10 +235,10 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
                         minWidth: 0.0,
                         height: getProportionateScreenHeight(45)),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.02,
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.06,
+                  height: SizeConfig.screenHeight !* 0.06,
                 ),
                 SizedBox(height: getProportionateScreenHeight(30.0))
               ],
@@ -231,5 +256,50 @@ DateFormat('yyyy-MM-dd').format(DateTime.parse(
       message: message,
       btnTxt: 'إغلاق',
     );
+  }
+
+
+
+  Future<void> dialogD() async {
+    return Get.defaultDialog(
+      // backgroundColor: kAppBarColor,
+      title:  "تاريخ  الميلاد" ,
+      content:SizedBox(
+        height: 250,
+        width: 250,
+        child: ScrollDatePicker(
+          selectedDate: _selectedDate,
+
+          locale: Locale('ar'),
+          onDateTimeChanged: (DateTime value) {
+            setState(() {
+              _selectedDate = value;
+            });
+          },
+        ),
+      ),
+      confirm: GestureDetector(
+        onTap: (){
+          Get.back();
+        },
+        child: Container(
+          padding: EdgeInsets.all(getProportionateScreenHeight(10)),
+          decoration: BoxDecoration(
+            color:  kAppBarColor ,
+            borderRadius:  BorderRadius.circular(getProportionateScreenHeight(10)) ,
+            
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("تأكيد" , style: TextStyle(
+                color: Colors.white ,
+                fontSize: getProportionateScreenHeight(14)
+              ),)
+            ],
+          ),
+        ),
+      )
+    ) ;
   }
 }

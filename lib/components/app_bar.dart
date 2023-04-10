@@ -5,48 +5,60 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 class AppBarWidget extends StatelessWidget {
   AppBarWidget(
-      {@required this.title,
-      @required this.withBack,
+      { this.title,
+       this.withBack,
       this.navigationPage = ''});
 
-  final String title;
-  final String navigationPage;
-  final bool withBack;
+  final String? title;
+  final String? navigationPage;
+  final bool? withBack;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: getProportionateScreenHeight(5.0)),
+      padding: EdgeInsets.only(top: getProportionateScreenHeight(0.0)),
       decoration: BoxDecoration(),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          withBack
-              ? IconButton(
-                  onPressed: () {
-                    if (navigationPage.isNotEmpty) {
-                      Get.toNamed(navigationPage);
+          withBack!
+              ? GestureDetector(
+                  onTap: () {
+                    if (navigationPage!.isNotEmpty) {
+                      Get.toNamed(navigationPage!);
                     } else {
                       Get.back();
                     }
                   },
-                  icon: Icon(FontAwesomeIcons.chevronRight),
+                  child: Container(
+                    height: getProportionateScreenHeight(40),
+                    width: getProportionateScreenHeight(40),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF7F7F9) ,
+                      shape: BoxShape.circle
+                    ),
+                    child: Icon(FontAwesomeIcons.chevronRight , color: Colors.black,size: getProportionateScreenHeight(13),),
+                  ),
                 )
-              : Spacer(
-                  flex: 1,
-                ),
-          Spacer(
-            flex: 2,
+              : SizedBox(
+            width: getProportionateScreenHeight(40),
           ),
+          // Spacer(
+          //   flex: 2,
+          // ),
           Text(
-            title,
+            title.toString(),
             style: TextStyle(
-              fontSize: getProportionateScreenHeight(16),
+              fontSize: getProportionateScreenHeight(18),
               fontWeight: FontWeight.bold,
+              color: Colors.black
             ),
           ),
-          Spacer(
-            flex: 3,
-          ),
+          SizedBox(
+            width: getProportionateScreenHeight(40),
+          )
+          // Spacer(
+          //   flex: 3,
+          // ),
         ],
       ),
     );

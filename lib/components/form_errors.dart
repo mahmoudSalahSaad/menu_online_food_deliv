@@ -5,17 +5,17 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 class FormErrors extends StatelessWidget {
   const FormErrors({
-    Key key,
-    @required this.errors,
+    Key? key,
+     this.errors,
   }) : super(key: key);
 
-  final List<String> errors;
+  final List<String>? errors;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ...List.generate(errors.length, (index) => buildErrorRow(errors[index]))
+        ...List.generate(errors!.length, (index) => buildErrorRow(errors![index]))
       ],
     );
   }
@@ -35,7 +35,7 @@ class FormErrors extends StatelessWidget {
         Text(
           error,
           style: TextStyle(
-            color: kTextColor,
+            color: Colors.black,
             fontSize: getProportionateScreenWidth(14),
           ),
         ),

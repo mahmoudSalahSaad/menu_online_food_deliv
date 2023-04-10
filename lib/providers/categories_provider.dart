@@ -31,7 +31,7 @@ class CategoriesProvider extends ChangeNotifier {
     final List<CategoryModel> categories = [];
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String accessToken = preferences.getString('accessToken');
+      String accessToken = preferences.getString('accessToken')!;
       Response response = await httpService.getRequest(url, accessToken);
       var parsedCategories = response.data['data']['categories'] as List;
       if (response.statusCode == 200 && response.data['status_code'] == 201) {

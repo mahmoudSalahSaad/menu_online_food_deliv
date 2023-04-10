@@ -20,17 +20,18 @@ class AddressProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getAddresses() async {
     Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    _addresses.clear();
     String url = '/my-addresses';
     httpService.init();
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
       if (response.statusCode == 200 && response.data['status'] == true) {
+        _addresses.clear();
+
         var parsedAddresses = response.data['data'] as List;
         for (int i = 0; i < parsedAddresses.length; i++) {
           AddressModel addressModel = AddressModel(
@@ -74,7 +75,7 @@ class AddressProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.postRequest(
           url, addressModel.toJson(), token ?? '');
@@ -104,7 +105,7 @@ class AddressProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.getRequest(url, token ?? '');
       print(response);
@@ -133,7 +134,7 @@ class AddressProvider extends ChangeNotifier {
     try {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      String token = preferences.getString('apiToken');
+      String token = preferences.getString('apiToken')!;
       print(token);
       Response response = await httpService.postRequest(
           url, addressModel.toJson(), token ?? '');

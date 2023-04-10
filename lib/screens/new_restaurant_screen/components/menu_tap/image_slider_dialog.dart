@@ -7,13 +7,13 @@ import '../../../../utilities/size_config.dart';
 
 class ImageDialog extends StatelessWidget {
   const ImageDialog({
-    Key key,
-    @required this.images,
-    @required this.index,
+    Key? key,
+     this.images,
+     this.index,
   }) : super(key: key);
 
-  final List<String> images;
-  final int index;
+  final List<String>? images;
+  final int? index;
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
@@ -39,13 +39,13 @@ class ImageDialog extends StatelessWidget {
                     builder: (BuildContext context, int index) {
                       return PhotoViewGalleryPageOptions(
                         basePosition: Alignment.topCenter,
-                        imageProvider: NetworkImage(images[index]),
+                        imageProvider: NetworkImage(images![index]),
                         initialScale: PhotoViewComputedScale.covered,
                         heroAttributes:
-                            PhotoViewHeroAttributes(tag: images[index]),
+                            PhotoViewHeroAttributes(tag: images![index]),
                       );
                     },
-                    itemCount: images.length,
+                    itemCount: images!.length,
                     loadingBuilder: (context, event) => Center(
                       child: Container(
                         width: getProportionateScreenWidth(20),
@@ -54,11 +54,11 @@ class ImageDialog extends StatelessWidget {
                           value: event == null
                               ? 0
                               : event.cumulativeBytesLoaded /
-                                  event.expectedTotalBytes,
+                                  event.expectedTotalBytes!,
                         ),
                       ),
                     ),
-                    pageController: PageController(initialPage: index),
+                    pageController: PageController(initialPage: index!),
                     onPageChanged: (int) {},
                   ),
                 ),

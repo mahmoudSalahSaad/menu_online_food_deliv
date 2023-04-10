@@ -11,17 +11,17 @@ import '../../new_restaurant_screen/new_restaurant_screen.dart';
 
 class RestaurantTileWidget extends StatelessWidget {
   const RestaurantTileWidget({
-    Key key,
-    @required this.restaurants,
+    Key? key,
+     this.restaurants,
   }) : super(key: key);
 
-  final List<RestaurantModel> restaurants;
+  final List<RestaurantModel> ?restaurants;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
-      itemCount: restaurants.length,
+      itemCount: restaurants!.length,
       itemBuilder: (BuildContext context, index) {
         return Column(
           children: [
@@ -33,26 +33,26 @@ class RestaurantTileWidget extends StatelessWidget {
                 //     .addOneView(restaurants[index].id);
                 // Get.toNamed(RestaurantScreen.routeName + "/$index/2/0");
                 Provider.of<RestaurantsProvider>(context, listen: false)
-                    .fetchRestaurant(restaurants[index].id);
+                    .fetchRestaurant(restaurants![index].id!);
                 Get.toNamed(NewRestaurantScreen.routeName);
               },
               child: ListTile(
-                title: Text(restaurants[index].nameAr),
+                title: Text(restaurants![index].nameAr!),
                 leading: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: FadeInImage.assetNetwork(
                         placeholder: "assets/icons/menu_egypt_logo.png",
-                        image: '${restaurants[index].logoSmall}')),
+                        image: '${restaurants![index].logoSmall}')),
                 trailing: Icon(
                   FontAwesomeIcons.chevronLeft,
                   size: kDefaultPadding,
                 ),
               ),
             ),
-            index < restaurants.length - 1
+            index < restaurants!.length - 1
                 ? Padding(
                     padding:
-                        EdgeInsets.only(right: SizeConfig.screenWidth * 0.24),
+                        EdgeInsets.only(right: SizeConfig.screenWidth !* 0.24),
                     child: Divider(
                       color: kTextColor,
                     ),

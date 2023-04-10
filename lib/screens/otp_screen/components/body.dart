@@ -4,6 +4,7 @@ import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
+import 'package:menu_egypt/screens/forget_password_screen/components/forget_password_text.dart';
 import 'package:menu_egypt/screens/home_screen/home_screen.dart';
 import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
@@ -12,7 +13,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
@@ -40,6 +41,21 @@ class _BodyState extends State<Body> {
               withBack: true,
             ),
           ),
+
+          SizedBox(
+            height: SizeConfig.screenHeight! * 0.04,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(40.0)),
+            child: Image.asset('assets/images/menu-egypt-logo.png'),
+          ),
+          SizedBox(
+            height: SizeConfig.screenHeight! * 0.04,
+          ),
+
+          ForgetPasswordText(),
+
           //otp
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -54,10 +70,22 @@ class _BodyState extends State<Body> {
                 controller: otpController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(16.0),
+                  prefixIcon: Image.asset("assets/icons/mail.png"),
+                  contentPadding: const EdgeInsets.all(0.0),
                   hintText: 'رمز التحقق',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.black),
+                    enabledBorder:OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                        borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)) ,
+                    disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                        borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)),
+
+                    focusedBorder:  OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                        borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1)),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(getProportionateScreenHeight(12)),
+                        borderSide: BorderSide(color: Color(0xffE4E4E5) , width: 1))
                 ),
               ),
             ),

@@ -3,10 +3,10 @@ import 'package:menu_egypt/utilities/constants.dart';
 import 'package:menu_egypt/utilities/size_config.dart';
 
 class BaseMessageScreen extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Widget child;
+  final String? title;
+  final String? subtitle;
+  final IconData? icon;
+  final Widget? child;
   BaseMessageScreen({this.title, this.subtitle, this.icon, this.child});
   static String routeName = '/base_message';
   @override
@@ -39,7 +39,7 @@ class BaseMessageScreen extends StatelessWidget {
               SizedBox(
                 height: getProportionateScreenHeight(20),
               ),
-              if (child != null) child,
+              if (child != null) child!,
             ],
           ),
         ),

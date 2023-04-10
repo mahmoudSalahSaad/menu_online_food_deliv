@@ -34,12 +34,12 @@ class _BodyState extends State<Body> {
     'categryId': null,
   };
 
-  List<CityModel> cities;
-  List<RegionModel> regions;
-  List<CategoryModel> categories;
-  CityModel city;
-  RegionModel region;
-  CategoryModel category;
+  List<CityModel>? cities;
+  List<RegionModel>? regions;
+  List<CategoryModel>? categories;
+  CityModel? city;
+  RegionModel? region;
+  CategoryModel? category;
 
   void _onSubmit(BuildContext context) async {
     Map<String, dynamic> result =
@@ -64,31 +64,34 @@ class _BodyState extends State<Body> {
     cityProvider.setCities(homeProvider.cities);
     restaurantProvider.setMostViewRestaurants(homeProvider.mostViewRestaurants);
     cities = cityProvider.cities;
+    print("------------------------");
+    print("$cities");
+    print("------------------------");
     if (user.user != null) {
-      if (user.user.cityId != null) {
-        city = cityProvider.getCityById(user.user.cityId);
+      if (user.user!.cityId! != 0) {
+        city = cityProvider.getCityById(user.user!.cityId!);
 
-        regions = regionProvider.regionsOfCity(city.cityId);
-        region = regionProvider.getRegionById(user.user.regionId);
+        regions = regionProvider.regionsOfCity(city!.cityId??0);
+        region = regionProvider.getRegionById(user.user!.regionId!);
       } else {
-        city = cities[0];
-        regions = regionProvider.regionsOfCity(city.cityId);
-        region = regions[15];
+        city = cities![0];
+        regions = regionProvider.regionsOfCity(city!.cityId!);
+        region = regions![15];
       }
     } else {
-      city = cities[0];
-      regions = regionProvider.regionsOfCity(city.cityId);
-      region = regions[15];
+      city = cities![0];
+      regions = regionProvider.regionsOfCity(city!.cityId!);
+      region = regions![15];
     }
     Provider.of<CategoriesProvider>(context, listen: false)
         .setCategories(homeProvider.categories);
     categories = Provider.of<CategoriesProvider>(context, listen: false)
         .filterCategories();
-    category = categories[0];
+    category = categories![0];
 
     restaurantProvider.fetchRestaurants('guest');
-    _formData['regionId'] = region.regionId;
-    _formData['categoryId'] = category.id;
+    _formData['regionId'] = region!.regionId??0;
+    _formData['categoryId'] = category!.id;
     super.initState();
   }
 
@@ -107,30 +110,33 @@ class _BodyState extends State<Body> {
       child: Container(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: kDefaultPadding, horizontal: kDefaultPadding),
+              vertical: kDefaultPadding, horizontal: 30),
           child: CustomScrollView(
             slivers: [
               SliverList(
                 delegate: SliverChildListDelegate(
                   [
+
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: kDefaultPadding),
+                    //   child: Align(
+                    //     alignment: Alignment.center,
+                    //     child: Image.asset('assets/images/menu-egypt-logo.png'),
+                    //   ),
+                    // ),
+
+                    Row(
+                      children: [
+                        Image.asset("assets/icons/receipt-text.png",height: 17.15,) ,
+                        SizedBox(width: getProportionateScreenWidth(10),),
+                        Text("الأكثر طلبا",style: TextStyle(color: Colors.black , fontWeight: FontWeight.w700 , fontSize: 16),)
+                      ],
+                    ) , 
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.02,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.asset('assets/images/menu-egypt-logo.png'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.02,
-                    ),
-                    SearchWidgetBar(restaurantProvider: restaurantProvider),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
-                    ),
+                      height: getProportionateScreenHeight(10),
+                    )
+
                   ],
                 ),
               ),
@@ -138,9 +144,28 @@ class _BodyState extends State<Body> {
                   restaurants: restaurantProvider.mostViewRestaurants),
               SliverList(
                   delegate: SliverChildListDelegate([
+                    SizedBox(
+                      height: SizeConfig.screenHeight !* 0.02,
+                    ),
+                    SearchWidgetBar(restaurantProvider: restaurantProvider),
+
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: getProportionateScreenHeight(25),
                 ),
+                Row(
+                  children: [
+                    Image.asset("assets/icons/search-status.png" , height: 20.0,) ,
+                    SizedBox(
+                      width: getProportionateScreenWidth(10),
+
+                    ),
+                    Text("بحث بالمنطقة" , style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold, fontSize: 16)),
+
+                  ],
+                ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(8),
+                    ),
                 CityDropDownField(
                     items: cities,
                     value: city,
@@ -149,18 +174,18 @@ class _BodyState extends State<Body> {
                         city = cityModel;
                         regions =
                             Provider.of<RegionProvider>(context, listen: false)
-                                .regionsOfCity(city.cityId);
-                        if (cityModel.cityId == cities[18].cityId) {
-                          region = regions[24];
+                                .regionsOfCity(city!.cityId!);
+                        if (cityModel.cityId == cities![18].cityId) {
+                          region = regions![24];
                         } else {
-                          region = regions[0];
+                          region = regions![0];
                         }
-                        _formData['cityId'] = city.cityId;
-                        _formData['regionId'] = regions[0].regionId;
+                        _formData['cityId'] = city!.cityId!;
+                        _formData['regionId'] = regions![0].regionId;
                       });
                     }),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.01,
                 ),
                 RegionDropDownField(
                   items: regions,
@@ -168,12 +193,12 @@ class _BodyState extends State<Body> {
                   onChanged: (RegionModel regionModel) {
                     setState(() {
                       region = regionModel;
-                      _formData['regionId'] = region.regionId;
+                      _formData['regionId'] = region!.regionId;
                     });
                   },
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.01,
                 ),
                 CategoriesDropDownField(
                     value: category,
@@ -181,11 +206,11 @@ class _BodyState extends State<Body> {
                     onChanged: (CategoryModel categoryModel) {
                       setState(() {
                         category = categoryModel;
-                        _formData['categoryId'] = category.id;
+                        _formData['categoryId'] = category!.id!;
                       });
                     }),
                 SizedBox(
-                  height: SizeConfig.screenHeight * 0.02,
+                  height: SizeConfig.screenHeight !* 0.02,
                 ),
                 restaurantProvider.isLoading
                     ? LoadingCircle()
@@ -194,14 +219,14 @@ class _BodyState extends State<Body> {
                           _onSubmit(context);
                         },
                         child: Text(
-                          'ابحث',
+                          'بحث',
                           style: TextStyle(
-                              fontSize: SizeConfig.screenWidth * 0.06),
+                              fontSize: 18),
                         ),
                         color: kPrimaryColor,
                         textColor: kTextColor,
                         minWidth: 0.0,
-                        height: getProportionateScreenHeight(33)),
+                        height: getProportionateScreenHeight(46)),
                 Divider(color: Colors.white),
               ])),
               // Categories(categories: categories)

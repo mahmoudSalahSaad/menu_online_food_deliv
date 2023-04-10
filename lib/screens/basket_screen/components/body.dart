@@ -15,13 +15,15 @@ import 'package:menu_egypt/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+
+  String? orderName ;
   @override
   void initState() {
     super.initState();
@@ -34,7 +36,7 @@ class _BodyState extends State<Body> {
     return SafeArea(
       child: Consumer<CartProvider>(
         builder: (context, value, child) {
-          return cart == null || cart.cartItems.isEmpty
+          return cart == null || cart.cartItems!.isEmpty
               ? Center(child: Text('السلة فارغة'))
               : Stack(
                   alignment: Alignment.bottomCenter,
@@ -54,78 +56,116 @@ class _BodyState extends State<Body> {
                                 withBack: false,
                               ),
                             ),
+                            SizedBox(
+                              height: 14,
+                            ),
                             //resturant info
                             //resturant
-                            GestureDetector(
-                              child: ListTile(
-                                leading: Container(
-                                  height: 50,
-                                  width: 50,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(cart.resturantLogo),
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                  "طلبك من مطعم",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          getProportionateScreenHeight(10)),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      cart.resturantName,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              getProportionateScreenHeight(20)),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.motorcycle,
-                                          size:
-                                              getProportionateScreenHeight(10),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                getProportionateScreenWidth(5)),
-                                        Text(
-                                          "التوصيل خلال ${cart.deliveryTime} دقيقة",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize:
-                                                  getProportionateScreenHeight(
-                                                      10)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                Provider.of<RestaurantsProvider>(context,
-                                        listen: false)
-                                    .fetchRestaurant(cart.resturantId);
-                                Get.offNamed(NewRestaurantScreen.routeName);
-                              },
+                           Padding(padding: EdgeInsets.symmetric(horizontal: 16) ,
+                           child:  GestureDetector(
+                             child:Row(
+                               children: [
+                                 Row(
+                                   children: [
+                                     Container(
+                                       height: 64,
+                                       width: 64,
+                                       alignment: Alignment.center,
+                                       decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(12.0),
+                                         image: DecorationImage(
+                                           fit: BoxFit.fill,
+                                           image: NetworkImage(cart.resturantLogo.toString()),
+                                         ),
+                                       ),
+                                     ),
+                                   ],
+                                 ) ,
+                                 SizedBox(
+                                   width: getProportionateScreenWidth(10),
+                                 ),
+                                 Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     Text(
+                                       "طلبك من مطعم",
+                                       style: TextStyle(
+                                           color: Colors.black,
+                                           fontSize:
+                                           getProportionateScreenHeight(14)),
+                                     ) ,
+                                     SizedBox(
+                                       height: 6,
+                                     ),
+                                     Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Text(
+                                           cart.resturantName.toString(),
+                                           style: TextStyle(
+                                               color: Colors.black,
+                                               fontWeight: FontWeight.bold,
+                                               fontSize:
+                                               getProportionateScreenHeight(16)),
+                                         ),
+                                         SizedBox(
+                                           height: 6,
+                                         ),
+                                         Row(
+                                           crossAxisAlignment: CrossAxisAlignment.start,
+                                           children: [
+                                             SizedBox(
+                                               width: 4,
+                                             ),
+                                             Icon(
+                                               FontAwesomeIcons.motorcycle,
+                                               color: Colors.black,
+                                               size:
+                                               getProportionateScreenHeight(11),
+                                             ),
+                                             SizedBox(
+                                                 width:
+                                                 getProportionateScreenWidth(5)),
+                                             Text(
+                                               "التوصيل خلال ${cart.deliveryTime} دقيقة",
+                                               style: TextStyle(
+                                                   color: Colors.black,
+                                                   fontSize:
+                                                   getProportionateScreenHeight(
+                                                       12)),
+                                             )
+                                           ],
+                                         ),
+                                       ],
+                                     ),
+
+                                   ],
+                                 )
+
+                               ],
+                             ),
+                             onTap: () {
+                               Provider.of<RestaurantsProvider>(context,
+                                   listen: false)
+                                   .fetchRestaurant(cart.resturantId!);
+                               Get.offNamed(NewRestaurantScreen.routeName);
+                             },
+                           ),
+                           ),
+
+                            SizedBox(
+                              height: 24,
                             ),
 
                             //cart info
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
+                                  color: Color(0xffF7F7F9),
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: Color(0xffE4E4E5),
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
@@ -137,169 +177,254 @@ class _BodyState extends State<Body> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
+
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('تفاصيل الطلب'),
+
+                                          Text('تفاصيل الطلب' , style: TextStyle(color: Colors.black , fontSize: 16 , fontWeight: FontWeight.bold),),
                                           //clear cart
                                           MaterialButton(
+                                            height: 30,
+                                            minWidth: 50,
                                             onPressed: () {
                                               clearCartDialog(context);
                                             },
-                                            color: kAppBarColor,
+                                            color: Colors.white,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               side: BorderSide(
-                                                color: Colors.white,
+                                                color: Color(0xffB90101),
                                                 width:
                                                     getProportionateScreenWidth(
                                                         1),
                                                 style: BorderStyle.solid,
                                               ),
                                             ),
-                                            child: Text('حذف'),
+                                            child: Text('حذف' , style: TextStyle(
+                                              color: Color(0xffB90101) ,
+                                              height: 2.0 ,
+                                              fontWeight: FontWeight.bold
+                                            ),),
                                           )
                                         ],
                                       ),
+                                      // SizedBox(
+                                      //   height: 8,
+                                      // ) ,
                                       //cart items
-                                      ListView.separated(
+                                      ListView.builder(
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return ListTile(
-                                            title: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                          return Container(
+                                            child: Column(
                                               children: [
                                                 SizedBox(
-                                                  width: getProportionateScreenWidth(160),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        cart.cartItems[index]
-                                                            .quantity
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                          FontWeight.bold,
-                                                          fontSize: getProportionateScreenHeight(12)
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'x ',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: getProportionateScreenHeight(12)
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: getProportionateScreenWidth(130),
-                                                        child: Text(
-                                                          cart.cartItems[index]
-                                                              .name +
-                                                              ' ' +
-                                                              cart.cartItems[index]
-                                                                  .weight,
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: getProportionateScreenHeight(12)
+                                                  height: 16,
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: getProportionateScreenWidth(200),
+                                                          child: Row(
+                                                            children: [
+
+                                                              SizedBox(
+                                                                width: getProportionateScreenWidth(200),
+                                                                child: Text(
+                                                                  cart.cartItems![index]
+                                                                      .name.toString()
+                                                                    ,
+                                                                  style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontWeight:
+                                                                      FontWeight.bold,
+                                                                      fontSize: getProportionateScreenHeight(18)
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                Text(
-                                                  cart.cartItems[index].price
-                                                          .toStringAsFixed(2) +
-                                                      'X' +
-                                                      cart.cartItems[index]
-                                                          .quantity
-                                                          .toString(),
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            10),
-                                                    color: Colors.grey[100],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            subtitle: Row(
-                                              children: [
-                                                Text(
-                                                  cart.cartItems[index]
-                                                              .firstAddonName ==
-                                                          null
-                                                      ? ''
-                                                      : cart.cartItems[index]
-                                                          .firstAddonName,
-                                                  style: TextStyle(
-                                                      color: Colors.grey[300]),
-                                                ),
-                                                Text('-'),
-                                                Text(
-                                                  cart.cartItems[index]
-                                                              .secondAddonName ==
-                                                          null
-                                                      ? ''
-                                                      : cart.cartItems[index]
-                                                          .secondAddonName,
-                                                  style: TextStyle(
-                                                      color: Colors.grey[300]),
-                                                ),
-                                              ],
-                                            ),
-                                            trailing: SizedBox(
-                                              width:
-                                                  getProportionateScreenWidth(
-                                                      110),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      (cart.cartItems[index]
-                                                                      .price *
-                                                                  cart
-                                                                      .cartItems[
-                                                                          index]
-                                                                      .quantity)
-                                                              .toString() +
-                                                          ' جم',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        cart.cartItems![index]
+                                                            .weight != null?
+                                                            SizedBox(
+                                                              height: 4,
+                                                            )  : SizedBox(),
+                                                        cart.cartItems![index]
+                                                            .weight  != "" ? SizedBox(
+                                                          width: getProportionateScreenWidth(200),
+                                                          child:Text( cart.cartItems![index]
+                                                              .weight! , style: TextStyle(
+                                                              color: Color(0xff222222).withOpacity(0.6),
+                                                              fontWeight:
+                                                              FontWeight.w600,
+                                                              fontSize: getProportionateScreenHeight(16)
+                                                          ),) ,
+                                                        ) : SizedBox(),
+                                                        cart.cartItems![index]
+                                                            .weight != null ?SizedBox(
+                                                          height: 8,
+                                                        ) : SizedBox(),
+                                                        Row(
+                                                          children: [
+                                                            Text(cart.cartItems![index].quantity.toString(),style: TextStyle(
+                                                              fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  18),
+                                                              color: Colors.black,
+                                                            )) ,
+
+                                                            Text(" X ", style: TextStyle(
+                                                              fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  18),
+                                                              color: Colors.black,
+                                                            )) ,
+                                                            Text(cart.cartItems![index].price!.toStringAsFixed(0).toString(),style: TextStyle(
+                                                              fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  18),
+                                                              color: Colors.black,
+                                                            )) ,
+
+
+                                                          ],
+                                                        ),
+
+
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                      getProportionateScreenWidth(
+                                                          110),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 4,
+                                                          ),
+                                                          SizedBox(
+                                                            child: Text(
+                                                              "${(cart.cartItems![index].price! *
+                                                                  cart.cartItems![index].quantity!).toStringAsFixed(0)
+                                                                  +
+                                                                  ' جم'}",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                  FontWeight.bold,
+                                                                  fontSize: 18,
+                                                                  color: Colors.black
+                                                              ),
+                                                            ),
+                                                          ),
+
+                                                          //edit-delete-buttons
+
+                                                        ],
                                                       ),
                                                     ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              20))),
-                                                          child:
-                                                              GestureDetector(
-                                                            //edit cart item
-                                                            onTap: () {
-                                                              /*
+                                                  ],
+                                                ) ,
+                                                cart.cartItems![index].firstAddonName != "" || cart.cartItems![index].secondAddonName != "" ?  SizedBox(
+                                                  height: 8,
+                                                ) : SizedBox(),
+                                                cart.cartItems![index].firstAddonName != "" || cart.cartItems![index].secondAddonName != "" ?
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    cart.cartItems![index]
+                                                        .firstAddonName !=
+                                                        null
+                                                        ?Text(
+                                                      cart.cartItems![index]
+                                                          .firstAddonName ==
+                                                          null
+                                                          ? ''
+                                                          : cart.cartItems![index]
+                                                          .firstAddonName!,
+                                                      style: TextStyle(
+                                                          color: Colors.black ,  fontSize: 16),
+                                                    ) : SizedBox(),
+                                                    cart.cartItems![index]
+                                                        .secondAddonName !=
+                                                        ""
+                                                        ? Text(' - ',style: TextStyle(color: Colors.black , fontSize: 16),) : SizedBox(),
+                                                    cart.cartItems![index]
+                                                        .secondAddonName !=
+                                                        ""
+                                                        ?Text(
+                                                      cart.cartItems![index]
+                                                          .secondAddonName ==
+                                                          null
+                                                          ? ''
+                                                          : cart.cartItems![index]
+                                                          .secondAddonName!,
+                                                      style: TextStyle(
+                                                          color: Colors.black , fontSize: 16),
+                                                    ) : SizedBox(),
+
+                                                  ],
+                                                ) :SizedBox() ,
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        cart.cartItems![index].comment != null ? Text("طلب خاص: " , style: TextStyle(color: Colors.black , fontSize: 16 , height: 2.0),) : SizedBox() ,
+                                                        cart.cartItems![index].comment != null ? SizedBox(
+                                                          width: getProportionateScreenWidth(180),
+                                                          child: Text(
+                                                            "${cart.cartItems![index].comment}" ,
+                                                            style: TextStyle(
+                                                                // fontSize: getProportionateScreenHeight(12) ,
+                                                                color: Colors.black ,
+                                                              fontSize: 16 ,
+                                                              height: 2.0
+                                                            ),
+                                                          ),
+                                                        ) : SizedBox(
+
+                                                        )
+                                                      ],
+                                                    ) ,
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        SizedBox(
+                                                          child: Container(
+                                                            height : getProportionateScreenHeight(32),
+                                                            width: getProportionateScreenHeight(32),
+                                                            decoration:
+                                                            BoxDecoration(
+
+                                                                border: Border
+                                                                    .all(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                color: Colors.white,
+                                                                shape: BoxShape.circle,
+                                                                ),
+                                                            child:
+                                                            GestureDetector(
+//edit cart item
+                                                              onTap: () {
+/*
                                                               Provider.of<ResturantItemsProvider>(
                                                                       context,
                                                                       listen:
@@ -309,70 +434,107 @@ class _BodyState extends State<Body> {
                                                                           index]
                                                                       .id);
                                                               */
-                                                              editCartBottomSheet(
-                                                                  context,
-                                                                  cart.cartItems[
-                                                                      index],
-                                                                  index);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.edit,
-                                                              color: Colors.red,
+                                                                editCartBottomSheet(
+                                                                    context,
+                                                                    cart.cartItems![
+                                                                    index],
+                                                                    index);
+                                                              },
+                                                              child: Image.asset("assets/icons/edit-2.png" , height: 20,scale: 4,),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            getProportionateScreenWidth(
-                                                                5),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            border: Border.all(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                20,
+                                                        SizedBox(
+                                                          width:
+                                                          getProportionateScreenWidth(
+                                                              5),
+                                                        ),
+                                                        SizedBox(
+                                                          child: Container(
+                                                            height : getProportionateScreenHeight(32),
+                                                            width: getProportionateScreenHeight(32),
+                                                            decoration:
+                                                            BoxDecoration(
+                                                              color :Colors.white ,
+                                                              border: Border.all(
+                                                                color:
+                                                                Colors.white,
                                                               ),
+
+                                                              shape: BoxShape.circle
                                                             ),
-                                                          ),
-                                                          child:
-                                                              GestureDetector(
-                                                            //delete cart item
-                                                            onTap: () {
-                                                              deleteDialog(
-                                                                  context,
-                                                                  index);
-                                                            },
-                                                            child: Icon(
-                                                              Icons.delete,
-                                                              color: Colors.red,
+                                                            child:
+                                                            GestureDetector(
+//delete cart item
+                                                              onTap: () {
+                                                                deleteDialog(
+                                                                    context,
+                                                                    index);
+                                                              },
+                                                              child: Image.asset("assets/icons/Group 1000000840.png" , scale: 4 ,height: 20,),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                      ],
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  thickness: 1,
+                                                  color: Colors.black.withOpacity(0.1),
+
+                                                ),
+
+                                              ],
                                             ),
                                           );
                                         },
-                                        separatorBuilder: (context, index) =>
-                                            Divider(
-                                          height:
-                                              getProportionateScreenHeight(1),
-                                          color: Colors.white,
-                                        ),
-                                        itemCount: cart.cartItems.length,
+
+
+                                        itemCount: cart.cartItems!.length,
                                       ),
+                                      SizedBox(
+                                        height: getProportionateScreenHeight(10),
+                                      ),
+                                      Form(
+                                          child: TextFormField(
+                                            initialValue: cart.orderName,
+                                            onChanged: (String value){
+                                              orderName = value ;
+                                            },
+                                            onSaved: (String? value){
+                                              orderName = value ;
+                                            },
+                                            style: TextStyle(
+                                              color : Colors.black ,
+                                            ),
+                                            decoration: InputDecoration(
+
+                                              hintText: "اسم الطلب",
+                                              hintStyle: TextStyle(
+                                                color: Colors.black
+                                              ),
+                                              contentPadding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10) , vertical: getProportionateScreenHeight(10)) ,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(getProportionateScreenHeight(15)) , borderSide: BorderSide(
+                                                color: Color(0xffE4E4E5) ,
+                                              ) ,
+
+                                              ) ,
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(getProportionateScreenHeight(15)) , borderSide: BorderSide(
+                                                color: Color(0xffE4E4E5) ,
+                                              ) ,
+                                              )
+                                            ),
+                                            maxLines: 1,
+
+                                          )
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
                                     ],
                                   ),
                                 ),
@@ -380,36 +542,59 @@ class _BodyState extends State<Body> {
                             ),
                             //payment info
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
+                              padding:  EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(16.0)),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
+                                  color: Color(0xffF7F7F9),
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: Color(0xffE4E4E5),
                                     ),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text('تفاصيل الدفع'),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
+                                      Text('تفاصيل الدفع' , style: TextStyle(
+                                        color: Colors.black ,
+                                        fontWeight: FontWeight.bold ,
+                                        fontSize: 16
+                                      ),),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'مجموع الطلب',
+                                            style: TextStyle(
+                                              color: Colors.black ,
+                                              fontSize: 16
+                                            ),
                                           ),
                                           Text(
-                                            cart.subTotalPrice
-                                                    .toStringAsFixed(2) +
+                                            cart.subTotalPrice!
+                                                    .toStringAsFixed(1) +
                                                 ' جم',
+                                            style: TextStyle(
+                                              color: Colors.black ,
+                                              fontSize: 16
+                                            ),
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -417,17 +602,20 @@ class _BodyState extends State<Body> {
                                           Text(
                                             'التوصيل',
                                             style:
-                                                TextStyle(color: Colors.white),
+                                                TextStyle(color: Colors.black , fontSize: 16),
                                           ),
                                           Text(
                                             cart.deliveryPrice
-                                                    .toStringAsFixed(2) +
+                                                    !.toStringAsFixed(1) +
                                                 ' جم',
                                             style:
-                                                TextStyle(color: Colors.white),
+                                                TextStyle(color: Colors.black , fontSize: 16),
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -435,16 +623,22 @@ class _BodyState extends State<Body> {
                                           Text(
                                             'الإجمالى',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.bold ,
+                                                color: Colors.black ,
+                                              fontSize: 16
+                                            ),
                                           ),
                                           Text(
-                                            cart.totalPrice.toStringAsFixed(2) +
+                                            cart.totalPrice!.toStringAsFixed(1) +
                                                 ' جم',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.bold , color: Colors.black , fontSize: 16),
                                           ),
                                         ],
                                       ),
+                                      SizedBox(
+                                        height: 8,
+                                      ) ,
                                     ],
                                   ),
                                 ),
@@ -460,10 +654,15 @@ class _BodyState extends State<Body> {
                       child: MaterialButton(
                         height: getProportionateScreenHeight(50),
                         minWidth: MediaQuery.of(context).size.width,
-                        onPressed: () {
+                        onPressed: () async {
+                          final cartProvider = Provider.of<CartProvider>(context , listen:  false) ;
+                          await  cartProvider.addOrderName(orderName??"");
+                          await cartProvider.initCart() ;
                           if (user == null) {
                             Get.toNamed(SignInScreen.routeName);
                           } else {
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=> PlacementOrder(orderName: orderName!,))) ;
+
                             Get.toNamed(PlacementOrder.routeName);
                           }
                         },
@@ -475,7 +674,7 @@ class _BodyState extends State<Body> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
-                              cart.totalPrice.toStringAsFixed(2) + ' جم',
+                              cart.totalPrice !.toStringAsFixed(1) + ' جم',
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
@@ -485,7 +684,7 @@ class _BodyState extends State<Body> {
                             CircleAvatar(
                               backgroundColor: Colors.black12,
                               child: Text(
-                                cart.cartItems.length.toString(),
+                              cart.cartItems!.length.toString(),
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -529,3 +728,66 @@ class _BodyState extends State<Body> {
     );
   }
 }
+
+
+
+
+//sub
+
+
+
+
+
+
+
+//trilling
+
+
+
+
+/*                        leading: Container(
+                                  height: 64,
+                                  width: 64,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(cart.resturantLogo),
+                                    ),
+                                  ),
+                                ),
+                                title: ,
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cart.resturantName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(20)),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.motorcycle,
+                                          color: Colors.black,
+                                          size:
+                                              getProportionateScreenHeight(10),
+                                        ),
+                                        SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(5)),
+                                        Text(
+                                          "التوصيل خلال ${cart.deliveryTime} دقيقة",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      10)),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),*/

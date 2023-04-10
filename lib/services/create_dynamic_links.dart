@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CreateDynamicLinks {
-  String _linkMessage;
+  String? _linkMessage;
 
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
@@ -50,7 +50,7 @@ class CreateDynamicLinks {
 
     _linkMessage = url.toString();
 
-    Share.share(_linkMessage);
+    Share.share(_linkMessage!);
 
     //Clipboard.setData(ClipboardData(text: _linkMessage));
 
@@ -109,7 +109,7 @@ class CreateDynamicLinks {
 
     _linkMessage = url.toString();
 
-    Share.share(_linkMessage);
+    Share.share(_linkMessage!);
 
     //Clipboard.setData(ClipboardData(text: _linkMessage));
 

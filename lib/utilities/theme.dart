@@ -12,7 +12,7 @@ ThemeData darkThemeData() {
 
 AppBarTheme appBarTheme() {
   return AppBarTheme(
-      backgroundColor: kAppBarColor,
+      backgroundColor: Colors.black,
       centerTitle: true,
       elevation: 0.0,
       systemOverlayStyle:

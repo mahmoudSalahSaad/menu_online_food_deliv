@@ -23,21 +23,21 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String password;
+  String? password;
   int userId = Get.arguments[0];
   String userToken = Get.arguments[1];
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final List<String> errors = [];
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
-        errors.add(error);
+        errors.add(error!);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);
@@ -47,12 +47,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   void _onSubmit() async {
     print(userId);
     print(userToken);
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
-        .changePassword(userId, userToken, password);
+        .changePassword(userId, userToken, password!);
     if (result['success']) {
       await AppDialog.infoDialog(message: 'تم تغيير كلمة المرور بنجاح' , btnTxt: "استمر" ,context: context , title: "نجاح");
       Get.offAllNamed(HomeScreen.routeName);
@@ -87,21 +87,33 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(10.0),
+                horizontal: getProportionateScreenWidth(16.0),
               ),
               child: SingleChildScrollView(
-                child: Column(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppBarWidget(
+                    Padding(padding:EdgeInsets.symmetric(vertical: 16.0) ,
+
+                    child:  AppBarWidget(
                       title: 'تغيير الرقم السرى',
                       withBack: true,
+                    ),) ,
+                    SizedBox(
+                      height: SizeConfig.screenHeight !* 0.04,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(40.0)),
+                      child: Image.asset('assets/images/menu-egypt-logo.png'),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: SizeConfig.screenHeight !* 0.04,
                     ),
-                    SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
-                    ),
+                    Text("أدخل كلمة المرور الجديدة" , style: TextStyle(color: Colors.black ,fontSize: 18 ) ,),
+                   SizedBox(
+                     height: 16,
+                   ) ,
+
                     Form(
                       key: _formKey,
                       child: Column(
@@ -110,6 +122,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             controller: _pass,
                             textInputType: TextInputType.text,
                             labelText: "الرقم السرى",
+                            iconPath: "assets/icons/mail.png",
+
                             border: false,
                             obscure: true,
                             onChanged: (String value) {
@@ -133,40 +147,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               password = value;
                             },
                           ),
-                          InputTextField(
-                            controller: _confirmPass,
-                            textInputType: TextInputType.text,
-                            labelText: "تأكيد الرقم السرى",
-                            border: false,
-                            obscure: true,
-                            onChanged: (String value) {
-                              if (value.isNotEmpty) {
-                                if (value == _pass.text) {
-                                  removeError(error: kNewConfimPassError);
-                                }
-                              }
-
-                              return null;
-                            },
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                addError(error: kNewConfimPassError);
-                                return "";
-                              }
-                              if (value != _pass.text) {
-                                addError(error: kNewConfimPassError);
-                                return "";
-                              }
-                              return null;
-                            },
-                            onSaved: (String value) {},
-                          ),
+                          
                           FormErrors(errors: errors),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: SizeConfig.screenHeight !* 0.04,
                     ),
                     userProvider.isLoading
                         ? LoadingCircle()
