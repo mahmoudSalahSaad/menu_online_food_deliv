@@ -70,7 +70,7 @@ class _BodyState extends State<Body> {
                 controller: otpController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  prefixIcon: Image.asset("assets/icons/mail.png"),
+                  prefixIcon: Image.asset("assets/icons/mail.png" , scale: 3.6,),
                   contentPadding: const EdgeInsets.all(0.0),
                   hintText: 'رمز التحقق',
                   hintStyle: TextStyle(color: Colors.black),

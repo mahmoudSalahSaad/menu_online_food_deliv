@@ -4,6 +4,7 @@ import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/default_button.dart';
 import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
+import 'package:menu_egypt/main.dart';
 import 'package:menu_egypt/providers/categories_provider.dart';
 import 'package:menu_egypt/providers/restaurants_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
@@ -28,6 +29,7 @@ class _BodyState extends State<Body> {
     'email': null,
   };
   void onSubmit(bool guest) async {
+    print("sss");
     if (guest) {
       Get.toNamed(HomeScreen.routeName);
     } else {
@@ -148,6 +150,7 @@ class _BodyState extends State<Body> {
                         ),
                   ],
                 ),
+                Text("$version")
               ],
             ),
           ),

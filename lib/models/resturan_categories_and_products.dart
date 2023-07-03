@@ -138,10 +138,10 @@ class CatgeoryProduct {
     data['sizes'] = this.sizes!.map((v) => v.toJson()).toList();
     data['first_addition_title'] = this.firstAdditionTitle;
     data['first_additions_data'] =
-        this.firstAdditionsData!.map((v) => v.toJson()).toList();
+        this.firstAdditionsData?.map((v) => v.toJson()).toList();
     data['second_addition_title'] = this.secondAdditionTitle;
     data['second_additions_data'] =
-        this.secondAdditionsData!.map((v) => v.toJson()).toList();
+        this.secondAdditionsData?.map((v) => v.toJson()).toList();
     return data;
   }
 }

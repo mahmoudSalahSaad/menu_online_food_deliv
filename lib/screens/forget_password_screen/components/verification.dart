@@ -31,7 +31,7 @@ class _VerificationPasswordScreenState
     extends State<VerificationPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? code;
-  String email = Get.arguments as String;
+  // String email = Get.arguments! as String;
   final List<String> errors = [];
   String message = '';
   final CountdownController timerController =
@@ -52,12 +52,12 @@ class _VerificationPasswordScreenState
 
   void _onSubmit() async {
 
-    print(email);
+    print(widget.email);
     print(code);
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState!.save();
+    // _formKey.currentState!.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
         .verifyPassword(widget.email!, code!);
     print(result);
@@ -72,7 +72,6 @@ class _VerificationPasswordScreenState
   @override
   void initState() {
     // TODO: implement initState
-    print(email) ;
   }
 
   @override
@@ -127,18 +126,21 @@ class _VerificationPasswordScreenState
                             labelText: "رمز التحقق",
                             border: false,
                             iconPath: "assets/icons/mail.png",
-                            onChanged: (String value) {
-                              if (value.isNotEmpty) {
+                            onChanged: (String? value) {
+                              if (value!.isNotEmpty) {
                                 removeError(error: kCodeNullError);
                               }
                               print(value);
                               return null;
                             },
-                            validator: (String value) {
-                              if (value.isEmpty) {
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
                                 addError(error: kCodeNullError);
                                 return "";
                               }
+
+                              code = value;
+
                               return null;
                             },
                             onSaved: (String value) {
@@ -192,7 +194,7 @@ class _VerificationPasswordScreenState
                           message = '';
                           timerController.restart();
                         });
-                        final result = await userProvider.forgetPassword(email);
+                        final result = await userProvider.forgetPassword(widget.email!);
                         if (result['success']) {
                           dialog(false, "قم بفحص البريد الخاص بك.");
                         } else {

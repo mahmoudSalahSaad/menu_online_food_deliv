@@ -125,7 +125,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                       RegionDropDownField(
                         items: regions,
                         value: region,
-                        onChanged: (RegionModel regionModel) {
+                        onChanged: (RegionModel? regionModel) {
                           setState(() {
                             region = regionModel;
                             regionIdController.text =
@@ -514,8 +514,9 @@ class _EditMyAddressState extends State<EditMyAddress> {
                     RegionDropDownField(
                       items: regions,
                       value: region,
-                      onChanged: (RegionModel regionModel) {
+                      onChanged: (RegionModel? regionModel) {
                         setState(() {
+                          print("ca");
                           region = regionModel;
                           regionIdController.text =
                               region!.regionId.toString();

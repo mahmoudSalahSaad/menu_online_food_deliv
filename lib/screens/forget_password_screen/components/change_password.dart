@@ -50,7 +50,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState!.save();
+    // _formKey.currentState!.save();
     final result = await Provider.of<UserProvider>(context, listen: false)
         .changePassword(userId, userToken, password!);
     if (result['success']) {

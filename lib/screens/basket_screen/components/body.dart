@@ -661,7 +661,7 @@ class _BodyState extends State<Body> {
                           if (user == null) {
                             Get.toNamed(SignInScreen.routeName);
                           } else {
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=> PlacementOrder(orderName: orderName!,))) ;
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=> PlacementOrder(orderName: orderName??'',))) ;
 
                             Get.toNamed(PlacementOrder.routeName);
                           }

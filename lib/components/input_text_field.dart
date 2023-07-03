@@ -5,7 +5,7 @@ import 'package:menu_egypt/utilities/size_config.dart';
 
 
 class InputTextField extends StatefulWidget {
-  const InputTextField({Key? key, this.controller, this.labelText, this.border, this.iconPath, this.textInputType, this.onSaved, this.onChanged, this.validator, this.obscure, this.readOnly, this.intialValue, this.isPassword  = false}) : super(key: key);
+  const InputTextField({Key? key, this.controller, this.labelText, this.border, this.iconPath, this.textInputType, this.onSaved, this.onChanged,required this.validator, this.obscure, this.readOnly, this.intialValue, this.isPassword  = false}) : super(key: key);
   final TextEditingController? controller;
   final String? labelText;
   final bool? border;
@@ -14,7 +14,7 @@ class InputTextField extends StatefulWidget {
   final TextInputType? textInputType;
   final Function(String)? onSaved;
   final Function(String)? onChanged;
-  final Function(String)? validator;
+  final Function(String) validator;
   final bool? obscure, readOnly;
   final String? intialValue;
 

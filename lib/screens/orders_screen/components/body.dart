@@ -297,8 +297,8 @@ class _BodyState extends State<Body> {
                                                       Map<String, dynamic>
                                                       result =
                                                       await Provider.of<OrderProvider>(context, listen: false).reOrder(orders[index].serialNumber!);
-                                                      List<ReOrder.ReOrderItemDetails> or = result['data'] ;
-                                                      print(or.first.comment);
+                                                      List<ReOrder.ReOrderItemDetails>? or = result['data'] ;
+                                                      Get.back();
                                                       if (result[
                                                       'success']) {
                                                         for (int i = 0;
@@ -322,7 +322,7 @@ class _BodyState extends State<Body> {
                                                             firstAddId: result['data'][i].addition1Id,
                                                             secondAddId: result['data'][i].addition2Id,
                                                             product: result['data'][i].productInfo,
-                                                            comment: or[i].comment ,
+                                                            comment: or![i].comment ,
 
                                                           );
 
@@ -334,7 +334,7 @@ class _BodyState extends State<Body> {
                                                             result['restName'],
                                                             "https://menuegypt.com//" + result['restLogo'],
                                                           );
-                                                          cartProvider.addOrderName(result['order_name']) ;
+                                                          cartProvider.addOrderName(result['order_name']??"") ;
                                                         }
                                                         ScaffoldMessenger.of(context).showSnackBar(
                                                           SnackBar(
@@ -353,6 +353,7 @@ class _BodyState extends State<Body> {
                                                         );
                                                         Get.offNamed(MyBasket.routeName);
                                                       } else {
+
                                                         dialog(result['error']);
                                                       }
                                                     } else {

@@ -1,3 +1,4 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_egypt/components/dialog.dart';
@@ -18,7 +19,6 @@ import '../../../providers/city_provider.dart';
 import '../../../providers/region_provider.dart';
 import '../../../providers/restaurants_provider.dart';
 import '../../../providers/user_provider.dart';
-import '../../../utilities/constants.dart';
 import '../../../utilities/size_config.dart';
 import 'top_header_widget.dart';
 
@@ -214,7 +214,9 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: GestureDetector(
-                              onTap: (){} ,
+                              onTap: (){
+                                showImageViewer(context, NetworkImage('https://menuegypt.com/order_online/product_images/${resturantData.catgeoriesList![i].catgeoryProducts![index].product!.image!}'));
+                              } ,
                                 child: Image(
                                   image: resturantData
                                       .catgeoriesList![i]
@@ -245,8 +247,6 @@ class _BodyState extends State<BodyNew> with SingleTickerProviderStateMixin {
                           flex: 8,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,

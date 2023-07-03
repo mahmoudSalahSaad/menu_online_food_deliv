@@ -169,6 +169,7 @@ class _EditFormState extends State<EditForm> {
                 text: user!.cityId == null ? 'اختار المحافظة' : '',
                 value: widget.formData['cityId'] == null ? null : widget.city,
                 onChanged: (CityModel city) {
+                  print(city.cityId);
                   setState(() {
                     widget.city = city;
                     widget.formData['cityId'] = city.cityId;
@@ -187,7 +188,7 @@ class _EditFormState extends State<EditForm> {
                 items: widget.regions!,
                 text: user!.regionId == null ? 'اختار المنطقة' : '',
                 value:
-                    widget.formData['regionId'] !?? widget.region!,
+                     widget.region!,
                 onChanged: (RegionModel region) {
                   setState(() {
                     widget.region = region;

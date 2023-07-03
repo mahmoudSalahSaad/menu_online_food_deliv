@@ -14,7 +14,7 @@ class CityDropDownField extends StatelessWidget {
   }) : super(key: key);
   final String? text;
   final CityModel? value;
-  final Function(CityModel)? onChanged;
+  final Function(CityModel?)? onChanged;
   final List<CityModel>? items;
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class CityDropDownField extends StatelessWidget {
         ),
 
         underline: const SizedBox(),
-        onChanged:(value)=> onChanged,
+        onChanged:(value)=> onChanged!(value!),
       ),
     );
   }

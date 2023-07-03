@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 // import 'package:get/get.dart';
 import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/screens/new_restaurant_screen/components/branches_tab_widget.dart';
@@ -197,40 +199,60 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   }
 
   void favFunction(UserProvider userProvider) async {
-    if (!userProvider.isLoading) {
-      if (isFav) {
-        if (userProvider.user!.favorites!.contains(restaurant!.id)) {
-          var result = await userProvider.removeFavorite(restaurant!.id!);
-          if (result['success']) {
-            userProvider.user!.favorites!.remove(restaurant!.id!);
-            List<String> favList =
-                userProvider.user!.favorites!.map((i) => i.toString()).toList();
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setStringList("favList", favList);
-            setState(() {
-              isFav = !isFav;
-            });
+    if(userProvider.user != null){
+      if (!userProvider.isLoading) {
+        if (isFav) {
+          if (userProvider.user!.favorites!.contains(restaurant!.id)) {
+            print(restaurant!.id);
+            var result = await userProvider.removeFavorite(restaurant!.id!);
+            print(result);
+            if (result['success']) {
+              userProvider.user!.favorites!.remove(restaurant!.id!);
+              List<String> favList =
+              userProvider.user!.favorites!.map((i) => i.toString()).toList();
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setStringList("favList", favList);
+              setState(() {
+                isFav = !isFav;
+              });
+            } else {
+              dialog('حدث خطأ ما حاول مرة اخرى');
+            }
+          }
+        } else {
+          if (!userProvider.user!.favorites!.contains(restaurant!.id)) {
+            var result = await userProvider.addFavorite(restaurant!.id!);
+            print(result);
+
+            if (result['success']) {
+              userProvider.user!.favorites!.add(restaurant!.id!);
+              print(restaurant!.id);
+              List<String> favList =
+              userProvider.user!.favorites!.map((i) => i.toString()).toList();
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setStringList("favList", favList);
+              setState(() {
+                isFav = !isFav;
+              });
+            }
           } else {
             dialog('حدث خطأ ما حاول مرة اخرى');
           }
         }
-      } else {
-        if (!userProvider.user!.favorites!.contains(restaurant!.id)) {
-          var result = await userProvider.addFavorite(restaurant!.id!);
-          if (result['success']) {
-            userProvider.user!.favorites!.add(restaurant!.id!);
-            List<String> favList =
-                userProvider.user!.favorites!.map((i) => i.toString()).toList();
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setStringList("favList", favList);
-            setState(() {
-              isFav = !isFav;
-            });
-          }
-        } else {
-          dialog('حدث خطأ ما حاول مرة اخرى');
-        }
       }
+    }else{
+      AppDialog.confirmDialog(
+        context: context , 
+        message: "رجاء تسجيل الدخول" , 
+        title: "" , 
+        onConfirm: (){
+          Get.back();
+
+          Get.toNamed('/sign_in');
+        },
+        confirmBtnTxt: "تسجيل الدخول",
+        cancelBtnTxt: "ألغاء"
+      );
     }
   }
 

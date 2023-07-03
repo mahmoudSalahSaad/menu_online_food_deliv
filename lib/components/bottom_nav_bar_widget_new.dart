@@ -68,8 +68,8 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                     ),
                     Consumer<CartProvider>(
                       builder: (context, value, child) {
-                        return cartProvider.cart.cartItems!.isNotEmpty
-                            ? CircleAvatar(
+                        return cartProvider.cart.cartItems != null
+                            ? cartProvider.cart.cartItems!.isNotEmpty? CircleAvatar(
                                 radius: 11,
                                 backgroundColor: Colors.redAccent,
                                 child: Text(
@@ -79,7 +79,7 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                               )
-                            : SizedBox();
+                             : SizedBox(): SizedBox();
                       },
                     ),
                   ],
@@ -95,7 +95,7 @@ class _BottomNavBarWidgetNewState extends State<BottomNavBarWidgetNew> {
                 icon:widget.index == 4 ? Image.asset("assets/icons/Icon-4.png" , height: 24,) : Image.asset("assets/icons/Icon.png" , height: 24,),
                 label: "حسابى"),
           ],
-          currentIndex: _index,
+          currentIndex: widget.index!,
           onTap: (index) async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             setState(() {

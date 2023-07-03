@@ -27,6 +27,7 @@ class MenuWidget extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: (){
+                      print("photo");
                       showImageViewer(context,  Image.network(images![index]).image, onViewerDismissed: () {
                         print("dismissed");
                       });

@@ -11,7 +11,7 @@ class RegionDropDownField extends StatelessWidget {
      this.onChanged,
   }) : super(key: key);
   final RegionModel? value;
-  final Function(RegionModel)? onChanged;
+  final Function(RegionModel?)? onChanged;
   final List<RegionModel>? items;
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class RegionDropDownField extends StatelessWidget {
           }).toList();
         },
         isExpanded: true,
-        onChanged: (RegionModel? model)=> onChanged,
+        onChanged: (RegionModel? model)=> onChanged!(model!),
         // itemHeight: getProportionateScreenHeightreenHeight(50),
       ),
     );

@@ -34,17 +34,28 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 1), () async {
+    Future.delayed(Duration(seconds: 2), () async {
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
+      print("Splassssh::");
       final UserProvider userProvider =
           Provider.of<UserProvider>(context, listen: false);
 
       final homeProvider = Provider.of<HomeProvider>(context ,listen: false) ;
+      await homeProvider.fetchData();
       final categoryProvider =
       Provider.of<CategoriesProvider>(context, listen: false);
       final cityProvider = Provider.of<CityProvider>(context, listen: false);
       final regionProvider = Provider.of<RegionProvider>(context, listen: false);
       final resturantProvider =
       Provider.of<RestaurantsProvider>(context, listen: false);
+      await homeProvider.fetchData();
       if (categoryProvider.categories.length < 1) {
         await categoryProvider.fetchCategories('guest');
       }
@@ -54,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (regionProvider.regions.length < 1) {
         await regionProvider.fetchRegions();
       }
-      await homeProvider.fetchData();
+
 
       //FetchDynamicLink
       await FetchDynamicLink(context).initDynamicLinks(context);
@@ -68,6 +79,9 @@ class _SplashScreenState extends State<SplashScreen> {
       await Provider.of<UserProvider>(context, listen: false)
           .autoAuthenticated();
       _isAuthenticated = userProvider.isAuthenticated;
+
+
+
 
       /*
       //navigate HomeScreen
@@ -107,22 +121,35 @@ class _SplashScreenState extends State<SplashScreen> {
         Map<String, dynamic> setting = await userProvider.getAppSetting();
         print(setting) ;
 
+
         if (setting['setting'] != null) {
           PackageInfo packageInfo = await PackageInfo.fromPlatform();
           String buildNumber = packageInfo.buildNumber;
           print(buildNumber);
-          if (Platform.isIOS ||
-              int.parse(buildNumber) !=
-                  int.parse(setting['setting'].appleBuildNumber)) {
-            print('ios');
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
-             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
-          } else if (Platform.isAndroid ||
-              int.parse(buildNumber) !=
-                  int.parse(setting['setting'].androidBuildNumber)) {
-            print('android');
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
-             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+          if (Platform.isIOS) {
+            if( int.parse(buildNumber) !=
+                int.parse(setting['setting'].appleBuildNumber)){
+              print('ios');
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+              versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+            }else{
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+
+            }
+
+          } else if (Platform.isAndroid
+              ) {
+
+            if(int.parse(buildNumber) !=
+                int.parse(setting['setting'].androidBuildNumber)){
+              print('android');
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+              versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+            }else{
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+
+            }
+
 
           } else {
             print('something else');
@@ -162,18 +189,29 @@ class _SplashScreenState extends State<SplashScreen> {
           PackageInfo packageInfo = await PackageInfo.fromPlatform();
           String buildNumber = packageInfo.buildNumber;
           print(buildNumber);
-          if (Platform.isIOS &&
-              int.parse(buildNumber) !=
-                  int.parse(setting['setting'].appleBuildNumber)) {
-            print('ios');
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
-             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
-          } else if (Platform.isAndroid &&
-              int.parse(buildNumber) !=
-                  int.parse(setting['setting'].androidBuildNumber)) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
-            print('android');
-             versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+          if (Platform.isIOS ) {
+
+            if(int.parse(buildNumber) !=
+                int.parse(setting['setting'].appleBuildNumber)){
+              print('ios');
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+              versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+            }else{
+              versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context);
+
+            }
+
+          } else if (Platform.isAndroid) {
+            if(     int.parse(buildNumber) !=
+                int.parse(setting['setting'].androidBuildNumber)){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+              print('android');
+              versionDialog(message: 'إصدار جديد من التطبيق' ,  context: context ,);
+            }else{
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreen()));
+
+            }
+
 
           } else {
             print('something else');

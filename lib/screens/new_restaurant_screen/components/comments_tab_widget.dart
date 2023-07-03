@@ -106,13 +106,7 @@ class _CommentsTabWidgetState extends State<CommentsTabWidget> {
                 onPressed: () {
                   final userProvider =
                       Provider.of<UserProvider>(context , listen: false);
-                  AppDialog.confirmDialog(
-                    message: "برجاء تسجيل الدخول" ,
-                    context: context ,
-                    cancelBtnTxt: "اغلاق" ,
-                    confirmBtnTxt: "تسجيل الدخول",
-                    onConfirm: ()=>Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> SignInScreen()))
-                  ) ;
+                 dialog(userProvider);
                 },
                 child: Text('إضافة تقييم جديد'),
                 color: Colors.white,

@@ -55,6 +55,7 @@ class _BodyState extends State<Body> {
     final cart = Provider.of<CartProvider>(context, listen: false).cart;
     orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final addressProvider  = Provider.of<AddressProvider>(context , listen: false) ;
+
     return SafeArea(
       child: Consumer<CartProvider>(
         builder: (context1, cartProvider, child) {
@@ -178,15 +179,15 @@ class _BodyState extends State<Body> {
                                ),
                              ),
                              //address
-                             FutureProvider(
+                             FutureProvider<Map<String, dynamic>>(
                                create: (_) => Provider.of<AddressProvider>(
                                    context,
                                    listen: true)
                                    .getAddresses(),
-                               initialData: null,
+                               initialData: {},
                                child: Consumer<Map<String, dynamic>>(
                                  builder: (_, value, __) {
-                                   if (value != null) {
+                                   if (value.isNotEmpty) {
                                      return addressProvider.addresses.isNotEmpty
                                          ? Padding(
                                        padding: const EdgeInsets.all(16.0),
@@ -240,13 +241,12 @@ class _BodyState extends State<Body> {
                                                                    children: [
                                                                      Image.asset("assets/icons/location.png" ,scale: 3.6,) ,
                                                                      SizedBox(
+
                                                                          width:
                                                                          getProportionateScreenWidth(5)),
-                                                                     Text(addressProvider.addresses[index].cityName! +
-                                                                         ',' +
-                                                                         addressProvider.addresses[index].regionName! +
-                                                                         ',' +
-                                                                       addressProvider.addresses[index].neighborhood.toString() != "null" ?addressProvider.addresses[index].neighborhood.toString() : "" )
+                                                                     Text("${addressProvider.addresses[index].cityName!.toString()}, ${addressProvider.addresses[index].regionName!.toString()}, ${addressProvider.addresses[index].neighborhood.toString() != "null" ?addressProvider.addresses[index].neighborhood.toString() : "" }"),
+
+
                                                                    ],
                                                                  ),
                                                                ),

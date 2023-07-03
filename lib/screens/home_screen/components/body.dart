@@ -190,7 +190,8 @@ class _BodyState extends State<Body> {
                 RegionDropDownField(
                   items: regions,
                   value: region,
-                  onChanged: (RegionModel regionModel) {
+                  onChanged: (RegionModel? regionModel) {
+                    print("ca");
                     setState(() {
                       region = regionModel;
                       _formData['regionId'] = region!.regionId;
@@ -203,7 +204,7 @@ class _BodyState extends State<Body> {
                 CategoriesDropDownField(
                     value: category,
                     items: categories,
-                    onChanged: (CategoryModel categoryModel) {
+                    onChanged: (CategoryModel? categoryModel) {
                       setState(() {
                         category = categoryModel;
                         _formData['categoryId'] = category!.id!;

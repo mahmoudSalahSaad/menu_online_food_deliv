@@ -63,7 +63,7 @@ class CityDropDownField extends StatelessWidget {
           padding: EdgeInsets.only(left: 10),
           child: Image.asset("assets/icons/Vector (1).png"),
         ),
-        onChanged: (value)=>onChanged!,
+        onChanged: (value)=>onChanged!(value!),
       ),
     );
   }

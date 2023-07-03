@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:menu_egypt/models/City.dart';
 import 'package:menu_egypt/models/Region.dart';
 import 'package:menu_egypt/models/User.dart';
+import 'package:menu_egypt/models/fav_user.dart';
 import 'package:menu_egypt/models/setting.dart';
 import 'package:menu_egypt/services/http_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,14 @@ class UserProvider extends ChangeNotifier {
   String? _emailExist;
   int? forgetPasswordUserId;
   List<String> _sliders = [];
+
+
+  List<FavUser> _faves =[] ;
+
+
+  List<FavUser> get faves{
+    return _faves;
+  }
   final FirebaseAuth _auth = FirebaseAuth.instance;
   //final _facebookLogin = FacebookAuth.instance;
   final HttpServiceImpl httpService = HttpServiceImpl();
@@ -67,6 +76,7 @@ class UserProvider extends ChangeNotifier {
       'gender': formData['gender'],
       'birth_date': formData['birth_date'],
       'fcm_token': 'dummyfcmtoken',
+      'mobile_type' : 'Android'
     };
     print(formData['gender']);
     _isLoading = true;
@@ -176,12 +186,15 @@ class UserProvider extends ChangeNotifier {
     final Map<String, dynamic> userData = {
       'password': formData['password'],
       'email': formData['email'],
+      'fcm_token' : "fcmDummy",
+      'mobile_type' : "Android"
     };
     _isLoading = true;
     notifyListeners();
     String url = '/login';
     httpService.init();
     try {
+      print(userData);
       Response response = await httpService.postRequest(url, userData, '');
       print(response.data);
       if (response.statusCode == 200 && response.data['status'] == true) {
@@ -282,7 +295,7 @@ class UserProvider extends ChangeNotifier {
     });
 
     _user = null;
-    storeAuthUser(_user!, '', false);
+    storeAuthUser(_user, '', false);
     return result;
   }
 
@@ -412,8 +425,11 @@ class UserProvider extends ChangeNotifier {
     String url = '/removefavorite';
     httpService.init();
     try {
+
       Response response = await httpService.postRequest(
           url, {'restaurant_id': restaurantId, 'user_id': _user!.id}, '');
+      
+      print(response.data);
 
       if (response.statusCode == 200 && response.data['status_code'] == 201) {
         result['success'] = true;
@@ -477,8 +493,12 @@ class UserProvider extends ChangeNotifier {
 
   void fetchUserRegion(List<RegionModel> regions) {
     if (_user?.regionId != null) {
-      var region =
-          regions.firstWhere((region) => region.regionId == _user?.regionId);
+      RegionModel region =
+          regions.firstWhere((region) => region.regionId == _user?.regionId, orElse:()=>  RegionModel(
+              regionId: null ,
+              cityId: null ,
+              nameAr: null
+          ));
       _userRegion = region.nameAr;
     }
   }
@@ -652,13 +672,16 @@ class UserProvider extends ChangeNotifier {
     return result;
   }
 
-  void storeAuthUser(UserModel user, String apiToken, [isAuth = false]) async {
+  void storeAuthUser(UserModel? user, String apiToken, [isAuth = false]) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     if (isAuth) {
-      preferences.setStringList(
-          "favList", user.favorites!.map((i) => i.toString()).toList());
+      if(user != null){
+        preferences.setStringList(
+            "favList", user.favorites!.map((i) => i.toString()).toList());
+      }
+
       preferences.setBool('userExistence', true);
-      Map<String, dynamic> userMap = user.toJson();
+      Map<String, dynamic> userMap = user!.toJson();
       preferences.setString('user', jsonEncode(userMap));
       preferences.setString('apiToken', apiToken);
     } else {
@@ -749,6 +772,48 @@ class UserProvider extends ChangeNotifier {
         setting = Setting.fromJson(response.data['setting']);
         result['setting'] = setting;
         result['success'] = true;
+      }
+    } catch (error) {
+      result['error'] = error;
+    }
+    _isLoading = false;
+    notifyListeners();
+    return result;
+  }
+
+
+
+//mahmoud
+  Future<Map<String, dynamic>> userFav() async {
+    Map<String, dynamic> result = {'success': false, 'error': null , 'message' : null};
+
+    _isLoading = true;
+    // notifyListeners();
+    String url = '/favorites';
+
+    httpService.init();
+    try {
+      _faves.clear();
+      final SharedPreferences preferences =
+      await SharedPreferences.getInstance();
+      String? token = preferences.getString('apiToken');
+      Response response = await httpService.getRequest(url, token??'');
+      print(response);
+      if (response.statusCode == 200 && response.data['status']) {
+          var parserdData = response.data['favorites'] ;
+          for(var item in parserdData){
+            FavUser data = FavUser(
+              image: item['image']  ,
+              id: item['id'] ,
+              name: item['name'] ,
+              url: item['url']
+            ) ;
+
+            _faves.add(data);
+          }
+        result['success'] = true;
+      } else {
+        result['error'] = response.data['errors'];
       }
     } catch (error) {
       result['error'] = error;

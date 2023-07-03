@@ -13,10 +13,11 @@ class HttpServiceImpl implements HttpService {
   Future<Response> getRequest(String? url, token) async {
     Response response;
     try {
-      if (token != null) {
+
         _dio!.options.headers['Authorization'] = "Bearer $token";
-      }
+
       response = await _dio!.get(url!);
+
     } on DioError catch (e) {
       response = e.response!;
     }

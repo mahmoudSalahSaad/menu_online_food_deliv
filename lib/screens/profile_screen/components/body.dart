@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:menu_egypt/components/app_bar.dart';
 import 'package:menu_egypt/components/dialog.dart';
 import 'package:menu_egypt/components/loading_circle.dart';
+import 'package:menu_egypt/main.dart';
 import 'package:menu_egypt/providers/city_provider.dart';
 import 'package:menu_egypt/providers/region_provider.dart';
 import 'package:menu_egypt/providers/user_provider.dart';
@@ -218,6 +219,8 @@ class _BodyState extends State<Body> {
 
                     ),
                   ),
+                  
+                  Text("$version")
                 ],
               ),
             )));

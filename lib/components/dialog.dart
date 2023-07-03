@@ -63,7 +63,7 @@ class AppDialog {
       onTapCancel: () {
         Navigator.pop(context);
       },
-      onTapConfirm: ()=>onConfirm,
+      onTapConfirm: ()=>onConfirm!(),
       textColor: kAppBarColor,
       panaraDialogType: PanaraDialogType.custom,
       color: kPrimaryColor,

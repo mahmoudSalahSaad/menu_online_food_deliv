@@ -12,7 +12,7 @@ class CategoriesDropDownField extends StatelessWidget {
      this.onChanged,
   }) : super(key: key);
   final CategoryModel? value;
-  final Function(CategoryModel)? onChanged;
+  final Function(CategoryModel?)? onChanged;
   final List<CategoryModel>? items;
   @override
   Widget build(BuildContext context) {

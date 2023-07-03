@@ -11,6 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:menu_egypt/utilities/routes.dart';
 
 
+
+String version = 'v 2.2.0';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

@@ -20,7 +20,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     authType: json['authType'] ,
     gender: json['gender'] ,
     birthDate: json['birthDate'] as String,
-    apiToken: json['apiToken'] as String,
+    apiToken: json['apiToken'],
   );
 }
 

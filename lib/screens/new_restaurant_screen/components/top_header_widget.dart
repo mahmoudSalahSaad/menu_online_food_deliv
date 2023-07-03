@@ -216,9 +216,11 @@ class TopHeaderWidget extends StatelessWidget {
         title: title,
         content: Container(
           width: SizeConfig.screenWidth !* 0.8,
-          height: SizeConfig.screenHeight! * 0.5,
+          height: SizeConfig.screenHeight! * 0.1,
           child: ListView.builder(
               itemCount: list.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
               itemBuilder: (BuildContext context, index) {
                 return GestureDetector(
                   onTap: () async {
@@ -229,14 +231,15 @@ class TopHeaderWidget extends StatelessWidget {
                     }
                     Get.back();
                   },
-                  child: Text(list[index],
+                  child: Text('-${list[index]}',
                       style:
-                          TextStyle(fontSize: SizeConfig.screenWidth! * 0.04)),
+                          TextStyle(fontSize: SizeConfig.screenWidth! * 0.06)),
                 );
               }),
         ),
         textCancel: 'اغلاق',
+
         buttonColor: kPrimaryColor,
-        cancelTextColor: kTextColor);
+        cancelTextColor: Color(0xFFB90101));
   }
 }

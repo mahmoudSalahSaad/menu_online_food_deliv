@@ -21,7 +21,7 @@ class DefaultButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0.0 , vertical: 6),
       child: MaterialButton(
-        onPressed: ()=>onPressed!,
+        onPressed: ()=>onPressed!(),
         height: height,
         minWidth: minWidth == 0.0 ? double.infinity : minWidth,
         color: color,

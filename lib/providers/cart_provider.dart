@@ -12,7 +12,17 @@ class CartProvider extends ChangeNotifier {
 
 
 
-  CartModel? _cart;
+  CartModel? _cart = CartModel(
+    cartItems: null ,
+    deliveryPrice: null ,
+    deliveryTime: null ,
+    orderName: null ,
+    resturantId: null ,
+    resturantLogo: null ,
+    resturantName: null ,
+    subTotalPrice:  null ,
+    totalPrice: null ,
+  );
   final HttpServiceImpl httpService = HttpServiceImpl();
 
   CartProvider() {
@@ -295,6 +305,7 @@ class CartProvider extends ChangeNotifier {
         'notes': notes,
         'cart': cartItemsList,
         "order_name" :  _cart!.orderName ,
+        'mobile_type' : "Android"
       };
       Response response =
           await httpService.postRequest(url, cartMap, token ?? '');

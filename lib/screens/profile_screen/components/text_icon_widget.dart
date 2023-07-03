@@ -18,7 +18,7 @@ class TextIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>onTap,
+      onTap: ()=>onTap!(),
       child: Column(
         children: [
           Container(

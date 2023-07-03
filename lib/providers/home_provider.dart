@@ -18,40 +18,50 @@ class HomeProvider extends ChangeNotifier {
   List<RegionModel> _regions = [];
   List<CityModel> _cities = [];
 
-  HomeProvider() {
-     fetchData();
-  }
+  // HomeProvider() {
+  //    fetchData();
+  // }
 
   bool get isLoading {
     return _isLoading;
   }
 
-  UnmodifiableListView<RestaurantModel> get mostViewRestaurants {
-    return UnmodifiableListView(_mostViewRestaurants);
+  List<RestaurantModel> get mostViewRestaurants {
+    return _mostViewRestaurants;
   }
 
-  UnmodifiableListView<CategoryModel> get categories {
-    return UnmodifiableListView(_categories);
+  List<CategoryModel> get categories {
+    return _categories;
   }
 
-  UnmodifiableListView<RegionModel> get regions {
-    return UnmodifiableListView(_regions);
+  List<RegionModel> get regions {
+    return _regions;
   }
 
-  UnmodifiableListView<CityModel> get cities {
-    return UnmodifiableListView(_cities);
+  List<CityModel> get cities {
+    return (_cities);
   }
 
   fetchData() async {
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
+    print("unDone");
     final Map<String, dynamic> result = {'success': false, 'error': null};
     _isLoading = true;
-    notifyListeners();
+
     String url = '/';
     httpService.init();
-    _categories.clear();
-    _mostViewRestaurants.clear();
-    _cities.clear();
-    _regions.clear();
+    // _categories.clear();
+    // _mostViewRestaurants.clear();
+    // _cities.clear();
+    // _regions.clear();
     final List<RestaurantModel> restaurants = [];
     final List<RegionModel> regions = [];
     final List<CityModel> cities = [];
@@ -59,8 +69,13 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String accessToken = preferences.getString('accessToken')!;
-      Response response = await httpService.getRequest(url, accessToken);
+      // String accessToken = preferences.getString('accessToken')!;
+      Response response = await httpService.getRequest(url, '');
+
+      print(response);
+      print("unDone");
+      print("unDone");
+      print("unDone");
       var parsedRestaurants = response.data['data']['restaurants'] as List;
       var parsedCategories = response.data['data']['categories'] as List;
       var parsedRegions = response.data['data']['regions'] as List;
@@ -84,6 +99,7 @@ class HomeProvider extends ChangeNotifier {
                 branches: [],
                 areas: [],
                 images: []);
+
             restaurants.add(restaurant);
           });
           _mostViewRestaurants = restaurants;

@@ -314,111 +314,115 @@ void addToCartBottomSheet(BuildContext context, String resturantName,
                                       ? Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Column(
+
                                       children: [
-                                        GridView.count(
+                                        GridView.builder(
                                           physics: NeverScrollableScrollPhysics(),
-                                          primary: true,
+                                          // primary: true,
                                           shrinkWrap: true,
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 5,
-                                          padding: EdgeInsets.symmetric(horizontal: 8),
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
 
-                                          mainAxisSpacing: 5,
+                                            crossAxisSpacing: 6,
+                                            mainAxisSpacing: 6,
+                                            childAspectRatio: 2.8
+                                          ) ,
+                                          itemCount: isSelectedWeight.length,
 
-                                          children: List.generate(
-                                            isSelectedWeight.length,
-                                                (index) {
-                                              return Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setBottomSheetState(
-                                                            () {
-                                                          selectedWeightIndex = index;
-                                                          weightId =
-                                                              buttonsListWeight[index]
-                                                                  .id!;
-                                                          weight =
-                                                              buttonsListWeight[index]
-                                                                  .title!;
-                                                          price =
-                                                              buttonsListWeight[index]
-                                                                  .price!
-                                                                  .toDouble();
-                                                          for (int indexBtn = 0;
-                                                          indexBtn <
-                                                              isSelectedWeight
-                                                                  .length;
-                                                          indexBtn++) {
-                                                            if (indexBtn == index) {
-                                                              isSelectedWeight[
-                                                              indexBtn] = true;
-                                                            } else {
-                                                              isSelectedWeight[
-                                                              indexBtn] = false;
-                                                            }
-                                                          }
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.symmetric(vertical:4.6),
-                                                      decoration: BoxDecoration(
-                                                        color: isSelectedWeight[index]
-                                                            ? kAppBarColor
-                                                            : Color(0xffF8FAFC),
-                                                        borderRadius:
-                                                        BorderRadius.circular(8),
+                                          padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
+                                          itemBuilder: (context , index){
+                                            return InkWell(
+                                              onTap: () {
+                                                setBottomSheetState(
+                                                      () {
+                                                    selectedWeightIndex = index;
+                                                    weightId =
+                                                    buttonsListWeight[index]
+                                                        .id!;
+                                                    weight =
+                                                    buttonsListWeight[index]
+                                                        .title!;
+                                                    price =
+                                                        buttonsListWeight[index]
+                                                            .price!
+                                                            .toDouble();
+                                                    for (int indexBtn = 0;
+                                                    indexBtn <
+                                                        isSelectedWeight
+                                                            .length;
+                                                    indexBtn++) {
+                                                      if (indexBtn == index) {
+                                                        isSelectedWeight[
+                                                        indexBtn] = true;
+                                                      } else {
+                                                        isSelectedWeight[
+                                                        indexBtn] = false;
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(vertical:4.6),
 
-                                                      ),
-                                                      child: Center(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          children: [
-                                                            Text(
-                                                              buttonsListWeight[index]
-                                                                  .title.toString(),
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  isSelectedWeight[
-                                                                  index]
-                                                                      ? Colors.white
-                                                                      : Colors
-                                                                      .black,
-                                                                  fontSize: 14 ,
-                                                                  height: 2.0
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              buttonsListWeight[index]
-                                                                  .price!
-                                                                  .toStringAsFixed(
-                                                                  0) +
-                                                                  ' جم',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                  isSelectedWeight[
-                                                                  index]
-                                                                      ? Colors.white
-                                                                      : Colors
-                                                                      .black,
-                                                                  height: 2.0
-                                                              ),
-                                                            )
-                                                          ],
+                                                decoration: BoxDecoration(
+                                                  color: isSelectedWeight[index]
+                                                      ? kAppBarColor
+                                                      : Color(0xffF8FAFC),
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+
+                                                ),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        buttonsListWeight[index]
+                                                            .title.toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                            isSelectedWeight[
+                                                            index]
+                                                                ? Colors.white
+                                                                : Colors
+                                                                .black,
+                                                            fontSize: 14 ,
+                                                            height: 2.0
                                                         ),
                                                       ),
-                                                    ),
-                                                  )
-                                                ],
-                                              );
-                                            },
+                                                      Text(
+                                                        buttonsListWeight[index]
+                                                            .price!
+                                                            .toStringAsFixed(
+                                                            0) +
+                                                            ' جم',
+                                                        style: TextStyle(
+                                                            color:
+                                                            isSelectedWeight[
+                                                            index]
+                                                                ? Colors.white
+                                                                : Colors
+                                                                .black,
+                                                            height: 2.0
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ) ;
+                                          },
+
+
+
+
+
                                           ),
-                                        )
-                                      ],
+                                       ]
                                     ),
                                   )
                                       : Padding(

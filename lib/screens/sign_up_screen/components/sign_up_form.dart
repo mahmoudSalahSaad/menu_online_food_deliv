@@ -161,6 +161,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 labelText: "الموبايل",
                 iconPath: "assets/icons/phone.png",
                 border: false,
+                validator: (String? value){
+                  return null ;
+                },
                 onSaved: (String newValue) =>
                     widget.formData['phoneNumber'] = newValue,
                 onChanged: (String value) {
@@ -190,10 +193,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 items: widget.cities,
                 text: 'اختار المحافظة',
                 value: widget.city,
-                onChanged: (CityModel city) {
+                onChanged: (CityModel? city) {
                   setState(() {
                     widget.city = city;
-                    widget.formData['cityId'] = city.cityId;
+                    widget.formData['cityId'] = city!.cityId;
                     widget.regions =
                         Provider.of<RegionProvider>(context, listen: false)
                             .regionsOfCity(widget.city!.cityId!);

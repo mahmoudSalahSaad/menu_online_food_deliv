@@ -253,16 +253,9 @@ class _OrderDetailsBodyState extends State<OrderDetailsBody> {
                                         SizedBox(
                                             width:
                                                 getProportionateScreenWidth(5)),
-                                        Text(
-                                            orderDetailsModel!.orderDetails
-                                                    !.address!.cityIName! +
-                                                ',' +
-                                                orderDetailsModel!.orderDetails
-                                                    !.address!.regionName! +
-                                                ',' +
-                                                orderDetailsModel!.orderDetails
-                                                    !.address!.neighborhood.toString() != 'null'?orderDetailsModel!.orderDetails
-                                            !.address!.neighborhood! : '' , style: TextStyle(fontSize: 16),)
+
+                                        Text("${orderDetailsModel!.orderDetails!.address!.cityIName!}, ${orderDetailsModel!.orderDetails!.address!.regionName!}, ${orderDetailsModel!.orderDetails!.address!.neighborhood.toString() != 'null'?orderDetailsModel!.orderDetails!.address!.neighborhood! : '' }") ,
+
                                       ],
                                     ),
                                   ),
